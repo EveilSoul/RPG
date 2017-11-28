@@ -21,7 +21,7 @@
             Attacking
         };
 
-        public Spell(string name, int mana, int level, string description, 
+        public Spell(string name, int mana, int level, string description,
             TypeOfSpell type, params float[] param)
         {
             this.Name = name;
@@ -42,6 +42,44 @@
                     this.Protect = param[1];
                     break;
             }
+        }
+
+        public int[] JoinSpell(int countEnemy, params int[] nums)
+        {
+            var random = new System.Random();
+            int[] result = new int[countEnemy];
+            switch (this.Type)
+            {
+                case TypeOfSpell.Attacking:
+                    if (this.CountImpact >= countEnemy)
+                    {
+                        for (int i = 0; i < countEnemy; i++)
+                        {
+                            result[i] = GetDamage(random);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var num in nums)
+                        {
+                            if (num <= countEnemy)
+                                result[num - 1] += GetDamage(random);
+                        }
+                    }
+                    break;
+                case TypeOfSpell.Defence:
+                    for (int i = 0; i<countEnemy; i++)
+                    {
+                        result[i] = (int)(nums[i] * (1 - this.Protect));
+                    }
+                    break;
+            }
+            return result;
+        }
+
+        private int GetDamage(System.Random random)
+        {
+            return (int)((random.Next((int)(this.Accuracy * 100), 100) / 100d) * this.Damage) + 1;
         }
     }
 }
