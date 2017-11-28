@@ -10,13 +10,13 @@
             this.Mana = 160;
             this.Money = 200;
             this.PowerAttack = 10;
-            this.Inventory = new object[10];
             this.Level = 1;
             this.Type = PlayerType.Ranger;
-            this.Accuracy = 0.8f;
+            this.Accuracy = 0.9f;
 
             this.Name = name;
             this.Position = position;
+            this.Weapons = new System.Collections.Generic.List<ObjectStructures.Weapons>();
         }
     }
 }

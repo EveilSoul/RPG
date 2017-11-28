@@ -26,10 +26,10 @@ namespace TheGame
             Wizard
         };
 
+        public List<ObjectStructures.Weapons> Weapons;
         public ObjectStructures.Position Position;
         public ObjectStructures.ArmorComplect Armor;
-        public Object[] Inventory;
-
+            
         public char PlayerSymble = '@';
 
         public void Walk(int x, int y)

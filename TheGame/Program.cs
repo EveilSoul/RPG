@@ -9,9 +9,20 @@ namespace TheGame
 {
     class Program
     {
+        static string[] Swords = {@"\baseWarriorSword.txt"};
+        static string Path;
+
+        static List<ObjectStructures.Weapons> GetSwords(string path)
+        {
+            var result = new List<ObjectStructures.Weapons>();
+            for (int i = 0; i< Swords.Length; i++)
+                result.Add(ObjectStructures.GetWeaponsFromFile(path + Swords[i]));
+            return result;
+        }
+
         static Player.PlayerType SelectType()
         {
-            Console.WriteLine(File.ReadAllText("types.txt"));
+            Console.WriteLine(File.ReadAllText(Path +@"\TextFiles\types.txt"));
 
             int choice = int.Parse(Console.ReadLine()) - 1;
 
@@ -30,8 +41,9 @@ namespace TheGame
 
         static void Main()
         {
-            var t = ObjectStructures.GetWeaponsFromFile("baseWarriorSword.txt");
-            //Warrior warrior = new Warrior();
+            Path = Environment.CurrentDirectory;
+            var swords = GetSwords(Path + @"\TextFiles\Swords");
+            Warrior warrior = new Warrior(GetName(), new ObjectStructures.Position{ X = 0, Y = 0});
             //Ranger ranger = new Ranger();
             //Wizard wizard = new Wizard();
             Console.WriteLine(SelectType());
@@ -42,16 +54,16 @@ namespace TheGame
                 switch (ch)
                 {
                     case ConsoleKey.UpArrow:
-                        wizard.Walk(0, 1);
+                        //wizard.Walk(0, 1);
                         break;
                     case ConsoleKey.DownArrow:
-                        wizard.Walk(0, -1);
+                        //wizard.Walk(0, -1);
                         break;
                     case ConsoleKey.LeftArrow:
-                        wizard.Walk(-1, 0);
+                        //wizard.Walk(-1, 0);
                         break;
                     case ConsoleKey.RightArrow:
-                        wizard.Walk(1, 0);
+                        //wizard.Walk(1, 0);
                         break;
                 }
             }

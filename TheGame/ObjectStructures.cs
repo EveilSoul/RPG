@@ -35,7 +35,7 @@ namespace TheGame
         public struct Weapons
         {
             public string Name;
-            public int Health;
+            public float Health;
             public int PowerAttack;
             public int Mana;
             public int Cost;
@@ -43,11 +43,26 @@ namespace TheGame
             public int CountImpact;
             public int MinLevelToUse;
             public string Descriotion;
+
+            public int Attack()
+            {
+                if (this.Health > 0)
+                {
+                    this.Health -= (1 - this.Strength) / 2;
+                }
+                else Die();
+                return PowerAttack;
+            }
+
+            private void Die()
+            {
+                this.Descriotion = null;
+            }
         }
 
         public static Weapons GetWeaponsFromFile(string file)
         {
-            var characteristics  = System.IO.File.ReadAllLines(file);
+            var characteristics = System.IO.File.ReadAllLines(file);
             Weapons weapons = new Weapons();
 
             weapons.Name = characteristics[0];

@@ -13,10 +13,10 @@ namespace TheGame
             this.Mana = 200;
             this.Money = 200;
             this.PowerAttack = 8;
-            this.Inventory = new object[10];
             this.Level = 1;
             this.Type = PlayerType.Wizard;
             this.Accuracy = 0.8f;
+            this.Weapons = new System.Collections.Generic.List<ObjectStructures.Weapons>();
 
             this.Name = name;
             this.Position = position;

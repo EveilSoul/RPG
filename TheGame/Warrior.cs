@@ -10,10 +10,13 @@
             this.Mana = 80;
             this.Money = 200;
             this.PowerAttack = 10;
-            this.Inventory = new object[10];
             this.Level = 1;
             this.Type = PlayerType.Warrior;
             this.Accuracy = 0.8f;
+            this.Weapons = new System.Collections.Generic.List<ObjectStructures.Weapons>
+            {
+                ObjectStructures.GetWeaponsFromFile(System.Environment.CurrentDirectory + @"\TextFiles\Swords\baseWarriorSword.txt")
+            };
 
             this.Name = name;
             this.Position = position;
