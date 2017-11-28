@@ -32,8 +32,8 @@ namespace TheGame
         {
             var t = ObjectStructures.GetWeaponsFromFile("baseWarriorSword.txt");
             //Warrior warrior = new Warrior();
-            Ranger ranger = new Ranger();
-            Wizard wizard = new Wizard();
+            //Ranger ranger = new Ranger();
+            //Wizard wizard = new Wizard();
             Console.WriteLine(SelectType());
             while (true)
             {

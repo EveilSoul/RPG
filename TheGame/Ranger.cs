@@ -12,7 +12,7 @@
             this.PowerAttack = 10;
             this.Inventory = new object[10];
             this.Level = 1;
-            this.Type = PlayerType.Warrior;
+            this.Type = PlayerType.Ranger;
             this.Accuracy = 0.8f;
 
             this.Name = name;

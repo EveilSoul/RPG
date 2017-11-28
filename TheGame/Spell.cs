@@ -48,9 +48,11 @@
         {
             var random = new System.Random();
             int[] result = new int[countEnemy];
+
             switch (this.Type)
             {
                 case TypeOfSpell.Attacking:
+
                     if (this.CountImpact >= countEnemy)
                     {
                         for (int i = 0; i < countEnemy; i++)
@@ -67,7 +69,9 @@
                         }
                     }
                     break;
+
                 case TypeOfSpell.Defence:
+
                     for (int i = 0; i<countEnemy; i++)
                     {
                         result[i] = (int)(nums[i] * (1 - this.Protect));
