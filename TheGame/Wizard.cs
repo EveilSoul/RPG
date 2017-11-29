@@ -15,7 +15,9 @@ namespace TheGame
             this.PowerAttack = 8;
             this.Level = 1;
             this.Type = PlayerType.Wizard;
-            this.Accuracy = 0.8f;
+            this.SwordAccuracy = 0.7f;
+            this.BowAccuracy = 0.5f;
+            this.MagicAccuracy = 0.9f;
             this.Weapons = new System.Collections.Generic.List<ObjectStructures.Weapons>();
 
             this.Name = name;

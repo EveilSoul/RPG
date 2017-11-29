@@ -12,7 +12,9 @@
             this.PowerAttack = 10;
             this.Level = 1;
             this.Type = PlayerType.Warrior;
-            this.Accuracy = 0.8f;
+            this.SwordAccuracy = 0.8f;
+            this.BowAccuracy = 0.4f;
+            this.MagicAccuracy = 0.7f;
             this.Weapons = new System.Collections.Generic.List<ObjectStructures.Weapons>
             {
                 ObjectStructures.GetWeaponsFromFile(System.Environment.CurrentDirectory + @"\TextFiles\Swords\baseWarriorSword.txt")

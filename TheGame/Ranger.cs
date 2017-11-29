@@ -12,11 +12,16 @@
             this.PowerAttack = 10;
             this.Level = 1;
             this.Type = PlayerType.Ranger;
-            this.Accuracy = 0.9f;
+            this.SwordAccuracy = 0.75f;
+            this.BowAccuracy = 0.9f;
+            this.MagicAccuracy = 0.8f;
 
             this.Name = name;
             this.Position = position;
-            this.Weapons = new System.Collections.Generic.List<ObjectStructures.Weapons>();
+            this.Weapons = new System.Collections.Generic.List<ObjectStructures.Weapons>
+            {
+                ObjectStructures.GetWeaponsFromFile(System.Environment.CurrentDirectory + @"\TextFiles\Swords\baseRangerBow.txt")
+            };
         }
     }
 }

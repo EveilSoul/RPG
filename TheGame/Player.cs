@@ -17,7 +17,9 @@ namespace TheGame
         public int TravelSkill;
         public PlayerType Type;
         public int Level;
-        public float Accuracy;
+        public float SwordAccuracy;
+        public float BowAccuracy;
+        public float MagicAccuracy;
 
         public enum PlayerType
         {

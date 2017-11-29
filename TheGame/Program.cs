@@ -24,11 +24,11 @@ namespace TheGame
         {
             Console.WriteLine(File.ReadAllText(Path + @"\TextFiles\types.txt"));
 
-            int choice = int.Parse(Console.ReadLine()) - 1;
+            int? choice = int.Parse(Console.ReadLine()) - 1;
 
             Console.Clear();
 
-            if (choice >= 0 && choice < 3)
+            if (choice != null && choice >= 0 && choice < 3)
                 return (Player.PlayerType)choice;
             else return SelectType();
         }
@@ -43,10 +43,17 @@ namespace TheGame
         {
             Path = Environment.CurrentDirectory;
             var swords = GetSwords(Path + @"\TextFiles\Swords");
-            Warrior warrior = new Warrior(GetName(), new ObjectStructures.Position { X = 0, Y = 0 });
-            //Ranger ranger = new Ranger();
             //Wizard wizard = new Wizard();
-            Console.WriteLine(SelectType());
+            switch (SelectType())
+            {
+                case Player.PlayerType.Warrior:
+                    Warrior warrior = new Warrior(GetName(), new ObjectStructures.Position { X = 0, Y = 0 });
+                    break;
+                case Player.PlayerType.Ranger:
+                    Ranger ranger = new Ranger(GetName(), new ObjectStructures.Position { X = 0, Y = 0 });
+                    break;
+            }
+
             Console.SetWindowSize(45, 15);
             Console.SetBufferSize(45, 15);
             while (true)
