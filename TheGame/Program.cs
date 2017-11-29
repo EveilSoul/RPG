@@ -9,20 +9,20 @@ namespace TheGame
 {
     class Program
     {
-        static string[] Swords = {@"\baseWarriorSword.txt"};
+        static string[] Swords = { @"\baseWarriorSword.txt" };
         static string Path;
 
         static List<ObjectStructures.Weapons> GetSwords(string path)
         {
             var result = new List<ObjectStructures.Weapons>();
-            for (int i = 0; i< Swords.Length; i++)
+            for (int i = 0; i < Swords.Length; i++)
                 result.Add(ObjectStructures.GetWeaponsFromFile(path + Swords[i]));
             return result;
         }
 
         static Player.PlayerType SelectType()
         {
-            Console.WriteLine(File.ReadAllText(Path +@"\TextFiles\types.txt"));
+            Console.WriteLine(File.ReadAllText(Path + @"\TextFiles\types.txt"));
 
             int choice = int.Parse(Console.ReadLine()) - 1;
 
@@ -43,10 +43,12 @@ namespace TheGame
         {
             Path = Environment.CurrentDirectory;
             var swords = GetSwords(Path + @"\TextFiles\Swords");
-            Warrior warrior = new Warrior(GetName(), new ObjectStructures.Position{ X = 0, Y = 0});
+            Warrior warrior = new Warrior(GetName(), new ObjectStructures.Position { X = 0, Y = 0 });
             //Ranger ranger = new Ranger();
             //Wizard wizard = new Wizard();
             Console.WriteLine(SelectType());
+            Console.SetWindowSize(45, 15);
+            Console.SetBufferSize(45, 15);
             while (true)
             {
                 var ch = Console.ReadKey(true).Key;
@@ -55,9 +57,24 @@ namespace TheGame
                 {
                     case ConsoleKey.UpArrow:
                         //wizard.Walk(0, 1);
+                        //Console.WriteLine("up");
+
+                        //for (int i = 0; i < 15; i++)
+                        //{
+                        //    for (int j = 0; j < 15; j++)
+                        //    {
+                        //        Console.Write("_");
+                        //        if (j != 14)
+                        //            Console.Write(" ");
+                        //    }
+                        //    if (i!=14)
+                        //    Console.WriteLine();
+                        //}
+
                         break;
                     case ConsoleKey.DownArrow:
                         //wizard.Walk(0, -1);
+                        Console.WriteLine("down");
                         break;
                     case ConsoleKey.LeftArrow:
                         //wizard.Walk(-1, 0);
