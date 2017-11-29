@@ -65,6 +65,18 @@ namespace TheGame
                     case ConsoleKey.RightArrow:
                         //wizard.Walk(1, 0);
                         break;
+                    case ConsoleKey.I:
+                        //info
+                        break;
+                    case ConsoleKey.H:
+                        //help
+                        break;
+                    case ConsoleKey.F1:
+                        //save
+                        break;
+                    case ConsoleKey.F2:
+                        //load game
+                        break;
                 }
             }
             Console.ReadKey();
