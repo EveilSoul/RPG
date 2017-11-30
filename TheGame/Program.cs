@@ -39,55 +39,62 @@ namespace TheGame
             return Console.ReadLine();
         }
 
+        public static ObjectStructures.Position GetPosition()
+        {
+            var random = new Random();
+            return new ObjectStructures.Position { X = random.Next(-10, 11), Y = random.Next(-10, 11) };
+        }
+
         static void Main()
         {
+            int moveX = 0, moveY = 0;
+
             Path = Environment.CurrentDirectory;
             var swords = GetSwords(Path + @"\TextFiles\Swords");
-            //Wizard wizard = new Wizard();
+            
+
+
             switch (SelectType())
             {
                 case Player.PlayerType.Warrior:
-                    Warrior warrior = new Warrior(GetName(), new ObjectStructures.Position { X = 0, Y = 0 });
+                    Warrior warrior = new Warrior(GetName(), GetPosition());
                     break;
                 case Player.PlayerType.Ranger:
-                    Ranger ranger = new Ranger(GetName(), new ObjectStructures.Position { X = 0, Y = 0 });
+                    Ranger ranger = new Ranger(GetName(), GetPosition());
                     break;
             }
 
-            Console.SetWindowSize(45, 15);
-            Console.SetBufferSize(45, 15);
+            Player player = new Player();
+
+            Window.DrowWindow();
+            Window.ClearAndDrow(player, moveX, moveY);
+
             while (true)
             {
                 var ch = Console.ReadKey(true).Key;
-                Console.Clear();
+
+
                 switch (ch)
                 {
                     case ConsoleKey.UpArrow:
-                        //wizard.Walk(0, 1);
-                        //Console.WriteLine("up");
-
-                        //for (int i = 0; i < 15; i++)
-                        //{
-                        //    for (int j = 0; j < 15; j++)
-                        //    {
-                        //        Console.Write("_");
-                        //        if (j != 14)
-                        //            Console.Write(" ");
-                        //    }
-                        //    if (i!=14)
-                        //    Console.WriteLine();
-                        //}
-
+                        player.Walk(0, 1);
+                        moveY--;
+                        Window.ClearAndDrow(player, moveX, moveY);
                         break;
                     case ConsoleKey.DownArrow:
-                        //wizard.Walk(0, -1);
-                        Console.WriteLine("down");
+                        player.Walk(0, -1);
+                        moveY++;
+                        Window.ClearAndDrow(player, moveX, moveY);
                         break;
                     case ConsoleKey.LeftArrow:
-                        //wizard.Walk(-1, 0);
+                        player.Walk(-1, 0);
+                        moveX--;
+                        Window.ClearAndDrow(player, moveX, moveY);
                         break;
                     case ConsoleKey.RightArrow:
-                        //wizard.Walk(1, 0);
+                        player.Walk(1, 0);
+                        moveX++;
+                        Window.ClearAndDrow(player, moveX, moveY);
                         break;
                     case ConsoleKey.I:
                         //info
@@ -102,7 +109,15 @@ namespace TheGame
                         //load game
                         break;
                 }
+
+                if (moveX == Window.WindowSizeX / 2 || moveY == Window.WindowSizeY / 2)
+                {
+                    moveX = 0;
+                    moveY = 0;
+                    Window.ClearAndDrow(player, moveX, moveY);
+                }
             }
+
             Console.ReadKey();
         }
     }

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enemy.cs" />
     <Compile Include="ObjectStructures.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Ranger.cs" />
     <Compile Include="Spell.cs" />
     <Compile Include="Warrior.cs" />
+    <Compile Include="Window.cs" />
     <Compile Include="Wizard.cs" />
   </ItemGroup>
   <ItemGroup>
