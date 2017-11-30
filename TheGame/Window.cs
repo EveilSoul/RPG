@@ -32,20 +32,11 @@ namespace TheGame
             }
             
         }
-         //вывести хар-ки персонажа
-        public static void DrowFeatures(Player player)
-        {
-            Console.WriteLine("------------------------------");
-            Console.WriteLine("Health: " + player.Health);
-            Console.WriteLine("Level: " + player.Level);
-            Console.WriteLine("Position: (" + player.Position.X + ";" + player.Position.Y + ")");
-        }
 
-        public static void ClearAndDrow(Player player, int moveX, int moveY)
+        public static void ClearAndDrow(int moveX, int moveY)
         {
             Console.Clear();
             Window.DrowMap(moveX, moveY);
-            Window.DrowFeatures(player);
         }
 
 

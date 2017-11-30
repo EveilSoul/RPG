@@ -47,75 +47,25 @@ namespace TheGame
 
         static void Main()
         {
-            int moveX = 0, moveY = 0;
-
             Path = Environment.CurrentDirectory;
-            var swords = GetSwords(Path + @"\TextFiles\Swords");
-            
 
+            var name = GetName();
+            var position = GetPosition();
 
             switch (SelectType())
             {
                 case Player.PlayerType.Warrior:
-                    Warrior warrior = new Warrior(GetName(), GetPosition());
+                    Warrior warrior = new Warrior(name, position);
+                    warrior.JoinGame();
                     break;
                 case Player.PlayerType.Ranger:
-                    Ranger ranger = new Ranger(GetName(), GetPosition());
+                    Ranger ranger = new Ranger(name, position);
+                    ranger.JoinGame();
                     break;
-            }
-
-            Player player = new Player();
-
-            Window.DrowWindow();
-            Window.ClearAndDrow(player, moveX, moveY);
-
-            while (true)
-            {
-                var ch = Console.ReadKey(true).Key;
-
-
-                switch (ch)
-                {
-                    case ConsoleKey.UpArrow:
-                        player.Walk(0, 1);
-                        moveY--;
-                        Window.ClearAndDrow(player, moveX, moveY);
-                        break;
-                    case ConsoleKey.DownArrow:
-                        player.Walk(0, -1);
-                        moveY++;
-                        Window.ClearAndDrow(player, moveX, moveY);
-                        break;
-                    case ConsoleKey.LeftArrow:
-                        player.Walk(-1, 0);
-                        moveX--;
-                        Window.ClearAndDrow(player, moveX, moveY);
-                        break;
-                    case ConsoleKey.RightArrow:
-                        player.Walk(1, 0);
-                        moveX++;
-                        Window.ClearAndDrow(player, moveX, moveY);
-                        break;
-                    case ConsoleKey.I:
-                        //info
-                        break;
-                    case ConsoleKey.H:
-                        //help
-                        break;
-                    case ConsoleKey.F1:
-                        //save
-                        break;
-                    case ConsoleKey.F2:
-                        //load game
-                        break;
-                }
-
-                if (moveX == Window.WindowSizeX / 2 || moveY == Window.WindowSizeY / 2)
-                {
-                    moveX = 0;
-                    moveY = 0;
-                    Window.ClearAndDrow(player, moveX, moveY);
-                }
+                case Player.PlayerType.Wizard:
+                    Wizard wizard = new Wizard(name, position);
+                    wizard.JoinGame();
+                    break;
             }
 
             Console.ReadKey();

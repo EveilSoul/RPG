@@ -21,6 +21,8 @@ namespace TheGame
         public float BowAccuracy;
         public float MagicAccuracy;
 
+        public delegate int[] Attacks(int countEnemy, params int[] nums);
+
         public enum PlayerType
         {
             Warrior,
@@ -31,6 +33,7 @@ namespace TheGame
         public List<ObjectStructures.Weapons> Weapons;
         public ObjectStructures.Position Position;
         public ObjectStructures.ArmorComplect Armor;
+        public List<Attacks> PlayerAttacks;
             
         public char PlayerSymble = '@';
 
@@ -63,6 +66,66 @@ namespace TheGame
             }
         }
 
-        
+        public void JoinGame()
+        {
+            int moveX = 0, moveY = 0;
+            Window.DrowWindow();
+            while (true)
+            {
+                KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
+                Window.ClearAndDrow(moveX, moveY);
+
+                if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
+                {
+                    moveX = 0;
+                    moveY = 0;
+                    Window.ClearAndDrow(moveX, moveY);
+                }
+                DrawChracteristics();
+            }
+        }
+
+        public void KeyDown(ConsoleKey ch, ref int moveX, ref int moveY)
+        {
+            switch (ch)
+            {
+                case ConsoleKey.UpArrow:
+                    this.Walk(0, 1);
+                    moveY--;
+                    break;
+                case ConsoleKey.DownArrow:
+                    this.Walk(0, -1);
+                    moveY++;
+                    break;
+                case ConsoleKey.LeftArrow:
+                    this.Walk(-1, 0);
+                    moveX--;
+                    break;
+                case ConsoleKey.RightArrow:
+                    this.Walk(1, 0);
+                    moveX++;
+                    break;
+                case ConsoleKey.I:
+                    //info
+                    break;
+                case ConsoleKey.H:
+                    //help
+                    break;
+                case ConsoleKey.F1:
+                    //save
+                    break;
+                case ConsoleKey.F2:
+                    //load game
+                    break;
+            }
+        }
+
+        public void DrawChracteristics()
+        {
+            Console.WriteLine("------------------------------");
+            Console.WriteLine("Health: {0}", this.Health);
+            Console.WriteLine("Level: {0}", this.Level);
+            Console.WriteLine("Position: ({0};{1})", this.Position.X, this.Position.Y);
+        }
     }
 }
