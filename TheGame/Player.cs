@@ -73,6 +73,7 @@ namespace TheGame
             while (true)
             {
                 KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
+                //ApplyDamage(15);
                 Window.ClearAndDrow(moveX, moveY);
 
                 if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
@@ -90,18 +91,22 @@ namespace TheGame
             switch (ch)
             {
                 case ConsoleKey.UpArrow:
+                case ConsoleKey.W:
                     this.Walk(0, 1);
                     moveY--;
                     break;
                 case ConsoleKey.DownArrow:
+                case ConsoleKey.S:
                     this.Walk(0, -1);
                     moveY++;
                     break;
                 case ConsoleKey.LeftArrow:
+                case ConsoleKey.A:
                     this.Walk(-1, 0);
                     moveX--;
                     break;
                 case ConsoleKey.RightArrow:
+                case ConsoleKey.D:
                     this.Walk(1, 0);
                     moveX++;
                     break;
@@ -126,6 +131,14 @@ namespace TheGame
             Console.WriteLine("Health: {0}", this.Health);
             Console.WriteLine("Level: {0}", this.Level);
             Console.WriteLine("Position: ({0};{1})", this.Position.X, this.Position.Y);
+        }
+
+        public void ApplyDamage(int damage)
+        {
+            var t = Program.Random.Next(0, 5);
+            Console.WriteLine(t);
+            damage = this.Armor.Protect(damage, t);
+            Health -= damage;
         }
     }
 }

@@ -13,10 +13,16 @@ namespace TheGame
         public int PowerAttack;
         public int Health;
         public int Count;
+        public float Accuracy;
 
         public void OnEnemyAtack(int damage)
         {
             this.Health -= damage;
+        }
+
+        public int Attack()
+        {
+            return (int)(PowerAttack * Accuracy);
         }
 
         
@@ -36,12 +42,11 @@ namespace TheGame
 
         public Enemy[] CreateEnemy()
         {
-            var random = new Random();
-            int rand = random.Next(1, 152);
+            int rand = Program.Random.Next(1, 152);
             if (rand>=1 && rand <= 50)
             {
                 
-                this.Count = random.Next(3, 6);
+                this.Count = Program.Random.Next(3, 6);
                 var res = new Enemy[this.Count];
                 for (int i = 0; i < this.Count; i++)
                 {
@@ -58,7 +63,7 @@ namespace TheGame
             }
             if (rand>50 && rand <= 100)
             {
-                this.Count = random.Next(2, 4);
+                this.Count = Program.Random.Next(2, 4);
                 var res = new Enemy[this.Count];
                 for (int i = 0; i < this.Count; i++)
                 {

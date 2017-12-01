@@ -22,8 +22,10 @@ namespace TheGame
 
             this.Weapons = new List<ObjectStructures.Weapons>
             {
-                ObjectStructures.GetWeaponsFromFile(System.Environment.CurrentDirectory + @"\TextFiles\Swords\baseWarriorSword.txt")
+                Program.Swords[0]
+                //ObjectStructures.GetWeaponsFromFile(Program.Path + @"\TextFiles\Swords\baseWarriorSword.txt")
             };
+            this.Armor = Program.Armor[0];
 
             this.Name = name;
             this.Position = position;
