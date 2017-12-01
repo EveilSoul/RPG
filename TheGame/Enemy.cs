@@ -46,7 +46,7 @@ namespace TheGame
             return result;
         }
 
-        public ObjectStructures.Position EnemyGenerationPosition(ObjectStructures.Position playerPosition)
+        public static ObjectStructures.Position EnemyGenerationPosition(ObjectStructures.Position playerPosition)
         {
             var enemyPosition = new ObjectStructures.Position {
                 X = Program.Random.Next(playerPosition.X - 2 * Window.WindowSizeX, 
@@ -70,7 +70,13 @@ namespace TheGame
             }
         }
 
-        public Enemy[] CreateEnemy(int PlayerLevel)
+        public static bool IsEnemyNear(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
+        {
+            return Math.Abs(enemyPosition.X - playerPosition.X) <= Window.WindowSizeX / 2 && 
+                Math.Abs(enemyPosition.Y - playerPosition.Y) <= Window.WindowSizeY / 2;
+        }
+
+        public static Enemy[] CreateEnemy(int PlayerLevel)
         {
             //увеличивается вероятность выпадения дракона в зависиости от уровня
             int rand = Program.Random.Next(1, 151 + PlayerLevel * 2);
@@ -82,6 +88,8 @@ namespace TheGame
         }
 
 
+        
+        
 
 
 

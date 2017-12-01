@@ -25,7 +25,7 @@ namespace TheGame
             {
                 for (int j = 0; j < WindowSizeX; j++)
                 {
-                    if (i == (WindowSizeY - 1)/2 + moveY && j == (WindowSizeX - 1)/2 + moveX) Console.Write("@");
+                    if (i == (WindowSizeY - 1)/2 + moveY && j == (WindowSizeX - 1)/2 + moveX) Console.Write(Player.PlayerSymble);
                     else Console.Write(" ");
                 }
                 Console.WriteLine();

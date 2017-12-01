@@ -35,7 +35,7 @@ namespace TheGame
         public ObjectStructures.ArmorComplect Armor;
         public List<Attacks> PlayerAttacks;
             
-        public char PlayerSymble = '@';
+        public static char PlayerSymble = '@';
 
         public void Walk(int x, int y)
         {
@@ -83,6 +83,8 @@ namespace TheGame
                     Window.ClearAndDrow(moveX, moveY);
                 }
                 DrawChracteristics();
+
+                
             }
         }
 
