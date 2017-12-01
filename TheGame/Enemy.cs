@@ -12,104 +12,78 @@ namespace TheGame
         public bool IsLive;
         public int PowerAttack;
         public int Health;
-        public int Count;
         public float Accuracy;
 
-        public void OnEnemyAtack(int damage)
+        //атака на мостра
+        public void OnEnemyAtack(int damage, Enemy[] enemy, int[] numberAtackEnemy)
         {
-            this.Health -= damage;
+            for (int i = 0; i < numberAtackEnemy.Length; i++)
+            {
+                enemy[i].Health -= damage;
+                if (enemy[i].Health <= 0) enemy[i].IsLive = false;
+            }
         }
 
-        public int Attack()
+        //атака монстра
+        public int Attack(Enemy[] enemy)
         {
-            return (int)(PowerAttack * Accuracy);
+            int damage = 0;
+            for (int i = 0; i < enemy.Length; i++)
+            {
+                damage += (int)(enemy[i].PowerAttack * enemy[i].Accuracy) + Program.Random.Next(-5, 6);
+            }
+            return damage;
         }
 
-        
-        public void PrintEnemy(int enemyCount, Enemy[] res)
+        //проверка того, жив ли хоть один враг
+        public bool IsEnemyLive(Enemy[] enemy)
+        {
+            bool result = false;
+            for (int i = 0; i < enemy.Length; i++)
+            {
+                result = result || enemy[i].IsLive;
+            }
+            return result;
+        }
+
+        public ObjectStructures.Position EnemyGenerationPosition(ObjectStructures.Position playerPosition)
+        {
+            var enemyPosition = new ObjectStructures.Position {
+                X = Program.Random.Next(playerPosition.X - 2 * Window.WindowSizeX, 
+                playerPosition.X + 2 * Window.WindowSizeX),
+                Y = Program.Random.Next(playerPosition.Y - 2 * Window.WindowSizeY, 
+                playerPosition.Y + 2 * Window.WindowSizeY) };
+            return enemyPosition;
+        }
+
+
+        public void PrintEnemy(int enemyCount, Enemy enemy)
         {
             Console.Clear();
             Console.WriteLine("You have " + enemyCount + " enemy!");
             for (int i = 0; i < enemyCount; i++)
             {
-                Console.WriteLine(res[i].Name);
-                Console.WriteLine("Health: " + res[i].Health);
-                Console.WriteLine("Power atack: " + res[i].PowerAttack);
+                Console.WriteLine(enemy.Name);
+                Console.WriteLine("Health: {0}", enemy.Health);
+                Console.WriteLine("Power atack: {0}", enemy.PowerAttack);
 
             }
         }
 
-
-        public Enemy[] CreateEnemy()
+        public Enemy[] CreateEnemy(int PlayerLevel)
         {
-            int rand = Program.Random.Next(1, 152);
-            if (rand>=1 && rand <= 50)
-            {
-                
-                this.Count = Program.Random.Next(3, 6);
-                var res = new Enemy[this.Count];
-                for (int i = 0; i < this.Count; i++)
-                {
-                    res[i] = new Enemy
-                    {
-                        Name = "Wolf",
-                        PowerAttack = 10,
-                        IsLive = true,
-                        Health = 50
-                    };
-                }
-                return res;
+            //увеличивается вероятность выпадения дракона в зависиости от уровня
+            int rand = Program.Random.Next(1, 151 + PlayerLevel * 2);
 
-            }
-            if (rand>50 && rand <= 100)
-            {
-                this.Count = Program.Random.Next(2, 4);
-                var res = new Enemy[this.Count];
-                for (int i = 0; i < this.Count; i++)
-                {
-                    res[i] = new Enemy
-                    {
-                        Name = "Goblin",
-                        PowerAttack = 20,
-                        IsLive = true,
-                        Health = 50
-                    };
-                }
-                return res;
-            }
-            if (rand > 100 && rand <= 150)
-            {
-                this.Count = 1;
-                var res = new Enemy[1];
-                res[0]=new Enemy
-                {
-                    Name = "Bear",
-                    PowerAttack = 20,
-                    IsLive = true,
-                    Health = 100,
-                    Count = 1
-                };
-                return res;
-
-            }
-            else
-            {
-                this.Count = 1;
-                var res = new Enemy[1];
-                res[0]=new Enemy
-                {
-                    Name = "Dragon",
-                    PowerAttack = 150,
-                    IsLive = true,
-                    Health = 500,
-                    Count = 1
-                };
-                return res;
-            }
-            
-
-            }
-
-
+            if (rand >= 1 && rand <= 50) return EnemyWolf.CreateEnemyWolf();
+            if (rand > 50 && rand <= 100) return EnemyGoblin.CreateEnemyGoblin();
+            if (rand > 100 && rand <= 150) return EnemyBear.CreateEnemyBear();
+            return EnemyDragon.CreateEnemyDragon();
         }
+
+
+
+
+
+    }
 }
