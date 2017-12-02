@@ -72,7 +72,6 @@ namespace TheGame
             Window.DrowWindow();
             while (true)
             {
-                KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
                 Window.ClearAndDrow(moveX, moveY);
 
                 if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
@@ -82,6 +81,8 @@ namespace TheGame
                     Window.ClearAndDrow(moveX, moveY);
                 }
                 DrawChracteristics();
+
+                KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
             }
         }
 
