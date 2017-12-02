@@ -20,7 +20,8 @@ namespace TheGame
             for (int i = 0; i < numberAtackEnemy.Length; i++)
             {
                 enemy[i].Health -= damage;
-                if (enemy[i].Health <= 0) enemy[i].IsLive = false;
+                if (enemy[i].Health <= 0)
+                    enemy[i].IsLive = false;
             }
         }
 
@@ -30,7 +31,8 @@ namespace TheGame
             int damage = 0;
             for (int i = 0; i < enemy.Length; i++)
             {
-                damage += (int)(enemy[i].PowerAttack * enemy[i].Accuracy) + Program.Random.Next(-5, 6);
+                if (Program.Random.NextDouble() <= enemy[i].Accuracy)
+                    damage += enemy[i].PowerAttack + Program.Random.Next(-3, 4);
             }
             return damage;
         }
@@ -52,7 +54,8 @@ namespace TheGame
                 X = Program.Random.Next(playerPosition.X - 2 * Window.WindowSizeX, 
                 playerPosition.X + 2 * Window.WindowSizeX),
                 Y = Program.Random.Next(playerPosition.Y - 2 * Window.WindowSizeY, 
-                playerPosition.Y + 2 * Window.WindowSizeY) };
+                playerPosition.Y + 2 * Window.WindowSizeY) }
+            ;
             return enemyPosition;
         }
 
@@ -79,7 +82,7 @@ namespace TheGame
         public static Enemy[] CreateEnemy(int PlayerLevel)
         {
             //увеличивается вероятность выпадения дракона в зависиости от уровня
-            int rand = Program.Random.Next(1, 151 + PlayerLevel * 2);
+            int rand = Program.Random.Next(1, 151 + PlayerLevel * PlayerLevel * PlayerLevel);
 
             if (rand >= 1 && rand <= 50) return EnemyWolf.CreateEnemyWolf();
             if (rand > 50 && rand <= 100) return EnemyGoblin.CreateEnemyGoblin();

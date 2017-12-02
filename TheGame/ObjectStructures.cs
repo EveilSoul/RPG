@@ -92,6 +92,7 @@ namespace TheGame
             private void Die()
             {
                 this.Descriotion = null;
+                this.PowerAttack = 0;
             }
         }
 

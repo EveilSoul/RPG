@@ -4,7 +4,6 @@ namespace TheGame
 {
     public class Warrior : Player
     {
-        System.Random random;
         public Warrior(string name, ObjectStructures.Position position)
         {
             this.TravelSkill = 0;
@@ -29,7 +28,6 @@ namespace TheGame
 
             this.Name = name;
             this.Position = position;
-            random = new System.Random();
         }
 
         private List<Attacks> GetAttacks()
@@ -43,11 +41,13 @@ namespace TheGame
         public int[] SimpleSwordAttack(int countEnemy, params int[] number)
         {
             int[] result = new int[countEnemy];
-            int damage = this.Weapons[0].Attack() + this.PowerAttack;
+            int damage = this.Weapons[0].Attack();
 
-            double luck = random.NextDouble();
-            if (luck<=this.SwordAccuracy)
-                result[number[0]] = damage;
+            double luck = Program.Random.NextDouble();
+            if (luck <= this.SwordAccuracy)
+                result[number[0]] = damage + Program.Random.Next(-5,6);
+            if (luck % 5 != 0)
+                result[number[0]] += this.PowerAttack;
             return result;
         }
     }

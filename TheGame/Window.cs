@@ -10,6 +10,7 @@ namespace TheGame
     {
         public static int WindowSizeX = 31;
         public static int WindowSizeY = 15;
+        public static char PlayerSymble = '@';
 
         public static void DrowWindow()
         {
@@ -25,7 +26,8 @@ namespace TheGame
             {
                 for (int j = 0; j < WindowSizeX; j++)
                 {
-                    if (i == (WindowSizeY - 1)/2 + moveY && j == (WindowSizeX - 1)/2 + moveX) Console.Write(Player.PlayerSymble);
+                    if (i == (WindowSizeY - 1)/2 + moveY && j == (WindowSizeX - 1)/2 + moveX)
+                        Console.Write(PlayerSymble);
                     else Console.Write(" ");
                 }
                 Console.WriteLine();

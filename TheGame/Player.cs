@@ -34,8 +34,6 @@ namespace TheGame
         public ObjectStructures.Position Position;
         public ObjectStructures.ArmorComplect Armor;
         public List<Attacks> PlayerAttacks;
-            
-        public static char PlayerSymble = '@';
 
         public void Walk(int x, int y)
         {
@@ -73,7 +71,6 @@ namespace TheGame
             while (true)
             {
                 KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
-                //ApplyDamage(15);
                 Window.ClearAndDrow(moveX, moveY);
 
                 if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
@@ -83,8 +80,6 @@ namespace TheGame
                     Window.ClearAndDrow(moveX, moveY);
                 }
                 DrawChracteristics();
-
-                
             }
         }
 
@@ -141,6 +136,11 @@ namespace TheGame
             Console.WriteLine(t);
             damage = this.Armor.Protect(damage, t);
             Health -= damage;
+        }
+
+        public int[] Attack(int countEnemy, int attack, params int[] nums)
+        {
+            return PlayerAttacks[attack].Invoke(countEnemy, nums);
         }
     }
 }
