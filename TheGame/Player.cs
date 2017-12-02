@@ -80,9 +80,9 @@ namespace TheGame
                     moveX = 0;
                     moveY = 0;
                     Window.ClearAndDrow(moveX, moveY);
+
                 }
                 DrawChracteristics();
-
                 KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
             }
         }

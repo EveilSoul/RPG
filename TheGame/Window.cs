@@ -12,6 +12,7 @@ namespace TheGame
         public static int WindowSizeY = 15;
         public static char PlayerSymble = '@';
         public static char EnemySymble = '*';
+        private static char[,] Map = new char[WindowSizeY, WindowSizeX];
 
         public static void DrowWindow()
         {
@@ -21,15 +22,13 @@ namespace TheGame
             Console.ForegroundColor = ConsoleColor.Black;
         }
 
-        public static void DrowMap(int moveX = 0, int moveY = 0)
+        public static void DrowMap()
         {
             for (int i = 0; i < WindowSizeY; i++)
             {
                 for (int j = 0; j < WindowSizeX; j++)
                 {
-                    if (i == (WindowSizeY - 1)/2 + moveY && j == (WindowSizeX - 1)/2 + moveX)
-                        Console.Write(PlayerSymble);
-                    else Console.Write(" ");
+                    Console.Write(Map[i,j]);
                 }
                 Console.WriteLine();
             }
@@ -39,7 +38,9 @@ namespace TheGame
         public static void ClearAndDrow(int moveX, int moveY)
         {
             Console.Clear();
-            Window.DrowMap(moveX, moveY);
+            Map[(WindowSizeY - 1) / 2 + moveY,(WindowSizeX - 1) / 2 + moveX] = PlayerSymble;
+            DrowMap();
+            Map[(WindowSizeY - 1) / 2 + moveY, (WindowSizeX - 1) / 2 + moveX] = ' ';
         }
 
        

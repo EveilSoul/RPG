@@ -23,7 +23,7 @@ namespace TheGame
             {
                 if (Enemy.IsEnemyNear(enemyPosition, playerPosition))
                 {
-                    Window.PrintDangerous();
+                    //Window.PrintDangerous();
 
                     //BATLE
                     this.theBattleWas = true;
