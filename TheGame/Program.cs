@@ -13,16 +13,27 @@ namespace TheGame
         public static Random Random;
         public static List<ObjectStructures.ArmorComplect> Armor;
         public static List<ObjectStructures.Weapons> Swords;
+        public static List<Spell> Spells;
 
         public static string[] NamesSwords = { @"\baseWarriorSword.txt" };
         public static string[,] NamesArmor = {
-            { @"\baseWarriorHeadArmor.txt", @"\baseWarriorBodyArmor.txt", @"\baseWarriorArmsArmor.txt", @"\baseWarriorLeggsArmor.txt", @"\baseWarriorBootsArmor.txt" } };
+            { @"\baseWarriorHeadArmor.txt", @"\baseWarriorBodyArmor.txt", @"\baseWarriorArmsArmor.txt", @"\baseWarriorLeggsArmor.txt", @"\baseWarriorBootsArmor.txt" }
+        };
+        public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt" };
 
         static List<ObjectStructures.Weapons> GetSwords(string path)
         {
             var result = new List<ObjectStructures.Weapons>();
             for (int i = 0; i < NamesSwords.Length; i++)
                 result.Add(ObjectStructures.GetWeaponsFromFile(path + NamesSwords[i]));
+            return result;
+        }
+
+        static List<Spell> GetSpells(string path)
+        {
+            var result = new List<Spell>();
+            for (int i = 0; i < NamesSpells.Length; i++)
+                result.Add(new Spell(path + NamesSpells[i]));
             return result;
         }
 
@@ -70,13 +81,23 @@ namespace TheGame
 
         static void Main()
         {
+
             Random = new Random();
             Path = Environment.CurrentDirectory;
 
             Armor = GetArmor(Path + @"\TextFiles\Armor");
-
+            Spells = GetSpells(Path + @"\TextFiles\Spells");
             Swords = GetSwords(Path + @"\TextFiles\Swords");
 
+            LLL();
+
+            BeginGame();
+
+            Console.ReadKey();
+        }
+
+        static void BeginGame()
+        {
             var name = GetName();
             var position = GetPosition();
 
@@ -95,8 +116,60 @@ namespace TheGame
                     wizard.JoinGame();
                     break;
             }
+        }
+
+        static void LLL()
+        {
+            Warrior warrior = new Warrior("", new ObjectStructures.Position());
+            Ranger ranger = new Ranger("", new ObjectStructures.Position());
+            Wizard wizard = new Wizard("", new ObjectStructures.Position());
+
+            for (int i = 0; i < 10; i++)
+            {
+                var t1 = warrior.Attack(1, 0, 0);
+                Console.Write("Wa {0} ", t1[0]);
+                var t2 = ranger.Attack(1, 0, 0);
+                Console.Write("R {0} ", t2[0]);
+                var t3 = wizard.Attack(1, 0, 0);
+                Console.Write("Wi {0} ", t3[0]);
+                Console.WriteLine();
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                var t1 = warrior.Attack(5, 0, 0);
+                Console.Write("war ");
+                WriteArr(t1);
+                var t2 = ranger.Attack(5, 0, 0);
+                Console.Write("ran ");
+                WriteArr(t2);
+                var t3 = wizard.Attack(5, 0, 0);
+                Console.Write("wiz ");
+                WriteArr(t3);
+                Console.WriteLine();
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                var t1 = warrior.Attack(10, 0, 0);
+                Console.Write("war ");
+                WriteArr(t1);
+                var t2 = ranger.Attack(10, 0, 0);
+                Console.Write("ran ");
+                WriteArr(t2);
+                var t3 = wizard.Attack(10, 0, 0);
+                Console.Write("wiz ");
+                WriteArr(t3);
+                Console.WriteLine();
+            }
 
             Console.ReadKey();
+        }
+        static void WriteArr(int[] arr)
+        {
+            foreach (var t in arr)
+                Console.Write(t + " ");
+            Console.WriteLine();
         }
     }
 }

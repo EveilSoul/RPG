@@ -20,6 +20,7 @@ namespace TheGame
         public float SwordAccuracy;
         public float BowAccuracy;
         public float MagicAccuracy;
+        public int MagicLevel = 1;
 
         public delegate int[] Attacks(int countEnemy, params int[] nums);
 
@@ -33,6 +34,7 @@ namespace TheGame
         public List<ObjectStructures.Weapons> Weapons;
         public ObjectStructures.Position Position;
         public ObjectStructures.ArmorComplect Armor;
+        public List<Spell> Spells;
         public List<Attacks> PlayerAttacks;
 
         public void Walk(int x, int y)

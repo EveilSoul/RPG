@@ -56,6 +56,7 @@
     <Compile Include="Ranger.cs" />
     <Compile Include="Spell.cs" />
     <Compile Include="Warrior.cs" />
+    <Compile Include="Weapons.cs" />
     <Compile Include="Window.cs" />
     <Compile Include="Wizard.cs" />
   </ItemGroup>

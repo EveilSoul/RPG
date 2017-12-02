@@ -5,6 +5,7 @@
         public string Name;
         public int Mana;
         public int Level;
+        public int Cost;
         public string Description;
         public TypeOfSpell Type;
 
@@ -21,27 +22,29 @@
             Attacking
         };
 
-        public Spell(string name, int mana, int level, string description,
-            TypeOfSpell type, params float[] param)
+        public Spell(string path)
         {
-            this.Name = name;
-            this.Mana = mana;
-            this.Level = level;
-            this.Description = description;
-            this.Type = type;
-
-            switch (type)
+            var lines = System.IO.File.ReadAllLines(path);
+            this.Name = lines[0];
+            this.Mana = int.Parse(lines[1]);
+            this.Level = int.Parse(lines[2]);
+            this.Cost = int.Parse(lines[3]);
+            this.Type = (TypeOfSpell)int.Parse(lines[4]);
+            int k = 5;
+            switch (this.Type)
             {
                 case TypeOfSpell.Attacking:
-                    this.CountImpact = (int)param[0];
-                    this.Damage = (int)param[1];
-                    this.Accuracy = param[2];
+                    this.CountImpact = int.Parse(lines[k++]);
+                    this.Damage = int.Parse(lines[k++]);
+                    this.Accuracy = float.Parse(lines[k++]);
                     break;
                 case TypeOfSpell.Defence:
-                    this.CountOfProtect = (int)param[0];
-                    this.Protect = param[1];
+                    this.CountOfProtect = int.Parse(lines[k++]);
+                    this.Protect = int.Parse(lines[k++]);
                     break;
             }
+            for (int i = k; i < lines.Length; i++)
+                this.Description += lines[i] + "\n";
         }
 
         public int[] JoinSpell(int countEnemy, params int[] nums)
