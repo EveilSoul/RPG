@@ -8,7 +8,7 @@ namespace TheGame
             this.TravelSkill = 10;
             this.BattleSkill = 0;
             this.Health = 220;
-            this.Mana = 160;
+            this.MaxMana = 160;
             this.Money = 200;
             this.PowerAttack = 10;
             this.Level = 1;
@@ -16,40 +16,17 @@ namespace TheGame
             this.SwordAccuracy = 0.75f;
             this.BowAccuracy = 0.9f;
             this.MagicAccuracy = 0.8f;
+            this.CurrentMana = this.MaxMana;
 
             this.Name = name;
             this.Position = position;
-            this.PlayerAttacks = GetAttacks();
-            this.Weapons = new System.Collections.Generic.List<ObjectStructures.Weapons>
+            this.Swords = new List<Sword>
             {
-                ObjectStructures.GetWeaponsFromFile(System.Environment.CurrentDirectory + @"\TextFiles\Swords\baseRangerBow.txt") 
+                Program.Swords[2]
             };
+            this.Spells = new List<Spell>();
+            this.Bow = Program.Bows[0];
             this.Armor = Program.Armor[1];
-        }
-
-        List<Attacks> GetAttacks()
-        {
-            var result = new List<Attacks>();
-            result.Add(SimpleBowAttack);
-
-            return result;
-        }
-
-        public int[] SimpleBowAttack(int countEnemy, params int[] nums)
-        {
-            int[] result = new int[countEnemy];
-
-            for (int i = 0; i < countEnemy; i++)
-            {
-                if (Program.Random.NextDouble() <= this.BowAccuracy)
-                    result[i] += Weapons[0].Attack();
-                if (Program.Random.NextDouble() <= this.SwordAccuracy)
-                    result[i] += this.PowerAttack;
-                result[i] += Program.Random.Next(-5, 6);
-                if (result[i] < 0) result[i] = 0;
-            }
-
-            return result;
         }
     }
 }

@@ -11,23 +11,34 @@ namespace TheGame
     {
         public static string Path;
         public static Random Random;
+
         public static List<ObjectStructures.ArmorComplect> Armor;
-        public static List<ObjectStructures.Weapons> Swords;
+        public static List<Sword> Swords;
+        public static List<Bow> Bows;
         public static List<Spell> Spells;
 
         public static string[] NamesSwords = { @"\baseWarriorSword.txt", @"\baseWizardKnife.txt", @"\baseStilet.txt",
         @"\middleElderSword.txt", @"\dragonSlayerSword.txt"};
+        public static string[] NamesBows = {@"\baseRangerBow.txt", @"\legendaryBow.txt"};
         public static string[,] NamesArmor = {
             { @"\baseWarriorHeadArmor.txt", @"\baseWarriorBodyArmor.txt", @"\baseWarriorArmsArmor.txt", @"\baseWarriorLeggsArmor.txt", @"\baseWarriorBootsArmor.txt" },
             { @"\baseRangerHeadArmor.txt", @"\baseRangerBodyArmor.txt", @"\baseRangerArmsArmor.txt", @"\baseRangerLeggsArmor.txt", @"\baseRangerBootsArmor.txt"  }
         };
-        public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt" };
+        public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt", @"\basePointAttack.txt", @"\middleThunderAttack.txt" };
 
-        static List<ObjectStructures.Weapons> GetSwords(string path)
+        static List<Sword> GetSwords(string path)
         {
-            var result = new List<ObjectStructures.Weapons>();
+            var result = new List<Sword>();
             for (int i = 0; i < NamesSwords.Length; i++)
-                result.Add(ObjectStructures.GetWeaponsFromFile(path + NamesSwords[i]));
+                result.Add(Sword.GetWeaponsFromFile(path + NamesSwords[i]));
+            return result;
+        }
+
+        static List<Bow> GetBows(string path)
+        {
+            var result = new List<Bow>();
+            for (int i = 0; i < NamesBows.Length; i++)
+                result.Add(Bow.GetBowFromFile(path + NamesBows[i]));
             return result;
         }
 
@@ -83,13 +94,16 @@ namespace TheGame
 
         static void Main()
         {
-
             Random = new Random();
             Path = Environment.CurrentDirectory;
 
             Armor = GetArmor(Path + @"\TextFiles\Armor");
-            Spells = GetSpells(Path + @"\TextFiles\Spells");
-            Swords = GetSwords(Path + @"\TextFiles\Swords");
+            Spells = GetSpells(Path + @"\TextFiles\Weapons\Spells");
+            Swords = GetSwords(Path + @"\TextFiles\Weapons\Swords");
+            Bows = GetBows(Path + @"\TextFiles\Weapons\Bows");
+
+            var dam = Spells[2].JoinSpell(10, 1);
+            dam = Spells[1].JoinSpell(2, 0);
 
             BeginGame();
 

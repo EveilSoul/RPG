@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheGame
 {
-    public partial class ObjectStructures
+    public class ObjectStructures
     {
         public struct Position
         {

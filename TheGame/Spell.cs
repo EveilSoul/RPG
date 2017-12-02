@@ -1,15 +1,8 @@
 ﻿namespace TheGame
 {
-    public class Spell
+    public class Spell : Weapons
     {
-        public string Name;
-        public int Mana;
-        public int Level;
-        public int Cost;
-        public string Description;
-        public TypeOfSpell Type;
-
-        public int CountImpact;
+        public TypeOfSpell SpellType;
         public int Damage;
         public float Accuracy;
 
@@ -24,14 +17,15 @@
 
         public Spell(string path)
         {
+            this.TypeOfWeapons = WeaponsType.Spell;
             var lines = System.IO.File.ReadAllLines(path);
             this.Name = lines[0];
             this.Mana = int.Parse(lines[1]);
-            this.Level = int.Parse(lines[2]);
+            this.MinLevelToUse = int.Parse(lines[2]);
             this.Cost = int.Parse(lines[3]);
-            this.Type = (TypeOfSpell)int.Parse(lines[4]);
+            this.SpellType = (TypeOfSpell)int.Parse(lines[4]);
             int k = 5;
-            switch (this.Type)
+            switch (this.SpellType)
             {
                 case TypeOfSpell.Attacking:
                     this.CountImpact = int.Parse(lines[k++]);
@@ -49,10 +43,9 @@
 
         public int[] JoinSpell(int countEnemy, params int[] nums)
         {
-            var random = new System.Random();
             int[] result = new int[countEnemy];
 
-            switch (this.Type)
+            switch (this.SpellType)
             {
                 case TypeOfSpell.Attacking:
 
@@ -60,7 +53,7 @@
                     {
                         for (int i = 0; i < countEnemy; i++)
                         {
-                            result[i] = GetDamage(random);
+                            result[i] = GetDamage();
                         }
                     }
                     else
@@ -68,7 +61,7 @@
                         foreach (var num in nums)
                         {
                             if (num <= countEnemy)
-                                result[num - 1] += GetDamage(random);
+                                result[num] += GetDamage();
                         }
                     }
                     break;
@@ -84,9 +77,9 @@
             return result;
         }
 
-        private int GetDamage(System.Random random)
+        private int GetDamage()
         {
-            return (int)((random.Next((int)(this.Accuracy * 100), 100) / 100d) * this.Damage) + 1;
+            return (int)((Program.Random.Next((int)(this.Accuracy * 100), 100) / 100d) * this.Damage) + 1;
         }
     }
 }

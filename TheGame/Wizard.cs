@@ -8,7 +8,7 @@ namespace TheGame
             this.TravelSkill = 0;
             this.BattleSkill = 0;
             this.Health = 200;
-            this.Mana = 200;
+            this.MaxMana = 200;
             this.Money = 200;
             this.PowerAttack = 8;
             this.Level = 1;
@@ -17,37 +17,24 @@ namespace TheGame
             this.BowAccuracy = 0.5f;
             this.MagicAccuracy = 0.9f;
             this.MagicLevel = 2;
-            this.Weapons = new List<ObjectStructures.Weapons> { Program.Swords[1]};
-            this.PlayerAttacks = GetAttacks();
+            this.CurrentMana = this.MaxMana;
+
+            this.Swords = new List<Sword>
+            {
+                Program.Swords[1]
+            };
             this.Spells = new List<Spell>
             {
                 Program.Spells[0]
             };
+
+            this.Bow = Program.Bows[0];
 
             this.Name = name;
             this.Position = position;
 
         }
 
-        private List<Attacks> GetAttacks()
-        {
-            List<Attacks> result = new List<Attacks>();
-            result.Add(SimpleSpellAttack);
 
-            return result;
-        }
-
-        public int[] SimpleSpellAttack(int countEmemy, params int[] nums)
-        {
-            int[] res = this.Spells[0].JoinSpell(countEmemy, nums);
-            for (int i = 0; i < res.Length; i++)
-            {
-                if (Program.Random.NextDouble() <= this.SwordAccuracy)
-                    res[i] += this.PowerAttack;
-                res[i] += Program.Random.Next(-5, 6);
-                if (res[i] < 0) res[i] = 0;
-            }
-            return res;
-        }
     }
 }
