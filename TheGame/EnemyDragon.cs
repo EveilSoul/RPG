@@ -8,17 +8,24 @@ namespace TheGame
 {
     class EnemyDragon : Enemy
     {
-        EnemyDragon()
+        EnemyDragon(int level)
         {
             this.Name = "Dragon";
-            this.PowerAttack = 150;
+            this.PowerAttack = 150 + level * level / 2;
             this.IsLive = true;
-            this.Health = 500;
+            this.Health = 498 + 2 * level * level;
         }
 
-        public static Enemy[] CreateEnemyDragon()
+        public static Enemy[] CreateEnemyDragon(int playerLevel)
         {
-            return new Enemy[] { new EnemyDragon() };
+            int level = Program.Random.Next(1, 101);
+
+            if (level <= 70) return new Enemy[] { new EnemyDragon(playerLevel) };
+            else if (level <= 80) return new Enemy[] { new EnemyDragon(playerLevel + 1) };
+            else if (level <= 90) return new Enemy[] { new EnemyDragon(playerLevel - 1) };
+            else if (level <= 95) return new Enemy[] { new EnemyDragon(playerLevel + 2) };
+            else if (level <= 98) return new Enemy[] { new EnemyDragon(playerLevel - 2) };
+            return new Enemy[] { new EnemyDragon(playerLevel + 3) };
         }
     }
 }

@@ -84,10 +84,10 @@ namespace TheGame
             //увеличивается вероятность выпадения дракона в зависиости от уровня
             int rand = Program.Random.Next(1, 151 + PlayerLevel * PlayerLevel * PlayerLevel);
 
-            if (rand >= 1 && rand <= 50) return EnemyWolf.CreateEnemyWolf();
-            if (rand > 50 && rand <= 100) return EnemyGoblin.CreateEnemyGoblin();
-            if (rand > 100 && rand <= 150) return EnemyBear.CreateEnemyBear();
-            return EnemyDragon.CreateEnemyDragon();
+            if (rand >= 1 && rand <= 50) return EnemyWolf.CreateEnemyWolf(PlayerLevel);
+            if (rand > 50 && rand <= 100) return EnemyGoblin.CreateEnemyGoblin(PlayerLevel);
+            if (rand > 100 && rand <= 150) return EnemyBear.CreateEnemyBear(PlayerLevel);
+            return EnemyDragon.CreateEnemyDragon(PlayerLevel);
         }
 
 

@@ -11,11 +11,11 @@ namespace TheGame
         public bool IsEnemy = false;
         public bool theBattleWas = false;
         public ObjectStructures.Position enemyPosition = new ObjectStructures.Position { X = 0, Y = 0 };
-        public ObjectStructures.Position theLastButtlePosition = new ObjectStructures.Position { X = 0, Y = 0 };
+        public ObjectStructures.Position theLastBattlePosition = new ObjectStructures.Position { X = 0, Y = 0 };
 
         public void GoBattle(ObjectStructures.Position playerPosition)
         {
-            if (!this.IsEnemy && MayNewBattle(this.theLastButtlePosition, playerPosition))
+            if (!this.IsEnemy && MayNewBattle(this.theLastBattlePosition, playerPosition))
             {
                 enemyPosition = Enemy.EnemyGenerationPosition(playerPosition);
             }
@@ -23,10 +23,12 @@ namespace TheGame
             {
                 if (Enemy.IsEnemyNear(enemyPosition, playerPosition))
                 {
+                    Window.PrintDangerous();
+
                     //BATLE
                     this.theBattleWas = true;
                     this.IsEnemy = false;
-                    this.theLastButtlePosition = playerPosition;
+                    this.theLastBattlePosition = playerPosition;
 
                 }
             }
