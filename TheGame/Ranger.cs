@@ -22,7 +22,7 @@ namespace TheGame
             this.PlayerAttacks = GetAttacks();
             this.Weapons = new System.Collections.Generic.List<ObjectStructures.Weapons>
             {
-                ObjectStructures.GetWeaponsFromFile(System.Environment.CurrentDirectory + @"\TextFiles\Swords\baseRangerBow.txt")
+                ObjectStructures.GetWeaponsFromFile(System.Environment.CurrentDirectory + @"\TextFiles\Swords\baseRangerBow.txt") 
             };
         }
 

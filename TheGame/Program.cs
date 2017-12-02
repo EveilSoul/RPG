@@ -15,7 +15,8 @@ namespace TheGame
         public static List<ObjectStructures.Weapons> Swords;
         public static List<Spell> Spells;
 
-        public static string[] NamesSwords = { @"\baseWarriorSword.txt" };
+        public static string[] NamesSwords = { @"\baseWarriorSword.txt", @"\baseWizardKnife.txt", @"\baseStilet.txt",
+        @"\middleElderSword.txt", @"\dragonSlayerSword.txt"};
         public static string[,] NamesArmor = {
             { @"\baseWarriorHeadArmor.txt", @"\baseWarriorBodyArmor.txt", @"\baseWarriorArmsArmor.txt", @"\baseWarriorLeggsArmor.txt", @"\baseWarriorBootsArmor.txt" }
         };

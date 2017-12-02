@@ -17,7 +17,7 @@ namespace TheGame
             this.BowAccuracy = 0.5f;
             this.MagicAccuracy = 0.9f;
             this.MagicLevel = 2;
-            this.Weapons = new System.Collections.Generic.List<ObjectStructures.Weapons>();
+            this.Weapons = new List<ObjectStructures.Weapons> { Program.Swords[1]};
             this.PlayerAttacks = GetAttacks();
             this.Spells = new List<Spell>
             {
