@@ -18,7 +18,8 @@ namespace TheGame
         public static string[] NamesSwords = { @"\baseWarriorSword.txt", @"\baseWizardKnife.txt", @"\baseStilet.txt",
         @"\middleElderSword.txt", @"\dragonSlayerSword.txt"};
         public static string[,] NamesArmor = {
-            { @"\baseWarriorHeadArmor.txt", @"\baseWarriorBodyArmor.txt", @"\baseWarriorArmsArmor.txt", @"\baseWarriorLeggsArmor.txt", @"\baseWarriorBootsArmor.txt" }
+            { @"\baseWarriorHeadArmor.txt", @"\baseWarriorBodyArmor.txt", @"\baseWarriorArmsArmor.txt", @"\baseWarriorLeggsArmor.txt", @"\baseWarriorBootsArmor.txt" },
+            { @"\baseRangerHeadArmor.txt", @"\baseRangerBodyArmor.txt", @"\baseRangerArmsArmor.txt", @"\baseRangerLeggsArmor.txt", @"\baseRangerBootsArmor.txt"  }
         };
         public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt" };
 

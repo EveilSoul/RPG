@@ -72,6 +72,7 @@ namespace TheGame
             Window.DrowWindow();
             while (true)
             {
+                ApplyDamage(10);
                 Window.ClearAndDrow(moveX, moveY);
 
                 if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)

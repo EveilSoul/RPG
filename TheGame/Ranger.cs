@@ -24,6 +24,7 @@ namespace TheGame
             {
                 ObjectStructures.GetWeaponsFromFile(System.Environment.CurrentDirectory + @"\TextFiles\Swords\baseRangerBow.txt") 
             };
+            this.Armor = Program.Armor[1];
         }
 
         List<Attacks> GetAttacks()
