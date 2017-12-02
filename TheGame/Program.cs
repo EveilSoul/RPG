@@ -89,8 +89,6 @@ namespace TheGame
             Spells = GetSpells(Path + @"\TextFiles\Spells");
             Swords = GetSwords(Path + @"\TextFiles\Swords");
 
-            LLL();
-
             BeginGame();
 
             Console.ReadKey();
@@ -116,60 +114,6 @@ namespace TheGame
                     wizard.JoinGame();
                     break;
             }
-        }
-
-        static void LLL()
-        {
-            Warrior warrior = new Warrior("", new ObjectStructures.Position());
-            Ranger ranger = new Ranger("", new ObjectStructures.Position());
-            Wizard wizard = new Wizard("", new ObjectStructures.Position());
-
-            for (int i = 0; i < 10; i++)
-            {
-                var t1 = warrior.Attack(1, 0, 0);
-                Console.Write("Wa {0} ", t1[0]);
-                var t2 = ranger.Attack(1, 0, 0);
-                Console.Write("R {0} ", t2[0]);
-                var t3 = wizard.Attack(1, 0, 0);
-                Console.Write("Wi {0} ", t3[0]);
-                Console.WriteLine();
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-                var t1 = warrior.Attack(5, 0, 0);
-                Console.Write("war ");
-                WriteArr(t1);
-                var t2 = ranger.Attack(5, 0, 0);
-                Console.Write("ran ");
-                WriteArr(t2);
-                var t3 = wizard.Attack(5, 0, 0);
-                Console.Write("wiz ");
-                WriteArr(t3);
-                Console.WriteLine();
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-                var t1 = warrior.Attack(10, 0, 0);
-                Console.Write("war ");
-                WriteArr(t1);
-                var t2 = ranger.Attack(10, 0, 0);
-                Console.Write("ran ");
-                WriteArr(t2);
-                var t3 = wizard.Attack(10, 0, 0);
-                Console.Write("wiz ");
-                WriteArr(t3);
-                Console.WriteLine();
-            }
-
-            Console.ReadKey();
-        }
-        static void WriteArr(int[] arr)
-        {
-            foreach (var t in arr)
-                Console.Write(t + " ");
-            Console.WriteLine();
         }
     }
 }
