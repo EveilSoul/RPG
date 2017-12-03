@@ -7,8 +7,30 @@ namespace TheGame
         public string Name;
         public ObjectStructures.Position Position;
 
+        List<string> Places = new List<string>();
+
         public City()
         {
+            Places.Add("Магазин для покупки брони");
+            Places.Add("Магазин для продажи брони");
+        }
+
+        public void Welcome(Player player)
+        {
+            Console.WriteLine("Добро пожаловать в город {0}, {1}", this.Name, player.Name);
+            int i = 0;
+            foreach (var place in Places)
+                Console.WriteLine("{1}: {0}", ++i, place);
+            Console.WriteLine("Куда бы вы хотели отправиться?");
+            switch(Console.ReadKey(true).Key)
+            {
+                case ConsoleKey.D1:
+                    ArmorShopPay(player);
+                    break;
+                case ConsoleKey.D2:
+                    ArmorShopSell(player);
+                    break;
+            }
         }
 
         public void ArmorShopPay(Player player)

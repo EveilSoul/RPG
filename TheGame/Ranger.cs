@@ -7,7 +7,8 @@ namespace TheGame
         {
             this.TravelSkill = 10;
             this.BattleSkill = 0;
-            this.Health = 220;
+            this.MaxHealth = 220;
+            this.CurrentHealth = MaxHealth;
             this.MaxMana = 160;
             this.Money = 200;
             this.PowerAttack = 10;
@@ -20,13 +21,15 @@ namespace TheGame
 
             this.Name = name;
             this.Position = position;
-            this.Swords = new List<Sword>
-            {
-                Program.Swords[2]
-            };
+
+            this.Swords = new List<Sword>();
+            this.AddSword(Program.Swords[2]);
+
             this.Spells = new List<Spell>();
             this.Bow = Program.Bows[0];
-            this.Armor = Program.Armor[1];
+
+            this.Armor = new ObjectStructures.ArmorComplect();
+            this.AddArmor(Program.Armor[1]);
         }
     }
 }

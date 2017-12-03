@@ -9,7 +9,8 @@ namespace TheGame
     public class Player
     {
         public string Name;
-        public int Health;
+        public int CurrentHealth;
+        public int MaxHealth;
         public int PowerAttack;
         public int MaxMana;
         public int CurrentMana;
@@ -48,7 +49,7 @@ namespace TheGame
         {
             int increase = (int)Math.Sqrt(this.BattleSkill) + 500 / this.BattleSkill;
 
-            this.Health += increase;
+            this.MaxHealth += increase;
 
             switch (this.Type)
             {
@@ -129,7 +130,7 @@ namespace TheGame
         public void DrawChracteristics()
         {
             Console.WriteLine("------------------------------");
-            Console.WriteLine("Health: {0}", this.Health);
+            Console.WriteLine("Health: {0}", this.MaxHealth);
             Console.WriteLine("Level: {0}", this.Level);
             Console.WriteLine("Position: ({0};{1})", this.Position.X, this.Position.Y);
         }
@@ -139,7 +140,7 @@ namespace TheGame
             var t = Program.Random.Next(0, 5);
             Console.WriteLine(t);
             damage = this.Armor.Protect(damage, t);
-            Health -= damage;
+            CurrentHealth -= damage;
         }
 
         private bool HaveMana(int mana)
@@ -247,6 +248,26 @@ namespace TheGame
             this.Armor = armor;
             this.MaxMana += armor.GetMana();
             this.CurrentMana = this.MaxMana;
+        }
+
+        public void AddSword(Sword sword)
+        {
+            if (sword.MinLevelToUse <= this.Level)
+            {
+                this.Swords.Add(sword);
+                this.MaxMana += sword.Mana;
+            }
+        }
+
+        public bool LearnSpell(Spell spell)
+        {
+            if (spell.MinLevelToUse <= this.MagicLevel && spell.Cost <= this.Money)
+            {
+                this.Money -= spell.Cost;
+                this.Spells.Add(spell);
+                return true;
+            }
+            else return false;
         }
     }
 }
