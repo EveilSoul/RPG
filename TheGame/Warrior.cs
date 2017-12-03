@@ -23,7 +23,7 @@ namespace TheGame
             {
                 Program.Swords[0]
             };
-            this.Spells = new List<Spell>();
+            this.Spells = new List<Spell> { Program.Spells[3]};
 
             this.Armor = Program.Armor[0];
 

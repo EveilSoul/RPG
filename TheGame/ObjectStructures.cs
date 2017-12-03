@@ -44,15 +44,44 @@ namespace TheGame
                 }
                 return damage;
             }
+
+            public string[] GetCharacteristics()
+            {
+                var res = this.Head.GetCharacteristics().ToList<string>();
+                res.AddRange(this.Body.GetCharacteristics());
+                res.AddRange(this.Arms.GetCharacteristics());
+                res.AddRange(this.Leggs.GetCharacteristics());
+                res.AddRange(this.Boots.GetCharacteristics());
+                return res.ToArray<string>();
+            }
+            public int GetCost()
+            {
+                return this.Head.Cost + this.Body.Cost + this.Arms.Cost + this.Leggs.Cost + this.Boots.Cost;
+            }
+            public int GetMana()
+            {
+                return this.Head.Mana + this.Body.Mana + this.Arms.Mana + this.Leggs.Mana + this.Boots.Mana;
+            }
+            public int GetRealCost()
+            {
+                return this.Head.GetCost() + this.Body.GetCost() + this.Arms.GetCost() + this.Leggs.GetCost() + this.Boots.GetCost();
+            }
         }
 
         public struct Armor
         {
+            public int MaxHealth;
             public string Name;
             public int Health;
             public int Cost;
             public float Strength;
+            public int Mana;
             public string Description;
+
+            public int GetCost()
+            {
+                return this.Cost * this.Health / this.MaxHealth;
+            }
 
             public int Protect(int damage)
             {
@@ -64,6 +93,15 @@ namespace TheGame
                     this.Health = 0;
                 }
                 return (int)damage;
+            }
+
+            public string[] GetCharacteristics()
+            {
+                return new string[]{ String.Format("Название: {0}", this.Name),
+                    String.Format("Количество жизней: {0}", this.Health),
+                    String.Format("Стоимость: {0}", this.Cost),
+                    String.Format("Прочность: {0}", this.Strength),
+                    this.Description + '\n'};
             }
         }
 
@@ -78,6 +116,10 @@ namespace TheGame
             armor.Strength = float.Parse(characteristics[3]);
             armor.Description = characteristics[4];
 
+            if (characteristics.Length != 5)
+                armor.Mana = int.Parse(characteristics[5]);
+
+            armor.MaxHealth = armor.Health;
             return armor;
         }
 

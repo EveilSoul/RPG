@@ -229,5 +229,24 @@ namespace TheGame
 
             return result;
         }
+
+        public bool GiveMoney(int count)
+        {
+            this.Money -= count;
+            if (Money >= 0)
+                return true;
+            this.Money += count;
+            return false;
+        }
+
+        public void AddMoney(int count) => this.Money += count;
+
+        public void AddArmor(ObjectStructures.ArmorComplect armor)
+        {
+            this.MaxMana -= this.Armor.GetMana();
+            this.Armor = armor;
+            this.MaxMana += armor.GetMana();
+            this.CurrentMana = this.MaxMana;
+        }
     }
 }
