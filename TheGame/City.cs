@@ -92,7 +92,7 @@ namespace TheGame
             else Console.WriteLine("У вас недостаточно средств");
         }
 
-        private void WriteCharacteristics(string[] original)
+        public void WriteCharacteristics(string[] original)
         {
             foreach (var t in original)
                 Console.WriteLine(t);
