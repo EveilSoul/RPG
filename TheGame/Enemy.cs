@@ -13,20 +13,22 @@ namespace TheGame
         public int PowerAttack;
         public int Health;
         public float Accuracy;
+        public ObjectStructures.Position Position;
+
 
         //атака на мостра
-        public void OnEnemyAtack(int damage, Enemy[] enemy, int[] numberAtackEnemy)
+        public static void OnEnemyAtack(int damage, Enemy[] enemy, int[] numberAtackEnemy)
         {
             for (int i = 0; i < numberAtackEnemy.Length; i++)
             {
-                enemy[i].Health -= damage;
-                if (enemy[i].Health <= 0)
-                    enemy[i].IsLive = false;
+                enemy[numberAtackEnemy[i]].Health -= damage;
+                if (enemy[numberAtackEnemy[i]].Health <= 0)
+                    enemy[numberAtackEnemy[i]].IsLive = false;
             }
         }
 
         //атака монстра
-        public int Attack(Enemy[] enemy)
+        public static int Attack(Enemy[] enemy)
         {
             int damage = 0;
             for (int i = 0; i < enemy.Length; i++)
@@ -38,7 +40,7 @@ namespace TheGame
         }
 
         //проверка того, жив ли хоть один враг
-        public bool IsEnemyLive(Enemy[] enemy)
+        public static bool IsEnemyLive(Enemy[] enemy)
         {
             bool result = false;
             for (int i = 0; i < enemy.Length; i++)
@@ -51,10 +53,10 @@ namespace TheGame
         public static ObjectStructures.Position EnemyGenerationPosition(ObjectStructures.Position playerPosition)
         {
             var enemyPosition = new ObjectStructures.Position {
-                X = Program.Random.Next(playerPosition.X - 2 * Window.WindowSizeX, 
-                playerPosition.X + 2 * Window.WindowSizeX),
-                Y = Program.Random.Next(playerPosition.Y - 2 * Window.WindowSizeY, 
-                playerPosition.Y + 2 * Window.WindowSizeY) }
+                X = Program.Random.Next(playerPosition.X - Window.WindowSizeX, 
+                playerPosition.X + Window.WindowSizeX),
+                Y = Program.Random.Next(playerPosition.Y - Window.WindowSizeY, 
+                playerPosition.Y + Window.WindowSizeY) }
             ;
             return enemyPosition;
         }
@@ -75,8 +77,14 @@ namespace TheGame
 
         public static bool IsEnemyNear(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
         {
-            return Math.Abs(enemyPosition.X - playerPosition.X) <= Window.WindowSizeX / 2 && 
-                Math.Abs(enemyPosition.Y - playerPosition.Y) <= Window.WindowSizeY / 2;
+            return Math.Abs(enemyPosition.X - playerPosition.X) <= Window.WindowSizeX / 3 && 
+                Math.Abs(enemyPosition.Y - playerPosition.Y) <= Window.WindowSizeY / 3;
+        }
+
+        public static bool IsEnemyFar(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
+        {
+            return Math.Abs(enemyPosition.X - playerPosition.X) >= Window.WindowSizeX/2 &&
+                Math.Abs(enemyPosition.Y - playerPosition.Y) >= Window.WindowSizeY/2;
         }
 
         public static Enemy[] CreateEnemy(int PlayerLevel)

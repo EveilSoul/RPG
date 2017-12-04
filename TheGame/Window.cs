@@ -13,6 +13,7 @@ namespace TheGame
         public static char PlayerSymble = '@';
         public static char EnemySymble = '*';
         private static char[,] Map = new char[WindowSizeY, WindowSizeX];
+        public static int EnemyGeneration = 4;
 
         public static void DrowWindow()
         {
@@ -44,35 +45,32 @@ namespace TheGame
         }
 
        
-        public static void PringEnemy(int enemyCount)
+        public static void PringEnemy(int enemyCount, Enemy[] enemy)
         {
-            
-            var enemy = new int[enemyCount];
             int count = 0;
-            bool isEnemy = false;
-            for (int i = 0; i < enemyCount; i++)
-            {
-                enemy[i] = Program.Random.Next((WindowSizeX - 1) / 2 - 5, (WindowSizeX - 1) / 2 + 6);
-            }
+            
+                for (int i = -1*(enemyCount-1); i < enemyCount; i+=2)
+                {
+                    Map[EnemyGeneration, WindowSizeX / 2 + i] = EnemySymble;
 
+                    enemy[count].Position = new ObjectStructures.Position { X = EnemyGeneration, Y = WindowSizeX / 2 + i };
+                }
+            
+            
+            Map[WindowSizeY / 2, WindowSizeX / 2] = PlayerSymble;
+            Console.Clear();
+            DrowMap();
+        }
+
+        public static void ClearMap()
+        {
             for (int i = 0; i < WindowSizeY; i++)
             {
-                for (int j = 0; j < WindowSizeX; j++)
+                for(int j = 0; j < WindowSizeX; j++)
                 {
-                    if (count < enemyCount && ((i == WindowSizeY / 2 - (enemyCount + 1) / 2) || isEnemy) && j == enemy[count] && i != WindowSizeY / 2)
-                    {
-                        Console.Write(EnemySymble);
-                        count++;
-                        isEnemy = true;
-                        break;
-                    }
-                    else if (i == (WindowSizeY - 1) / 2 && j == (WindowSizeX - 1) / 2)
-                        Console.Write(PlayerSymble);
-                    else Console.Write(" ");
+                    Map[i, j] = ' ';
                 }
-                Console.WriteLine();
             }
-
         }
 
     }

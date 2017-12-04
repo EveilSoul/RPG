@@ -8,36 +8,58 @@ namespace TheGame
 {
     class Battle
     {
-        public bool IsEnemy = false;
-        public bool theBattleWas = false;
-        public ObjectStructures.Position enemyPosition = new ObjectStructures.Position { X = 0, Y = 0 };
-        public ObjectStructures.Position theLastBattlePosition = new ObjectStructures.Position { X = 0, Y = 0 };
+        public static bool IsEnemy = false;
+        public static bool TheBattleWas = false;
+        public static ObjectStructures.Position enemyPosition = new ObjectStructures.Position { X = 0, Y = 0 };
+        public static ObjectStructures.Position theLastBattlePosition = new ObjectStructures.Position { X = 0, Y = 0 };
 
-        public void GoBattle(ObjectStructures.Position playerPosition)
+        public static void GoBattle(ObjectStructures.Position playerPosition)
         {
-            if (!this.IsEnemy && MayNewBattle(this.theLastBattlePosition, playerPosition))
+            if (MayNewBattle(theLastBattlePosition, playerPosition) || !TheBattleWas)
             {
-                enemyPosition = Enemy.EnemyGenerationPosition(playerPosition);
-            }
-            else
-            {
-                if (Enemy.IsEnemyNear(enemyPosition, playerPosition))
+                if (!IsEnemy || Enemy.IsEnemyFar(enemyPosition, playerPosition))
                 {
-                    //Window.PrintDangerous();
-
-                    //BATLE
-                    this.theBattleWas = true;
-                    this.IsEnemy = false;
-                    this.theLastBattlePosition = playerPosition;
-
+                    enemyPosition = Enemy.EnemyGenerationPosition(playerPosition);
+                    IsEnemy = true;
                 }
+                else
+                {
+                    if (Enemy.IsEnemyNear(enemyPosition, playerPosition))
+                    {
+                        //Window.PrintDangerous();
+                        
+                        var enemy = Enemy.CreateEnemy(1);
+                        while (Enemy.IsEnemyLive(enemy))
+                        {
+                            Window.PringEnemy(enemy.Length, enemy);
+
+                            var numberOnEnemyAtsck = new int[enemy.Length];
+                            for (int i = 0; i < numberOnEnemyAtsck.Length; i++)
+                            {
+                                numberOnEnemyAtsck[i] = i;
+                            }
+
+                            Enemy.OnEnemyAtack(10, enemy, numberOnEnemyAtsck);
+                            Console.ReadLine();
+                        }
+
+                        Window.ClearMap();
+
+                        
+                        TheBattleWas = true;
+                        IsEnemy = false;
+                        theLastBattlePosition = playerPosition;
+
+                    }
+                }
+            
             }
         }
 
         public static bool MayNewBattle(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
         {
             return (int)(Math.Sqrt((lastPosition.X - newPosition.X) * (lastPosition.X - newPosition.X) +
-                (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 30;
+                (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 10;
         }
 
     }
