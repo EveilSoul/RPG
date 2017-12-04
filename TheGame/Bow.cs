@@ -29,7 +29,7 @@
 
         public int Attack()
         {
-            return 0;
+            return this.PowerAttack + Program.Random.Next(-3, 4);
         }
     }
 }

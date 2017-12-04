@@ -18,7 +18,7 @@ namespace TheGame
 
         public void Welcome(Player player)
         {
-            Console.WriteLine("Добро пожаловать в город {0}, {1}", this.Name, player.Name);
+            Console.WriteLine("Добро пожаловать в {0}, {1}", this.Name, player.Name);
             int i = 0;
             foreach (var place in Places)
                 Console.WriteLine("{1}: {0}", ++i, place);

@@ -81,6 +81,7 @@ namespace TheGame
             {
                 Console.Write("{0} ",enemy[i].Health);
             }
+            Console.WriteLine();
 
         }
 

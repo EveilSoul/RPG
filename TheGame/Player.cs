@@ -87,13 +87,12 @@ namespace TheGame
             while (true)
             {
                 Window.ClearAndDrow(moveX, moveY);
-
+                Battle.GoBattle(this);
                 if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
                 {
                     moveX = 0;
                     moveY = 0;
                     Window.ClearAndDrow(moveX, moveY);
-
                 }
                 DrawChracteristics();
                 KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
@@ -167,9 +166,9 @@ namespace TheGame
         }
 
         public int[] Attack(int countEnemy,
-            Weapons weapons, Bow bow = null, Spell spell = null, Sword sword = null, params int[] nums)
+            Weapons.WeaponsType weapons, Bow bow = null, Spell spell = null, Sword sword = null, params int[] nums)
         {
-            switch (weapons.TypeOfWeapons)
+            switch (weapons)
             {
                 case Weapons.WeaponsType.Bow:
                     return SimpleBowAttack(countEnemy, bow);
@@ -301,5 +300,21 @@ namespace TheGame
             }
             return null;
         }
+
+        public Weapons.WeaponsType SelectType()
+        {
+            if (this.Swords.Count != 0)
+                Console.WriteLine("1: Меч");
+            if (this.Bow != null)
+                Console.WriteLine("2: Лук");
+            if (this.Spells.Count != 0)
+                Console.WriteLine("3. Заклинание");
+            return (Weapons.WeaponsType)(int.Parse(Console.ReadLine()) - 1);
+        }
+
+        public Sword GetSword(int index) =>
+            this.Swords[index];
+        public Spell GetSpell(int index) =>
+            this.Spells[index];
     }
 }

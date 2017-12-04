@@ -13,48 +13,57 @@ namespace TheGame
         public static ObjectStructures.Position enemyPosition = new ObjectStructures.Position { X = 0, Y = 0 };
         public static ObjectStructures.Position theLastBattlePosition = new ObjectStructures.Position { X = 0, Y = 0 };
 
-        public static void GoBattle(ObjectStructures.Position playerPosition)
+        public static void GoBattle(Player player)
         {
-            if (MayNewBattle(theLastBattlePosition, playerPosition) || !TheBattleWas)
+            if (MayNewBattle(theLastBattlePosition, player.Position) || !TheBattleWas)
             {
-                if (!IsEnemy || Enemy.IsEnemyFar(enemyPosition, playerPosition))
+                if (!IsEnemy || Enemy.IsEnemyFar(enemyPosition, player.Position))
                 {
-                    enemyPosition = Enemy.EnemyGenerationPosition(playerPosition);
+                    enemyPosition = Enemy.EnemyGenerationPosition(player.Position);
                     IsEnemy = true;
                 }
                 else
                 {
-                    if (Enemy.IsEnemyNear(enemyPosition, playerPosition))
+                    if (Enemy.IsEnemyNear(enemyPosition, player.Position))
                     {
                         //Window.PrintDangerous();
-                        
+
                         var enemy = Enemy.CreateEnemy(1);
                         while (Enemy.IsEnemyLive(enemy))
                         {
                             Window.PrintEnemy(enemy.Length, enemy);
-                            
 
-                            var numberOnEnemyAtsck = new int[enemy.Length];
-                            for (int i = 0; i < numberOnEnemyAtsck.Length; i++)
-                            {
-                                numberOnEnemyAtsck[i] = 10 + i*2;
-                            }
-                            
+                            int index = 0; //ChoiceWeapons, use player.GetCharacteristics, later choice enemy
+                            var bow = player.Bow;
+                            var sword = player.GetSword(index);
+                            var spell = player.GetSpell(index);
+                            //нужен метод для выбора типа оружия для атаки и переопределение индекса
+                            var numberOnEnemyAtsck = player.Attack(
+                                enemy.Length, player.SelectType(), bow, spell, sword, index);
+                            /* Для примера того, как это может еще работать
+                             * var numberOnEnemyAtsck = player.Attack(
+                                enemy.Length, Weapons.WeaponsType.Bow, bow, null, null, 0);
+
+                             *  var numberOnEnemyAtsck = player.Attack(
+                                enemy.Length, Weapons.WeaponsType.Spell, null, spell, null, 0);
+                                либо в конце индекс(ы) противников
+
+                             *  var numberOnEnemyAtsck = player.Attack(
+                                enemy.Length, Weapons.WeaponsType.Sword, null, null, sword, index);
+                             */
 
                             Enemy.OnEnemyAtack(enemy, numberOnEnemyAtsck);
-                            Console.ReadLine();
+                            //Console.ReadLine();
                         }
 
                         Window.ClearMap();
 
-                        
                         TheBattleWas = true;
                         IsEnemy = false;
-                        theLastBattlePosition = playerPosition;
-
+                        theLastBattlePosition = player.Position;
                     }
                 }
-            
+
             }
         }
 

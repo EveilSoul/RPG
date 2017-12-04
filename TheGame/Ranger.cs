@@ -23,6 +23,7 @@ namespace TheGame
 
             this.AddSword(Program.Swords[2]);
             this.Bow = Program.Bows[0];
+            this.Spells.Add(Program.Spells[0]);
 
             this.AddArmor(Program.Armor[1]);
         }

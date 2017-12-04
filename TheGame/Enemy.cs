@@ -23,7 +23,10 @@ namespace TheGame
             {
                 enemy[i].Health -= damageAtackEnemy[i];
                 if (enemy[i].Health <= 0)
+                {
+                    enemy[i].Health = 0;
                     enemy[i].IsLive = false;
+                }
             }
         }
 
