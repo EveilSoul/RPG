@@ -17,13 +17,13 @@ namespace TheGame
 
 
         //атака на мостра
-        public static void OnEnemyAtack(int damage, Enemy[] enemy, int[] numberAtackEnemy)
+        public static void OnEnemyAtack(Enemy[] enemy, int[] damageAtackEnemy)
         {
-            for (int i = 0; i < numberAtackEnemy.Length; i++)
+            for (int i = 0; i < damageAtackEnemy.Length; i++)
             {
-                enemy[numberAtackEnemy[i]].Health -= damage;
-                if (enemy[numberAtackEnemy[i]].Health <= 0)
-                    enemy[numberAtackEnemy[i]].IsLive = false;
+                enemy[i].Health -= damageAtackEnemy[i];
+                if (enemy[i].Health <= 0)
+                    enemy[i].IsLive = false;
             }
         }
 

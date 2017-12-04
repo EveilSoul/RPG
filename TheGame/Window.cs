@@ -14,6 +14,7 @@ namespace TheGame
         public static char EnemySymble = '*';
         private static char[,] Map = new char[WindowSizeY, WindowSizeX];
         public static int EnemyGeneration = 4;
+        public static bool IsBattle = false;
 
         public static void DrowWindow()
         {
@@ -45,7 +46,7 @@ namespace TheGame
         }
 
        
-        public static void PringEnemy(int enemyCount, Enemy[] enemy)
+        public static void DrowEnemy(int enemyCount, Enemy[] enemy)
         {
             int count = 0;
             
@@ -54,12 +55,33 @@ namespace TheGame
                     Map[EnemyGeneration, WindowSizeX / 2 + i] = EnemySymble;
 
                     enemy[count].Position = new ObjectStructures.Position { X = EnemyGeneration, Y = WindowSizeX / 2 + i };
+                    count++;
                 }
             
             
             Map[WindowSizeY / 2, WindowSizeX / 2] = PlayerSymble;
+        }
+
+        public static void PrintEnemy(int enemyCount, Enemy[] enemy)
+        {
+            if (!IsBattle) DrowEnemy(enemyCount, enemy);
+            for (int i = 0; i < enemyCount; i++)
+            {
+                if (!enemy[i].IsLive && Map[enemy[i].Position.X, enemy[i].Position.Y] == EnemySymble)
+                {
+                    Map[enemy[i].Position.X, enemy[i].Position.Y] = ' ';
+                    enemy[i].Position = new ObjectStructures.Position { X = 0, Y = 0 };
+                }
+            }
             Console.Clear();
             DrowMap();
+
+            //test
+            for (int i = 0; i < enemyCount; i++)
+            {
+                Console.Write("{0} ",enemy[i].Health);
+            }
+
         }
 
         public static void ClearMap()

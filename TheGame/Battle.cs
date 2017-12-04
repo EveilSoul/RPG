@@ -31,15 +31,17 @@ namespace TheGame
                         var enemy = Enemy.CreateEnemy(1);
                         while (Enemy.IsEnemyLive(enemy))
                         {
-                            Window.PringEnemy(enemy.Length, enemy);
+                            Window.PrintEnemy(enemy.Length, enemy);
+                            
 
                             var numberOnEnemyAtsck = new int[enemy.Length];
                             for (int i = 0; i < numberOnEnemyAtsck.Length; i++)
                             {
-                                numberOnEnemyAtsck[i] = i;
+                                numberOnEnemyAtsck[i] = 10 + i*2;
                             }
+                            
 
-                            Enemy.OnEnemyAtack(10, enemy, numberOnEnemyAtsck);
+                            Enemy.OnEnemyAtack(enemy, numberOnEnemyAtsck);
                             Console.ReadLine();
                         }
 
