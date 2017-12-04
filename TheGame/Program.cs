@@ -117,6 +117,10 @@ namespace TheGame
             {
                 case Player.PlayerType.Warrior:
                     Warrior warrior = new Warrior(name, position);
+                    City city = new City();
+                    city.Name = "Ад";
+                    warrior.ApplyDamage(100);
+                    city.Welcome(warrior);
                     warrior.JoinGame();
                     break;
                 case Player.PlayerType.Ranger:

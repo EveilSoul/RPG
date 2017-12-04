@@ -39,6 +39,18 @@ namespace TheGame
         public Bow Bow;
         public List<Spell> Spells;
 
+        public Player(string name, ObjectStructures.Position position)
+        {
+            this.Name = name;
+            this.Position = position;
+            this.Level = 1;
+            this.Money = 200;
+
+            this.Swords = new List<Sword>();
+            this.Armor = new ObjectStructures.ArmorComplect();
+            this.Spells = new List<Spell>();
+        }
+
         public void Walk(int x, int y)
         {
             this.Position.X += x;

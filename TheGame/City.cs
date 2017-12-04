@@ -13,6 +13,7 @@ namespace TheGame
         {
             Places.Add("Магазин для покупки брони");
             Places.Add("Магазин для продажи брони");
+            Places.Add("Кузница, где можно отремонтировать броню");
         }
 
         public void Welcome(Player player)
@@ -22,7 +23,7 @@ namespace TheGame
             foreach (var place in Places)
                 Console.WriteLine("{1}: {0}", ++i, place);
             Console.WriteLine("Куда бы вы хотели отправиться?");
-            switch(Console.ReadKey(true).Key)
+            switch (Console.ReadKey(true).Key)
             {
                 case ConsoleKey.D1:
                     ArmorShopPay(player);
@@ -30,7 +31,13 @@ namespace TheGame
                 case ConsoleKey.D2:
                     ArmorShopSell(player);
                     break;
+                case ConsoleKey.D3:
+                    ForgeArmor(player);
+                    break;
+                case ConsoleKey.Escape:
+                    return;
             }
+            Welcome(player);
         }
 
         public void ArmorShopPay(Player player)
@@ -68,6 +75,21 @@ namespace TheGame
                     return;
             }
             ArmorShopSell(player);
+        }
+
+        public void ForgeArmor(Player player)
+        {
+            Console.WriteLine("Вы можете восстановить {0} единиц брони по стоимости 1 монета за {1} брони.",
+                player.Armor.GetHealthToAdd(), player.Armor.GetOnHPCost());
+            Console.WriteLine("Введите число единиц, которое вы хотите восстановить.");
+            int additionCount = int.Parse(Console.ReadLine());
+            if (player.GiveMoney(additionCount/player.Armor.GetOnHPCost()))
+            {
+                player.Armor.Repair(additionCount);
+                Console.WriteLine("Вы восстановили {0} единиц", additionCount);
+                WriteCharacteristics(player.Armor.GetCharacteristics());
+            }
+            else Console.WriteLine("У вас недостаточно средств");
         }
 
         private void WriteCharacteristics(string[] original)

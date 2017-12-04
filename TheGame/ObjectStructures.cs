@@ -54,17 +54,23 @@ namespace TheGame
                 res.AddRange(this.Boots.GetCharacteristics());
                 return res.ToArray<string>();
             }
-            public int GetCost()
+            public int GetCost() =>
+                this.Head.Cost + this.Body.Cost + this.Arms.Cost + this.Leggs.Cost + this.Boots.Cost;
+            public int GetMana() =>
+                this.Head.Mana + this.Body.Mana + this.Arms.Mana + this.Leggs.Mana + this.Boots.Mana;
+            public int GetRealCost() =>
+                this.Head.GetCost() + this.Body.GetCost() + this.Arms.GetCost() + this.Leggs.GetCost() + this.Boots.GetCost();
+            public int GetHealthToAdd() =>
+                this.Head.GetHealthToAdd() + this.Body.GetHealthToAdd() + this.Arms.GetHealthToAdd() + this.Leggs.GetHealthToAdd() + this.Boots.GetHealthToAdd();
+            public int GetOnHPCost() =>
+                this.Body.MaxHealth / this.Body.Cost;
+            public void Repair(int health)
             {
-                return this.Head.Cost + this.Body.Cost + this.Arms.Cost + this.Leggs.Cost + this.Boots.Cost;
-            }
-            public int GetMana()
-            {
-                return this.Head.Mana + this.Body.Mana + this.Arms.Mana + this.Leggs.Mana + this.Boots.Mana;
-            }
-            public int GetRealCost()
-            {
-                return this.Head.GetCost() + this.Body.GetCost() + this.Arms.GetCost() + this.Leggs.GetCost() + this.Boots.GetCost();
+                var hp = this.Body.Repair(health);
+                hp = this.Leggs.Repair(hp);
+                hp = this.Head.Repair(hp);
+                hp = this.Arms.Repair(hp);
+                hp = this.Boots.Repair(hp);
             }
         }
 
@@ -78,9 +84,21 @@ namespace TheGame
             public int Mana;
             public string Description;
 
-            public int GetCost()
+            public int GetCost() =>
+                this.Cost * this.Health / this.MaxHealth;
+
+            public int GetHealthToAdd() => this.MaxHealth - this.Health;
+
+            public int Repair(int hp)
             {
-                return this.Cost * this.Health / this.MaxHealth;
+                this.Health += hp;
+                if (this.Health > this.MaxHealth)
+                {
+                    hp = this.Health - this.MaxHealth;
+                    this.Health = this.MaxHealth;
+                    return hp;
+                }
+                return 0;
             }
 
             public int Protect(int damage)
