@@ -1,4 +1,5 @@
-﻿namespace TheGame
+﻿using System;
+namespace TheGame
 {
     public class Weapons
     {
@@ -18,6 +19,17 @@
             Sword,
             Bow,
             Spell
+        }
+
+        public virtual string[] GetCharacteristics()
+        {
+            return new[]
+            {
+                String.Format("\nИмя: {0}", this.Name),
+                String.Format("\r\rМощность атаки: {0}", this.PowerAttack),
+                String.Format("Вы сможете поразить не более, чем {0} противников", this.CountImpact),
+                String.Format("Описание: {0}",this.Description)
+            };
         }
     }
 }

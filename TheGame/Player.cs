@@ -281,5 +281,25 @@ namespace TheGame
             }
             else return false;
         }
+
+        public string[] GetCharacteristicsOfWeapons(Weapons.WeaponsType type)
+        {
+            switch (type)
+            {
+                case Weapons.WeaponsType.Bow:
+                    return this.Bow.GetCharacteristics();
+                case Weapons.WeaponsType.Sword:
+                    List<string> result = new List<string>();
+                    foreach (var t in this.Swords)
+                        result.AddRange(t.GetCharacteristics().ToList<string>());
+                    return result.ToArray();
+                case Weapons.WeaponsType.Spell:
+                    List<string> res = new List<string>();
+                    foreach (var t in this.Spells)
+                        res.AddRange(t.GetCharacteristics().ToList());
+                    return res.ToArray();
+            }
+            return null;
+        }
     }
 }

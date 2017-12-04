@@ -1,4 +1,5 @@
-﻿namespace TheGame
+﻿using System;
+namespace TheGame
 {
     public class Spell : Weapons
     {
@@ -39,6 +40,18 @@
             }
             for (int i = k; i < lines.Length; i++)
                 this.Description += lines[i] + "\n";
+        }
+
+        public override string[] GetCharacteristics()
+        {
+            return new[]
+            {
+                String.Format("\nИмя: {0}", this.Name),
+                String.Format("Мощность заклинания: {0}", this.Damage),
+                String.Format("Вы сможете поразить не более, чем {0} противников", this.CountImpact),
+                String.Format("Использование заклинания будет стоить {0} маны", this.Mana),
+                String.Format("Описание: {0}",this.Description)
+            };
         }
 
         public int[] JoinSpell(int countEnemy, params int[] nums)
