@@ -3,30 +3,28 @@ namespace TheGame
 {
     public class Ranger : Player
     {
-        public Ranger(string name, ObjectStructures.Position position)
+        public Ranger(string name, ObjectStructures.Position position) : base(name, position)
         {
             this.TravelSkill = 10;
             this.BattleSkill = 0;
-            this.Health = 220;
+
+            this.MaxHealth = 220;
             this.MaxMana = 160;
-            this.Money = 200;
             this.PowerAttack = 10;
-            this.Level = 1;
+
             this.Type = PlayerType.Ranger;
+
             this.SwordAccuracy = 0.75f;
             this.BowAccuracy = 0.9f;
             this.MagicAccuracy = 0.8f;
-            this.CurrentMana = this.MaxMana;
 
-            this.Name = name;
-            this.Position = position;
-            this.Swords = new List<Sword>
-            {
-                Program.Swords[2]
-            };
-            this.Spells = new List<Spell>();
+            this.CurrentMana = this.MaxMana;
+            this.CurrentHealth = this.MaxHealth;
+
+            this.AddSword(Program.Swords[2]);
             this.Bow = Program.Bows[0];
-            this.Armor = Program.Armor[1];
+
+            this.AddArmor(Program.Armor[1]);
         }
     }
 }

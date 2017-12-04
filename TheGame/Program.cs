@@ -19,12 +19,13 @@ namespace TheGame
 
         public static string[] NamesSwords = { @"\baseWarriorSword.txt", @"\baseWizardKnife.txt", @"\baseStilet.txt",
         @"\middleElderSword.txt", @"\dragonSlayerSword.txt"};
-        public static string[] NamesBows = {@"\baseRangerBow.txt", @"\legendaryBow.txt"};
+        public static string[] NamesBows = { @"\baseRangerBow.txt", @"\legendaryBow.txt" };
         public static string[,] NamesArmor = {
             { @"\baseWarriorHeadArmor.txt", @"\baseWarriorBodyArmor.txt", @"\baseWarriorArmsArmor.txt", @"\baseWarriorLeggsArmor.txt", @"\baseWarriorBootsArmor.txt" },
             { @"\baseRangerHeadArmor.txt", @"\baseRangerBodyArmor.txt", @"\baseRangerArmsArmor.txt", @"\baseRangerLeggsArmor.txt", @"\baseRangerBootsArmor.txt"  }
         };
-        public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt", @"\basePointAttack.txt", @"\middleThunderAttack.txt" };
+        public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt", @"\basePointAttack.txt", @"\middleThunderAttack.txt",
+        @"\baseWarriorMultiplyAttack.txt", @"\dragonsFlame.txt"};
 
         static List<Sword> GetSwords(string path)
         {
@@ -87,9 +88,9 @@ namespace TheGame
             return Console.ReadLine();
         }
 
-        public static ObjectStructures.Position GetPosition()
+        public static ObjectStructures.Position GetPosition(int min = -10, int max = 11)
         {
-            return new ObjectStructures.Position { X = Random.Next(-10, 11), Y = Random.Next(-10, 11) };
+            return new ObjectStructures.Position { X = Random.Next(min, max), Y = Random.Next(min, max) };
         }
 
         static void Main()
@@ -101,9 +102,6 @@ namespace TheGame
             Spells = GetSpells(Path + @"\TextFiles\Weapons\Spells");
             Swords = GetSwords(Path + @"\TextFiles\Weapons\Swords");
             Bows = GetBows(Path + @"\TextFiles\Weapons\Bows");
-
-            var dam = Spells[2].JoinSpell(10, 1);
-            dam = Spells[1].JoinSpell(2, 0);
 
             BeginGame();
 
@@ -119,6 +117,10 @@ namespace TheGame
             {
                 case Player.PlayerType.Warrior:
                     Warrior warrior = new Warrior(name, position);
+                    City city = new City();
+                    city.Name = "Ад";
+                    warrior.ApplyDamage(100);
+                    city.Welcome(warrior);
                     warrior.JoinGame();
                     break;
                 case Player.PlayerType.Ranger:
