@@ -23,7 +23,7 @@ namespace TheGame
         public float BowAccuracy;
         public float MagicAccuracy;
         public int MagicLevel = 1;
-
+        public bool IsLive;
         public delegate int[] Attacks(int countEnemy, int ingexOfWeapons, params int[] nums);
 
         public enum PlayerType
@@ -49,6 +49,7 @@ namespace TheGame
             this.Swords = new List<Sword>();
             this.Armor = new ObjectStructures.ArmorComplect();
             this.Spells = new List<Spell>();
+            this.IsLive = true;
         }
 
         public void Walk(int x, int y)
@@ -88,6 +89,7 @@ namespace TheGame
             {
                 Window.PrintMovePlayerOnMap(moveX, moveY);
                 Battle.GoBattle(this);
+                City.CheckPlayer(this);
                 if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
                 {
                     moveX = 0;
@@ -141,7 +143,7 @@ namespace TheGame
         public void DrawChracteristics()
         {
             Console.WriteLine("------------------------------");
-            Console.WriteLine("Health: {0}", this.MaxHealth);
+            Console.WriteLine("Health: {0}", this.CurrentHealth);
             Console.WriteLine("Level: {0}", this.Level);
             Console.WriteLine("Position: ({0};{1})", this.Position.X, this.Position.Y);
         }
@@ -152,6 +154,8 @@ namespace TheGame
             Console.WriteLine(t);
             damage = this.Armor.Protect(damage, t);
             CurrentHealth -= damage;
+            if (CurrentHealth <= 0)
+                this.IsLive = false;
         }
 
         private bool HaveMana(int mana)

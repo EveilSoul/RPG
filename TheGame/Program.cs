@@ -16,6 +16,7 @@ namespace TheGame
         public static List<Sword> Swords;
         public static List<Bow> Bows;
         public static List<Spell> Spells;
+        public static List<City> Cities;
 
         public static string[] NamesSwords = { @"\baseWarriorSword.txt", @"\baseWizardKnife.txt", @"\baseStilet.txt",
         @"\middleElderSword.txt", @"\dragonSlayerSword.txt"};
@@ -26,6 +27,7 @@ namespace TheGame
         };
         public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt", @"\basePointAttack.txt", @"\middleThunderAttack.txt",
         @"\baseWarriorMultiplyAttack.txt", @"\dragonsFlame.txt"};
+        public static string[] CitiesNames = { "Неаполь" };
 
         static List<Sword> GetSwords(string path)
         {
@@ -68,7 +70,6 @@ namespace TheGame
             return result;
         }
 
-
         static Player.PlayerType SelectType()
         {
             Console.WriteLine(File.ReadAllText(Path + @"\TextFiles\types.txt"));
@@ -88,6 +89,17 @@ namespace TheGame
             return Console.ReadLine();
         }
 
+        public static List<City> GetCities()
+        {
+            var result = new List<City>();
+            foreach (var name in CitiesNames)
+                result.Add(new City(name, GetPosition(0,0)));
+            return result;
+        }
+
+        public static double GetDistance(ObjectStructures.Position first, ObjectStructures.Position second) =>
+            Math.Sqrt(Math.Pow(first.X - second.X, 2) + Math.Pow(first.Y - second.Y, 2));
+
         public static ObjectStructures.Position GetPosition(int min = -10, int max = 11)
         {
             return new ObjectStructures.Position { X = Random.Next(min, max), Y = Random.Next(min, max) };
@@ -102,6 +114,7 @@ namespace TheGame
             Spells = GetSpells(Path + @"\TextFiles\Weapons\Spells");
             Swords = GetSwords(Path + @"\TextFiles\Weapons\Swords");
             Bows = GetBows(Path + @"\TextFiles\Weapons\Bows");
+            Cities = GetCities();
 
             BeginGame();
 
