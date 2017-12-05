@@ -18,19 +18,19 @@ namespace TheGame
             
         }
 
-        public static Enemy[] CreateEnemyWolf(int playerLevel = 1)
+        public static List<Enemy> CreateEnemyWolf(int playerLevel = 1)
         {
             int count = Program.Random.Next(3, 6);
             int level = Program.Random.Next(1, 101);
-            var enemyes = new Enemy[count];
+            var enemyes = new List<Enemy>(count);
             for (int i = 0; i < count; i++)
             {
-                if (level<=70) enemyes[i] = new EnemyWolf(playerLevel);
-                else if (level <= 80) enemyes[i] = new EnemyWolf(playerLevel + 1);
-                else if (level <= 90) enemyes[i] = new EnemyWolf(playerLevel - 1);
-                else if (level <= 95) enemyes[i] = new EnemyWolf(playerLevel + 2);
-                else if (level <= 98) enemyes[i] = new EnemyWolf(playerLevel - 2);
-                else enemyes[i] = new EnemyWolf(playerLevel + 3);
+                if (level<=70) enemyes.Add(new EnemyWolf(playerLevel));
+                else if (level <= 80) enemyes.Add(new EnemyWolf(playerLevel + 1));
+                else if (level <= 90) enemyes.Add(new EnemyWolf(playerLevel - 1));
+                else if (level <= 95) enemyes.Add(new EnemyWolf(playerLevel + 2));
+                else if (level <= 98) enemyes.Add(new EnemyWolf(playerLevel - 2));
+                else enemyes.Add(new EnemyWolf(playerLevel + 3));
             }
             return enemyes;
         }

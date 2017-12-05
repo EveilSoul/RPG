@@ -16,6 +16,7 @@ namespace TheGame
         private static char[,] Map = new char[WindowSizeY, WindowSizeX];
         public static int EnemyGeneration = 4;
         public static bool IsBattle = false;
+        public static int EnemyCount;
 
         public static void DrowWindow()
         {
@@ -35,7 +36,7 @@ namespace TheGame
                 }
                 Console.WriteLine();
             }
-            
+
 
         }
 
@@ -48,7 +49,7 @@ namespace TheGame
         }
 
 
-        public static void DrowEnemy(int enemyCount, Enemy[] enemy)
+        public static void DrowEnemy(int enemyCount, List<Enemy> enemy)
         {
             int count = 0;
 
@@ -64,22 +65,37 @@ namespace TheGame
             Map[WindowSizeY / 2, WindowSizeX / 2] = PlayerSymble;
         }
 
-        public static void PrintEnemy(int enemyCount, Enemy[] enemy)
+        public static void PrintEnemy(List<Enemy> enemy)
         {
-            if (!IsBattle) DrowEnemy(enemyCount, enemy);
-            for (int i = 0; i < enemyCount; i++)
+            if (!IsBattle)
             {
-                if (!enemy[i].IsLive && Map[enemy[i].Position.X, enemy[i].Position.Y] == EnemySymble)
-                {
-                    Map[enemy[i].Position.X, enemy[i].Position.Y] = ' ';
+                EnemyCount = enemy.Count;
+                DrowEnemy(EnemyCount, enemy);
+                IsBattle = true;
+            }
 
+
+            for (int i = 0; i < WindowSizeX; i++)
+            {
+                if (Map[EnemyGeneration, i] == EnemySymble)
+                {
+                    bool isEnemy = false;
+                    for (int j = 0; j < enemy.Count; j++)
+                    {
+                        if (enemy[j].Position.Y == i)
+                        {
+                            isEnemy = true;
+                            break;
+                        }
+                    }
+                    if (!isEnemy) Map[EnemyGeneration, i] = ' ';
                 }
             }
             Console.Clear();
             PrintMap();
 
             //test
-            for (int i = 0; i < enemyCount; i++)
+            for (int i = 0; i < enemy.Count; i++)
             {
                 Console.Write("{0} ", enemy[i].Health);
             }
@@ -87,19 +103,10 @@ namespace TheGame
 
         }
 
-        public static void PrintDangerous()
-        {
-            Console.BackgroundColor = ConsoleColor.Red;
-            for (int j = 0; j < 100; j++) Console.Write("Dangerous ");
-            Thread.Sleep(2000);
-            Console.BackgroundColor = ConsoleColor.Green;
-
-        }
 
         public static void PrintOnEnemyAtack()
         {
-            for (int k = 0; k < 3; k++)
-            {
+
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 for (int i = 0; i < WindowSizeY; i++)
@@ -112,7 +119,7 @@ namespace TheGame
                     Console.WriteLine();
                 }
                 Thread.Sleep(400);
-            }
+            
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Black;
@@ -122,10 +129,8 @@ namespace TheGame
 
         public static void PrintEnemyAtack()
         {
-            for(int k = 0; k < 3; k++)
-            {
+
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Black;
                 for (int i = 0; i < WindowSizeY; i++)
                 {
                     if (i > 4) Console.ForegroundColor = ConsoleColor.Red;
@@ -136,7 +141,7 @@ namespace TheGame
                     Console.WriteLine();
                 }
                 Thread.Sleep(400);
-            }
+            
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Black;

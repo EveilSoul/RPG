@@ -16,16 +16,16 @@ namespace TheGame
             this.Health = 98 + 2 * level * level;
         }
 
-        public static Enemy[] CreateEnemyBear(int playerLevel)
+        public static List<Enemy> CreateEnemyBear(int playerLevel)
         {
             int level = Program.Random.Next(1, 101);
 
-            if (level <= 70) return new Enemy[] { new EnemyBear(playerLevel) };
-            else if (level <= 80) return new Enemy[] { new EnemyBear(playerLevel + 1) };
-            else if (level <= 90) return new Enemy[] { new EnemyBear(playerLevel - 1) };
-            else if (level <= 95) return new Enemy[] { new EnemyBear(playerLevel + 2) };
-            else if (level <= 98) return new Enemy[] { new EnemyBear(playerLevel - 2) };
-            return new Enemy[] { new EnemyBear(playerLevel + 3) };
+            if (level <= 70) return new List<Enemy> { new EnemyBear(playerLevel) };
+            else if (level <= 80) return new List<Enemy> { new EnemyBear(playerLevel + 1) };
+            else if (level <= 90) return new List<Enemy> { new EnemyBear(playerLevel - 1) };
+            else if (level <= 95) return new List<Enemy> { new EnemyBear(playerLevel + 2) };
+            else if (level <= 98) return new List<Enemy> { new EnemyBear(playerLevel - 2) };
+            return new List<Enemy> { new EnemyBear(playerLevel + 3) };
 
         }
     }

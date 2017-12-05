@@ -17,17 +17,15 @@ namespace TheGame
 
 
         //атака на мостра
-        public static void OnEnemyAtack(Enemy[] enemy, int[] damageAtackEnemy)
+        public static void OnEnemyAtack(List<Enemy> enemy, int[] damageAtackEnemy)
         {
             for (int i = 0; i < damageAtackEnemy.Length; i++)
             {
                 enemy[i].Health -= damageAtackEnemy[i];
-                if (enemy[i].Health <= 0)
-                {
-                    enemy[i].Health = 0;
-                    enemy[i].IsLive = false;
-                }
             }
+            for (int i = enemy.Count-1; i >=0 ; i--)
+                if (enemy[i].Health <= 0)
+                    enemy.RemoveAt(i);
         }
 
         //атака монстра
@@ -39,10 +37,10 @@ namespace TheGame
         }
 
         //проверка того, жив ли хоть один враг
-        public static bool IsEnemyLive(Enemy[] enemy)
+        public static bool IsEnemyLive(List<Enemy> enemy)
         {
             bool result = false;
-            for (int i = 0; i < enemy.Length; i++)
+            for (int i = 0; i < enemy.Count; i++)
             {
                 result = result || enemy[i].IsLive;
             }
@@ -60,33 +58,19 @@ namespace TheGame
             return enemyPosition;
         }
 
-
-        public void PrintEnemy(int enemyCount, Enemy enemy)
-        {
-            Console.Clear();
-            Console.WriteLine("You have " + enemyCount + " enemy!");
-            for (int i = 0; i < enemyCount; i++)
-            {
-                Console.WriteLine(enemy.Name);
-                Console.WriteLine("Health: {0}", enemy.Health);
-                Console.WriteLine("Power atack: {0}", enemy.PowerAttack);
-
-            }
-        }
-
         public static bool IsEnemyNear(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
         {
-            return Math.Abs(enemyPosition.X - playerPosition.X) <= Window.WindowSizeX / 2 && 
-                Math.Abs(enemyPosition.Y - playerPosition.Y) <= Window.WindowSizeY / 2;
+            return Math.Abs(enemyPosition.X - playerPosition.X) <= Window.WindowSizeX && 
+                Math.Abs(enemyPosition.Y - playerPosition.Y) <= Window.WindowSizeY;
         }
 
         public static bool IsEnemyFar(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
         {
-            return Math.Abs(enemyPosition.X - playerPosition.X) >= Window.WindowSizeX &&
-                Math.Abs(enemyPosition.Y - playerPosition.Y) >= Window.WindowSizeY;
+            return Math.Abs(enemyPosition.X - playerPosition.X) >= Window.WindowSizeX/3 &&
+                Math.Abs(enemyPosition.Y - playerPosition.Y) >= Window.WindowSizeY/3;
         }
 
-        public static Enemy[] CreateEnemy(int PlayerLevel)
+        public static List<Enemy> CreateEnemy(int PlayerLevel)
         {
             //увеличивается вероятность выпадения дракона в зависиости от уровня
             int rand = Program.Random.Next(1, 151 + PlayerLevel * PlayerLevel * PlayerLevel);

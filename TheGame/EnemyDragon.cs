@@ -16,16 +16,16 @@ namespace TheGame
             this.Health = 498 + 2 * level * level;
         }
 
-        public static Enemy[] CreateEnemyDragon(int playerLevel)
+        public static List<Enemy> CreateEnemyDragon(int playerLevel)
         {
             int level = Program.Random.Next(1, 101);
 
-            if (level <= 70) return new Enemy[] { new EnemyDragon(playerLevel) };
-            else if (level <= 80) return new Enemy[] { new EnemyDragon(playerLevel + 1) };
-            else if (level <= 90) return new Enemy[] { new EnemyDragon(playerLevel - 1) };
-            else if (level <= 95) return new Enemy[] { new EnemyDragon(playerLevel + 2) };
-            else if (level <= 98) return new Enemy[] { new EnemyDragon(playerLevel - 2) };
-            return new Enemy[] { new EnemyDragon(playerLevel + 3) };
+            if (level <= 70) return new List<Enemy> { new EnemyDragon(playerLevel) };
+            else if (level <= 80) return new List<Enemy> { new EnemyDragon(playerLevel + 1) };
+            else if (level <= 90) return new List<Enemy> { new EnemyDragon(playerLevel - 1) };
+            else if (level <= 95) return new List<Enemy> { new EnemyDragon(playerLevel + 2) };
+            else if (level <= 98) return new List<Enemy> { new EnemyDragon(playerLevel - 2) };
+            return new List<Enemy> { new EnemyDragon(playerLevel + 3) };
         }
     }
 }
