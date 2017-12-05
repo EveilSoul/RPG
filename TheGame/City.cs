@@ -9,11 +9,27 @@ namespace TheGame
 
         List<string> Places = new List<string>();
 
-        public City()
+        public City(string name, ObjectStructures.Position position)
         {
+            this.Name = name;
+            this.Position = position;
             Places.Add("Магазин для покупки брони");
             Places.Add("Магазин для продажи брони");
-            Places.Add("Кузница, где можно отремонтировать броню");
+            Places.Add("Ремонт брони");
+        }
+
+        public static void CheckPlayer(Player player)
+        {
+            foreach (var t in Program.Cities)
+                t.IsCityNear(player);
+        }
+
+        public void IsCityNear(Player player)
+        {
+            if (Program.GetDistance(this.Position, player.Position) < 2)
+            {
+                Welcome(player);
+            }
         }
 
         public void Welcome(Player player)
