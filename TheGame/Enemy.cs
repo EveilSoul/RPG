@@ -12,7 +12,7 @@ namespace TheGame
         public bool IsLive;
         public int PowerAttack;
         public int Health;
-        public float Accuracy;
+        public float Accuracy = 0.9f;
         public ObjectStructures.Position Position;
 
 
@@ -31,15 +31,11 @@ namespace TheGame
         }
 
         //атака монстра
-        public static int Attack(Enemy[] enemy)
+        public int EnemyAttack()
         {
-            int damage = 0;
-            for (int i = 0; i < enemy.Length; i++)
-            {
-                if (Program.Random.NextDouble() <= enemy[i].Accuracy)
-                    damage += enemy[i].PowerAttack + Program.Random.Next(-3, 4);
-            }
-            return damage;
+            if (Program.Random.NextDouble() <= this.Accuracy && this.IsLive)
+                return this.PowerAttack + Program.Random.Next(-3, 4);
+            else return 0;
         }
 
         //проверка того, жив ли хоть один враг

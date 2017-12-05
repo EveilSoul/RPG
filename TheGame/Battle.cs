@@ -32,7 +32,7 @@ namespace TheGame
                         while (Enemy.IsEnemyLive(enemy))
                         {
                             Window.PrintEnemy(enemy.Length, enemy);
-                            
+                            Console.WriteLine(player.CurrentHealth);
 
 
                             int index = 0; //ChoiceWeapons, use player.GetCharacteristics, later choice enemy
@@ -55,7 +55,8 @@ namespace TheGame
                              */
                             
                             Enemy.OnEnemyAtack(enemy, numberOnEnemyAtsck);
-                            
+                            for (int i = 0; i < enemy.Length; i++)
+                                player.ApplyDamage(enemy[i].EnemyAttack());
                             //вывод атак(нужна проверка живы ли мостры и игрок)
                             Window.PrintOnEnemyAtack();
                             Window.PrintEnemy(enemy.Length, enemy);
