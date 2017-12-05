@@ -60,6 +60,7 @@ namespace TheGame
 
         protected void ChangeBattleLevel()
         {
+            this.Level++;
             int increase = (int)Math.Sqrt(this.BattleSkill) + 500 / this.BattleSkill;
 
             this.MaxHealth += increase;
@@ -175,10 +176,13 @@ namespace TheGame
             switch (weapons)
             {
                 case Weapons.WeaponsType.Bow:
+                    this.BowAccuracy += 0.0001f;
                     return SimpleBowAttack(countEnemy, bow);
                 case Weapons.WeaponsType.Spell:
+                    this.MagicAccuracy += 0.0001f;
                     return SimpleSpellAttack(countEnemy, spell, nums);
                 case Weapons.WeaponsType.Sword:
+                    this.SwordAccuracy+=0.0001f;
                     return SimpleSwordAttack(countEnemy, sword, nums);
             }
             return new int[0];
@@ -318,7 +322,15 @@ namespace TheGame
 
         public Sword GetSword(int index) =>
             this.Swords[index];
+
         public Spell GetSpell(int index) =>
             this.Spells[index];
+
+        public void AddHP(int count)
+        {
+            this.CurrentHealth += count;
+            if (this.CurrentHealth > this.MaxHealth)
+                this.CurrentHealth = this.MaxHealth;
+        }
     }
 }

@@ -6,16 +6,19 @@ namespace TheGame
     {
         public string Name;
         public ObjectStructures.Position Position;
+        private int OneCoinCountHP;
 
         List<string> Places = new List<string>();
 
         public City(string name, ObjectStructures.Position position)
         {
+            OneCoinCountHP = 2;
             this.Name = name;
             this.Position = position;
             Places.Add("Магазин для покупки брони");
             Places.Add("Магазин для продажи брони");
             Places.Add("Ремонт брони");
+            Places.Add("Лечебница");
         }
 
         public static void CheckPlayer(Player player)
@@ -30,6 +33,17 @@ namespace TheGame
             {
                 Welcome(player);
             }
+        }
+
+        public void Hospital(Player player)
+        {
+            Console.WriteLine("Вы можете восстановить {0} здоровья", player.MaxHealth - player.CurrentHealth);
+            Console.WriteLine("Цена: 1 монета за {0} единиц здоровья", this.OneCoinCountHP);
+            Console.WriteLine("Сколько вы хотите восстановить?");
+            int hp = int.Parse(Console.ReadLine());
+            if (player.GiveMoney(hp / this.OneCoinCountHP))
+                player.AddHP(hp);
+            Console.WriteLine("Ваше здоровье теперь составляет {0}", player.CurrentHealth);
         }
 
         public void Welcome(Player player)
@@ -50,6 +64,9 @@ namespace TheGame
                 case ConsoleKey.D3:
                     ForgeArmor(player);
                     break;
+                case ConsoleKey.D4:
+                    Hospital(player);
+                    break;
                 case ConsoleKey.Escape:
                     return;
             }
@@ -59,7 +76,7 @@ namespace TheGame
         public void ArmorShopPay(Player player)
         {
             int i = 0;
-            Console.WriteLine("Здравствуйте, {0}. \n У вас имеется: {1} монет", player.Name, player.Money);
+            Console.WriteLine("Здравствуйте, {0}. \nУ вас имеется: {1} монет", player.Name, player.Money);
             foreach (var t in Program.Armor)
                 Console.WriteLine("{5}: {0}, {1}, {2}, {3}, {4}", t.Head.Name, t.Body.Name, t.Arms.Name, t.Leggs.Name, t.Boots.Name, ++i);
 
@@ -79,13 +96,13 @@ namespace TheGame
         public void ArmorShopSell(Player player)
         {
             Console.WriteLine("Здравствуйте, {0}", player.Name);
-            Console.WriteLine("Вы точно хотите продать вашу броню? Y / N \n Вы получите {0} монет", player.Armor.GetRealCost());
+            Console.WriteLine("Вы точно хотите продать вашу броню? \nY / N \n Вы получите {0} монет", player.Armor.GetRealCost());
             switch (Console.ReadKey(true).Key)
             {
                 case ConsoleKey.Y:
                     player.AddMoney(player.Armor.GetRealCost());
                     player.AddArmor(new ObjectStructures.ArmorComplect());
-                    Console.WriteLine("Вы успешно продали свой комплект брони. Ваш баланс: {0}", player.Money);
+                    Console.WriteLine("Вы успешно продали свой комплект брони.\nВаш баланс: {0}", player.Money);
                     return;
                 case ConsoleKey.N:
                     return;
