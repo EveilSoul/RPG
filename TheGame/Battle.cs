@@ -26,12 +26,11 @@ namespace TheGame
                 {
                     if (Enemy.IsEnemyNear(enemyPosition, player.Position))
                     {
-                        Window.PrintDangerous();
 
-                        var enemy = Enemy.CreateEnemy(1);
-                        while (Enemy.IsEnemyLive(enemy))
+                        var enemy = Enemy.CreateEnemy(player.Level);
+                        while (Enemy.IsEnemyLive(enemy) && player.CurrentHealth > 0)
                         {
-                            Window.PrintEnemy(enemy.Length, enemy);
+                            Window.PrintEnemy(enemy);
                             Console.WriteLine(player.CurrentHealth);
 
 
@@ -41,30 +40,26 @@ namespace TheGame
                             var spell = player.GetSpell(index);
                             //нужен метод для выбора типа оружия для атаки и переопределение индекса
                             var numberOnEnemyAtsck = player.Attack(
-                                enemy.Length, player.SelectType(), bow, spell, sword, index);
-                            /* Для примера того, как это может еще работать
-                             * var numberOnEnemyAtsck = player.Attack(
-                                enemy.Length, Weapons.WeaponsType.Bow, bow, null, null, 0);
-
-                             *  var numberOnEnemyAtsck = player.Attack(
-                                enemy.Length, Weapons.WeaponsType.Spell, null, spell, null, 0);
-                                либо в конце индекс(ы) противников
-
-                             *  var numberOnEnemyAtsck = player.Attack(
-                                enemy.Length, Weapons.WeaponsType.Sword, null, null, sword, index);
-                             */
+                                enemy.Count, player.SelectType(), bow, spell, sword, index);
                             
                             Enemy.OnEnemyAtack(enemy, numberOnEnemyAtsck);
-                            for (int i = 0; i < enemy.Length; i++)
-                                player.ApplyDamage(enemy[i].EnemyAttack());
-                            //вывод атак(нужна проверка живы ли мостры и игрок)
+                            
                             Window.PrintOnEnemyAtack();
-                            Window.PrintEnemy(enemy.Length, enemy);
-                            Window.PrintEnemyAtack();
-                            Window.PrintEnemy(enemy.Length, enemy);
+                            Window.PrintEnemy(enemy);
+
+                            for (int i = 0; i < enemy.Count; i++)
+                                player.ApplyDamage(enemy[i].EnemyAttack());
+
+                           
+                            if (Enemy.IsEnemyLive(enemy))
+                            {
+                                Window.PrintEnemyAtack();
+                                Window.PrintEnemy(enemy);
+                            }
                         }
 
                         Window.ClearMap();
+                        Window.IsBattle = false;
 
                         TheBattleWas = true;
                         IsEnemy = false;
