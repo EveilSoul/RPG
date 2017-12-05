@@ -15,6 +15,7 @@ namespace TheGame
 
         public static void GoBattle(Player player)
         {
+            Tuple<int, int> reward;
             if (MayNewBattle(theLastBattlePosition, player.Position) || !TheBattleWas)
             {
                 if (!IsEnemy || Enemy.IsEnemyFar(enemyPosition, player.Position))
@@ -28,29 +29,30 @@ namespace TheGame
                     {
 
                         var enemy = Enemy.CreateEnemy(player.Level);
-                        while (Enemy.IsEnemyLive(enemy) && player.CurrentHealth > 0)
+                        reward = enemy[0].Reward;
+                        while (Enemy.IsEnemyLive(enemy) && player.IsLive)
                         {
                             Window.PrintEnemy(enemy);
                             Console.WriteLine(player.CurrentHealth);
 
-
-                            int index = 0; //ChoiceWeapons, use player.GetCharacteristics, later choice enemy
+                            var type = player.SelectType();
+                            Window.PrintArray(player.GetCharacteristicsOfWeapons(type));
+                            int index = int.Parse(Console.ReadLine());
                             var bow = player.Bow;
-                            var sword = player.GetSword(index);
-                            var spell = player.GetSpell(index);
-                            //нужен метод для выбора типа оружия для атаки и переопределение индекса
+                            var sword = player.GetSword(index < player.Swords.Count ? index : 0);
+                            var spell = player.GetSpell(index < player.Spells.Count ? index : 0);
                             var numberOnEnemyAtsck = player.Attack(
-                                enemy.Count, player.SelectType(), bow, spell, sword, index);
-                            
+                                enemy.Count, type, bow, spell, sword, 0);
+
                             Enemy.OnEnemyAtack(enemy, numberOnEnemyAtsck);
-                            
+
                             Window.PrintOnEnemyAtack();
                             Window.PrintEnemy(enemy);
 
                             for (int i = 0; i < enemy.Count; i++)
                                 player.ApplyDamage(enemy[i].EnemyAttack());
 
-                           
+
                             if (Enemy.IsEnemyLive(enemy))
                             {
                                 Window.PrintEnemyAtack();
@@ -60,7 +62,13 @@ namespace TheGame
 
                         Window.ClearMap();
                         Window.IsBattle = false;
-
+                        if (player.IsLive)
+                        {
+                            player.AddMoney(reward.Item1);
+                            player.BattleSkill += reward.Item2;
+                            if (player.Level * 50 <= player.BattleSkill)
+                                player.ChangeBattleLevel();
+                        }
                         TheBattleWas = true;
                         IsEnemy = false;
                         theLastBattlePosition = player.Position;

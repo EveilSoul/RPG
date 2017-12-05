@@ -14,7 +14,7 @@ namespace TheGame
         public int Health;
         public float Accuracy = 0.9f;
         public ObjectStructures.Position Position;
-
+        public Tuple<int, int> Reward = Tuple.Create<int, int>(10,45);
 
         //атака на мостра
         public static void OnEnemyAtack(List<Enemy> enemy, int[] damageAtackEnemy)

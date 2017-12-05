@@ -11,7 +11,6 @@ namespace TheGame
             this.MaxHealth = 200;
             this.MaxMana = 150;
             this.PowerAttack = 8;
-            this.MagicLevel = 2;
 
             this.Type = PlayerType.Wizard;
 

@@ -18,6 +18,12 @@ namespace TheGame
         public static bool IsBattle = false;
         public static int EnemyCount;
 
+        public static void PrintArray(string[] array)
+        {
+            foreach(var t in array)
+                Console.WriteLine(t);
+        }
+
         public static void DrowWindow()
         {
             Console.SetWindowSize(WindowSizeX + 1, WindowSizeY + 10);

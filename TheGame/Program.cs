@@ -117,7 +117,8 @@ namespace TheGame
             Cities = GetCities();
 
             BeginGame();
-
+            Console.Clear();
+            Console.WriteLine("Игра завершена");
             Console.ReadKey();
         }
 

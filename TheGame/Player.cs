@@ -44,6 +44,7 @@ namespace TheGame
             this.Name = name;
             this.Position = position;
             this.Level = 1;
+            this.MagicLevel = 1;
             this.Money = 200;
 
             this.Swords = new List<Sword>();
@@ -58,35 +59,50 @@ namespace TheGame
             this.Position.Y += y;
         }
 
-        protected void ChangeBattleLevel()
+        public void ChangeBattleLevel()
         {
             this.Level++;
             int increase = (int)Math.Sqrt(this.BattleSkill) + 500 / this.BattleSkill;
-
             this.MaxHealth += increase;
-
             switch (this.Type)
             {
                 case PlayerType.Ranger:
                     this.MaxMana += increase;
                     this.PowerAttack += (2 * increase) / 3;
+                    this.BowAccuracy += 0.001f * this.Level;
+                    this.SwordAccuracy += 0.005f * this.Level;
+                    this.MagicAccuracy += 0.005f * this.Level;
+                    if (this.Level % 3 == 0)
+                        this.MagicLevel++;
                     break;
                 case PlayerType.Warrior:
                     this.MaxMana += increase / 2;
                     this.PowerAttack += increase;
+                    this.SwordAccuracy += 0.001f * this.Level;
+                    this.MagicAccuracy += 0.005f * this.Level;
+                    this.BowAccuracy += 0.007f * this.Level;
+                    if (this.Level % 4 == 0)
+                        this.MagicLevel++;
                     break;
                 case PlayerType.Wizard:
                     this.MaxMana += 2 * increase;
                     this.PowerAttack += increase / 2;
+                    this.MagicAccuracy += 0.001f * this.Level;
+                    this.SwordAccuracy += 0.005f * this.Level;
+                    this.BowAccuracy += 0.007f * this.Level;
+                    if (this.Level % 2 == 0)
+                        this.MagicLevel++;
                     break;
             }
+            this.CurrentHealth = this.MaxHealth;
+            this.CurrentMana = this.MaxMana;
         }
 
         public void JoinGame()
         {
             int moveX = 0, moveY = 0;
             Window.DrowWindow();
-            while (true)
+            while (this.IsLive)
             {
                 Window.PrintMovePlayerOnMap(moveX, moveY);
                 Battle.GoBattle(this);
@@ -127,7 +143,8 @@ namespace TheGame
                     moveX++;
                     break;
                 case ConsoleKey.I:
-                    //info
+                    DrawAllCharacteristics();
+                    Console.ReadKey(true);
                     break;
                 case ConsoleKey.H:
                     //help
@@ -147,6 +164,25 @@ namespace TheGame
             Console.WriteLine("Health: {0}", this.CurrentHealth);
             Console.WriteLine("Level: {0}", this.Level);
             Console.WriteLine("Position: ({0};{1})", this.Position.X, this.Position.Y);
+        }
+
+        public void DrawAllCharacteristics()
+        {
+            Console.Clear();
+            Console.WriteLine("Ваше имя: {0}", this.Name);
+            Console.WriteLine("Текущее здоровье: {0}", this.CurrentHealth);
+            Console.WriteLine("Максимальное здоровье: {0}", this.MaxHealth);
+            Console.WriteLine("Текущая мана: {0}", this.CurrentMana);
+            Console.WriteLine("Максимальная мана: {0}", this.MaxMana);
+            Console.WriteLine("Мощность атаки: {0}", this.PowerAttack);
+            Console.WriteLine("Баланс: {0}", this.Money);
+            Console.WriteLine("Тип: {0}", this.Type);
+            Console.WriteLine("Уровень: {0}", this.Level);
+            Console.WriteLine("Уровень магии {0}", this.MagicLevel);
+            Console.WriteLine("Опыт сражений {0}", this.BattleSkill);
+            Console.WriteLine("Навык использования меча {0}", this.SwordAccuracy);
+            Console.WriteLine("Навык стрельбы из лука {0}", this.BowAccuracy);
+            Console.WriteLine("Навык использования магии {0}", this.MagicAccuracy);
         }
 
         public void ApplyDamage(int damage)

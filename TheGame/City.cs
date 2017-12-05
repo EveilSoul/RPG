@@ -37,6 +37,7 @@ namespace TheGame
 
         public void Hospital(Player player)
         {
+            Console.WriteLine("Ваш баланс: {0}", player.Money);
             Console.WriteLine("Вы можете восстановить {0} здоровья", player.MaxHealth - player.CurrentHealth);
             Console.WriteLine("Цена: 1 монета за {0} единиц здоровья", this.OneCoinCountHP);
             Console.WriteLine("Сколько вы хотите восстановить?");
@@ -48,10 +49,11 @@ namespace TheGame
 
         public void Welcome(Player player)
         {
-            Console.WriteLine("Добро пожаловать в {0}, {1}", this.Name, player.Name);
+            Console.Clear();
+            Console.WriteLine("Добро пожаловать в {0},\n{1}", this.Name, player.Name);
             int i = 0;
             foreach (var place in Places)
-                Console.WriteLine("{1}: {0}", ++i, place);
+                Console.WriteLine("{0}: {1}", ++i, place);
             Console.WriteLine("Куда бы вы хотели отправиться?");
             switch (Console.ReadKey(true).Key)
             {
