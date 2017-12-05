@@ -26,12 +26,14 @@ namespace TheGame
                 {
                     if (Enemy.IsEnemyNear(enemyPosition, player.Position))
                     {
-                        //Window.PrintDangerous();
+                        Window.PrintDangerous();
 
                         var enemy = Enemy.CreateEnemy(1);
                         while (Enemy.IsEnemyLive(enemy))
                         {
                             Window.PrintEnemy(enemy.Length, enemy);
+                            
+
 
                             int index = 0; //ChoiceWeapons, use player.GetCharacteristics, later choice enemy
                             var bow = player.Bow;
@@ -51,9 +53,14 @@ namespace TheGame
                              *  var numberOnEnemyAtsck = player.Attack(
                                 enemy.Length, Weapons.WeaponsType.Sword, null, null, sword, index);
                              */
-
+                            
                             Enemy.OnEnemyAtack(enemy, numberOnEnemyAtsck);
-                            //Console.ReadLine();
+                            
+                            //вывод атак(нужна проверка живы ли мостры и игрок)
+                            Window.PrintOnEnemyAtack();
+                            Window.PrintEnemy(enemy.Length, enemy);
+                            Window.PrintEnemyAtack();
+                            Window.PrintEnemy(enemy.Length, enemy);
                         }
 
                         Window.ClearMap();

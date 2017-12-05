@@ -86,13 +86,13 @@ namespace TheGame
             Window.DrowWindow();
             while (true)
             {
-                Window.ClearAndDrow(moveX, moveY);
+                Window.PrintMovePlayerOnMap(moveX, moveY);
                 Battle.GoBattle(this);
                 if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
                 {
                     moveX = 0;
                     moveY = 0;
-                    Window.ClearAndDrow(moveX, moveY);
+                    Window.PrintMovePlayerOnMap(moveX, moveY);
                 }
                 DrawChracteristics();
                 KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);

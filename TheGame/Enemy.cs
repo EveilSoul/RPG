@@ -56,10 +56,10 @@ namespace TheGame
         public static ObjectStructures.Position EnemyGenerationPosition(ObjectStructures.Position playerPosition)
         {
             var enemyPosition = new ObjectStructures.Position {
-                X = Program.Random.Next(playerPosition.X - Window.WindowSizeX, 
-                playerPosition.X + Window.WindowSizeX),
-                Y = Program.Random.Next(playerPosition.Y - Window.WindowSizeY, 
-                playerPosition.Y + Window.WindowSizeY) }
+                X = Program.Random.Next(playerPosition.X - Window.WindowSizeX/3, 
+                playerPosition.X + Window.WindowSizeX/3),
+                Y = Program.Random.Next(playerPosition.Y - Window.WindowSizeY/3, 
+                playerPosition.Y + Window.WindowSizeY/3) }
             ;
             return enemyPosition;
         }
@@ -80,14 +80,14 @@ namespace TheGame
 
         public static bool IsEnemyNear(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
         {
-            return Math.Abs(enemyPosition.X - playerPosition.X) <= Window.WindowSizeX / 3 && 
-                Math.Abs(enemyPosition.Y - playerPosition.Y) <= Window.WindowSizeY / 3;
+            return Math.Abs(enemyPosition.X - playerPosition.X) <= Window.WindowSizeX / 2 && 
+                Math.Abs(enemyPosition.Y - playerPosition.Y) <= Window.WindowSizeY / 2;
         }
 
         public static bool IsEnemyFar(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
         {
-            return Math.Abs(enemyPosition.X - playerPosition.X) >= Window.WindowSizeX/2 &&
-                Math.Abs(enemyPosition.Y - playerPosition.Y) >= Window.WindowSizeY/2;
+            return Math.Abs(enemyPosition.X - playerPosition.X) >= Window.WindowSizeX &&
+                Math.Abs(enemyPosition.Y - playerPosition.Y) >= Window.WindowSizeY;
         }
 
         public static Enemy[] CreateEnemy(int PlayerLevel)

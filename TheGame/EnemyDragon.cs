@@ -8,7 +8,7 @@ namespace TheGame
 {
     class EnemyDragon : Enemy
     {
-        EnemyDragon(int level)
+        public EnemyDragon(int level)
         {
             this.Name = "Dragon";
             this.PowerAttack = 150 + level * level / 2;
