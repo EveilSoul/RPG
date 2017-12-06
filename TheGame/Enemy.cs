@@ -14,7 +14,20 @@ namespace TheGame
         public int Health;
         public float Accuracy = 0.9f;
         public ObjectStructures.Position Position;
-        public Tuple<int, int> Reward = Tuple.Create<int, int>(10,45);
+        public int MoneyReward = 5;
+        public int SkillReward = 10;
+
+        public static Tuple<int, int> GetReward(List<Enemy> enemy)
+        {
+            int money = 0;
+            int skill = 0;
+            foreach (var e in enemy)
+            {
+                money += e.MoneyReward;
+                skill += e.SkillReward;
+            }
+            return Tuple.Create(money, skill);
+        }
 
         //атака на мостра
         public static void OnEnemyAtack(List<Enemy> enemy, int[] damageAtackEnemy)

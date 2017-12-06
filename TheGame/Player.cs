@@ -180,9 +180,9 @@ namespace TheGame
             Console.WriteLine("Уровень: {0}", this.Level);
             Console.WriteLine("Уровень магии {0}", this.MagicLevel);
             Console.WriteLine("Опыт сражений {0}", this.BattleSkill);
-            Console.WriteLine("Навык использования меча {0}", this.SwordAccuracy);
-            Console.WriteLine("Навык стрельбы из лука {0}", this.BowAccuracy);
-            Console.WriteLine("Навык использования магии {0}", this.MagicAccuracy);
+            Console.WriteLine("Навык использования меча {0:0.0000}", this.SwordAccuracy);
+            Console.WriteLine("Навык стрельбы из лука {0:0.0000}", this.BowAccuracy);
+            Console.WriteLine("Навык использования магии {0:0.0000}", this.MagicAccuracy);
         }
 
         public void ApplyDamage(int damage)
@@ -353,7 +353,7 @@ namespace TheGame
                 Console.WriteLine("2: Лук");
             if (this.Spells.Count != 0)
                 Console.WriteLine("3. Заклинание");
-            return (Weapons.WeaponsType)(int.Parse(Console.ReadLine()) - 1);
+            return (Weapons.WeaponsType)(Program.Parse(Console.ReadLine()) - 1);
         }
 
         public Sword GetSword(int index) =>

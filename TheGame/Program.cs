@@ -100,6 +100,18 @@ namespace TheGame
         public static double GetDistance(ObjectStructures.Position first, ObjectStructures.Position second) =>
             Math.Sqrt(Math.Pow(first.X - second.X, 2) + Math.Pow(first.Y - second.Y, 2));
 
+        public static int Parse(string str)
+        {
+            try
+            {
+                return int.Parse(str);
+            }
+            catch (FormatException)
+            {
+                return 0;
+            }
+        }
+
         public static ObjectStructures.Position GetPosition(int min = -10, int max = 11)
         {
             return new ObjectStructures.Position { X = Random.Next(min, max), Y = Random.Next(min, max) };

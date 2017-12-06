@@ -15,7 +15,6 @@ namespace TheGame
 
         public static void GoBattle(Player player)
         {
-            Tuple<int, int> reward;
             if (MayNewBattle(theLastBattlePosition, player.Position) || !TheBattleWas)
             {
                 if (!IsEnemy || Enemy.IsEnemyFar(enemyPosition, player.Position))
@@ -29,7 +28,7 @@ namespace TheGame
                     {
 
                         var enemy = Enemy.CreateEnemy(player.Level);
-                        reward = enemy[0].Reward;
+                        var reward = Enemy.GetReward(enemy);
                         while (Enemy.IsEnemyLive(enemy) && player.IsLive)
                         {
                             Window.PrintEnemy(enemy);
@@ -37,7 +36,7 @@ namespace TheGame
 
                             var type = player.SelectType();
                             Window.PrintArray(player.GetCharacteristicsOfWeapons(type));
-                            int index = int.Parse(Console.ReadLine());
+                            int index = Program.Parse(Console.ReadLine());
                             var bow = player.Bow;
                             var sword = player.GetSword(index < player.Swords.Count ? index : 0);
                             var spell = player.GetSpell(index < player.Spells.Count ? index : 0);
@@ -66,7 +65,7 @@ namespace TheGame
                         {
                             player.AddMoney(reward.Item1);
                             player.BattleSkill += reward.Item2;
-                            if (player.Level * 50 <= player.BattleSkill)
+                            while (player.Level * 50 <= player.BattleSkill)
                                 player.ChangeBattleLevel();
                         }
                         TheBattleWas = true;

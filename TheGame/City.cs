@@ -118,7 +118,7 @@ namespace TheGame
             Console.WriteLine("Вы можете восстановить {0} единиц брони по стоимости 1 монета за {1} брони.",
                 player.Armor.GetHealthToAdd(), player.Armor.GetOnHPCost());
             Console.WriteLine("Введите число единиц, которое вы хотите восстановить.");
-            int additionCount = int.Parse(Console.ReadLine());
+            int additionCount = Program.Parse(Console.ReadLine());
             if (player.GiveMoney(additionCount/player.Armor.GetOnHPCost()))
             {
                 player.Armor.Repair(additionCount);
@@ -137,7 +137,7 @@ namespace TheGame
         private ObjectStructures.ArmorComplect GetChoice()
         {
             Console.WriteLine("Введите номер интересующего вас товара");
-            var armor = Program.Armor[int.Parse(Console.ReadLine()) - 1];
+            var armor = Program.Armor[Program.Parse(Console.ReadLine()) - 1];
 
             WriteCharacteristics(armor.GetCharacteristics());
             Console.WriteLine("Итогo:{0}", armor.GetCost());
