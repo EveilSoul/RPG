@@ -49,6 +49,7 @@ namespace TheGame
 
         public void Welcome(Player player)
         {
+            if (!player.IsLive) return;
             Console.Clear();
             Console.WriteLine("Добро пожаловать в {0},\n{1}", this.Name, player.Name);
             int i = 0;
