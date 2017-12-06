@@ -15,8 +15,8 @@ namespace TheGame
 
             this.Type = PlayerType.Warrior;
 
-            this.SwordAccuracy = 0.8f;
-            this.BowAccuracy = 0.4f;
+            this.SwordSkill = 0.8f;
+            this.BowSkill = 0.4f;
             this.MagicAccuracy = 0.7f;
 
             this.CurrentHealth = this.MaxHealth;

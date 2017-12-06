@@ -14,8 +14,8 @@ namespace TheGame
 
             this.Type = PlayerType.Wizard;
 
-            this.SwordAccuracy = 0.7f;
-            this.BowAccuracy = 0.5f;
+            this.SwordSkill = 0.7f;
+            this.BowSkill = 0.5f;
             this.MagicAccuracy = 0.9f;
 
             this.CurrentMana = this.MaxMana;

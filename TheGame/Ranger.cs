@@ -14,8 +14,8 @@ namespace TheGame
 
             this.Type = PlayerType.Ranger;
 
-            this.SwordAccuracy = 0.75f;
-            this.BowAccuracy = 0.9f;
+            this.SwordSkill = 0.75f;
+            this.BowSkill = 0.9f;
             this.MagicAccuracy = 0.8f;
 
             this.CurrentMana = this.MaxMana;

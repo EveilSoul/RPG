@@ -19,8 +19,8 @@ namespace TheGame
         public int TravelSkill;
         public PlayerType Type;
         public int Level;
-        public float SwordAccuracy;
-        public float BowAccuracy;
+        public float SwordSkill;
+        public float BowSkill;
         public float MagicAccuracy;
         public int MagicLevel = 1;
         public bool IsLive;
@@ -69,8 +69,8 @@ namespace TheGame
                 case PlayerType.Ranger:
                     this.MaxMana += increase;
                     this.PowerAttack += (2 * increase) / 3;
-                    this.BowAccuracy += 0.001f * this.Level;
-                    this.SwordAccuracy += 0.005f * this.Level;
+                    this.BowSkill += 0.001f * this.Level;
+                    this.SwordSkill += 0.005f * this.Level;
                     this.MagicAccuracy += 0.005f * this.Level;
                     if (this.Level % 3 == 0)
                         this.MagicLevel++;
@@ -78,9 +78,9 @@ namespace TheGame
                 case PlayerType.Warrior:
                     this.MaxMana += increase / 2;
                     this.PowerAttack += increase;
-                    this.SwordAccuracy += 0.001f * this.Level;
+                    this.SwordSkill += 0.001f * this.Level;
                     this.MagicAccuracy += 0.005f * this.Level;
-                    this.BowAccuracy += 0.007f * this.Level;
+                    this.BowSkill += 0.007f * this.Level;
                     if (this.Level % 4 == 0)
                         this.MagicLevel++;
                     break;
@@ -88,8 +88,8 @@ namespace TheGame
                     this.MaxMana += 2 * increase;
                     this.PowerAttack += increase / 2;
                     this.MagicAccuracy += 0.001f * this.Level;
-                    this.SwordAccuracy += 0.005f * this.Level;
-                    this.BowAccuracy += 0.007f * this.Level;
+                    this.SwordSkill += 0.005f * this.Level;
+                    this.BowSkill += 0.007f * this.Level;
                     if (this.Level % 2 == 0)
                         this.MagicLevel++;
                     break;
@@ -180,8 +180,8 @@ namespace TheGame
             Console.WriteLine("Уровень: {0}", this.Level);
             Console.WriteLine("Уровень магии {0}", this.MagicLevel);
             Console.WriteLine("Опыт сражений {0}", this.BattleSkill);
-            Console.WriteLine("Навык использования меча {0:0.0000}", this.SwordAccuracy);
-            Console.WriteLine("Навык стрельбы из лука {0:0.0000}", this.BowAccuracy);
+            Console.WriteLine("Навык использования меча {0:0.0000}", this.SwordSkill);
+            Console.WriteLine("Навык стрельбы из лука {0:0.0000}", this.BowSkill);
             Console.WriteLine("Навык использования магии {0:0.0000}", this.MagicAccuracy);
         }
 
@@ -212,13 +212,13 @@ namespace TheGame
             switch (weapons)
             {
                 case Weapons.WeaponsType.Bow:
-                    this.BowAccuracy += 0.0001f;
+                    this.BowSkill += 0.0001f;
                     return SimpleBowAttack(countEnemy, bow);
                 case Weapons.WeaponsType.Spell:
                     this.MagicAccuracy += 0.0001f;
                     return SimpleSpellAttack(countEnemy, spell, nums);
                 case Weapons.WeaponsType.Sword:
-                    this.SwordAccuracy+=0.0001f;
+                    this.SwordSkill+=0.0001f;
                     return SimpleSwordAttack(countEnemy, sword, nums);
             }
             return new int[0];
@@ -232,7 +232,7 @@ namespace TheGame
                 {
                     if (Program.Random.NextDouble() > this.MagicAccuracy)
                         res[i] = 0;
-                    if (Program.Random.NextDouble() <= this.SwordAccuracy)
+                    if (Program.Random.NextDouble() <= this.SwordSkill)
                     {
                         res[i] += this.PowerAttack;
                         if (this.Type != PlayerType.Wizard)
@@ -254,7 +254,7 @@ namespace TheGame
             for (int i = 0; i < sword.CountImpact; i++)
             {
                 double luck = Program.Random.NextDouble();
-                if (luck <= this.SwordAccuracy)
+                if (luck <= this.SwordSkill)
                     result[number[i]] = damage;
                 if (luck % 5 != 0)
                     result[number[i]] += this.PowerAttack;
@@ -270,9 +270,9 @@ namespace TheGame
 
             for (int i = 0; i < countEnemy; i++)
             {
-                if (Program.Random.NextDouble() <= this.BowAccuracy)
+                if (Program.Random.NextDouble() <= this.BowSkill)
                     result[i] += bow.Attack();
-                if (Program.Random.NextDouble() <= this.SwordAccuracy)
+                if (Program.Random.NextDouble() <= this.SwordSkill)
                 {
                     if (this.Type == PlayerType.Ranger)
                         result[i] += this.PowerAttack;
