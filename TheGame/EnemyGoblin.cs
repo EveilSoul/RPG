@@ -14,6 +14,7 @@ namespace TheGame
             this.PowerAttack = 20 + level * level / 2;
             this.IsLive = true;
             this.Health = 48 + 2 * level * level;
+            this.Accuracy = 0.8f;
         }
 
         public static List<Enemy> CreateEnemyGoblin(int playerLevel)

@@ -14,6 +14,7 @@ namespace TheGame
             this.PowerAttack = 20 + level * level / 2;
             this.IsLive = true;
             this.Health = 98 + 2 * level * level;
+            this.Accuracy = 0.85f;
         }
 
         public static List<Enemy> CreateEnemyBear(int playerLevel)

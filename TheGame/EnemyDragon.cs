@@ -14,6 +14,7 @@ namespace TheGame
             this.PowerAttack = 150 + level * level / 2;
             this.IsLive = true;
             this.Health = 498 + 2 * level * level;
+            this.Accuracy = 0.95f;
         }
 
         public static List<Enemy> CreateEnemyDragon(int playerLevel)
