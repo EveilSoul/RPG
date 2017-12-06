@@ -11,10 +11,12 @@ namespace TheGame
         public EnemyGoblin(int level)
         {
             this.Name = "Goblin";
-            this.PowerAttack = 20 + level * level / 2;
+            this.PowerAttack = 20 + level * level / 4;
             this.IsLive = true;
             this.Health = 48 + 2 * level * level;
             this.Accuracy = 0.8f;
+            this.MoneyReward = 9 + 2 * level;
+            this.SkillReward = GetSkill(30, 80, 7, level);
         }
 
         public static List<Enemy> CreateEnemyGoblin(int playerLevel)

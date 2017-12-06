@@ -8,6 +8,7 @@ namespace TheGame
 {
     class EnemyBear : Enemy
     { 
+
         public EnemyBear(int level)
         {
             this.Name = "Bear";
@@ -15,6 +16,8 @@ namespace TheGame
             this.IsLive = true;
             this.Health = 98 + 2 * level * level;
             this.Accuracy = 0.85f;
+            this.MoneyReward = 15 + 2 * level;
+            this.SkillReward = GetSkill(30, 80, 12, level);
         }
 
         public static List<Enemy> CreateEnemyBear(int playerLevel)

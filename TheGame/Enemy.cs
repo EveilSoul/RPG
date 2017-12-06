@@ -17,6 +17,9 @@ namespace TheGame
         public int MoneyReward = 5;
         public int SkillReward = 10;
 
+        public static int GetSkill(int offset,int divider, int minValue, int level) =>
+            (int)Math.Pow(30 - level, 2) / divider + minValue;
+
         public static Tuple<int, int> GetReward(List<Enemy> enemy)
         {
             int money = 0;

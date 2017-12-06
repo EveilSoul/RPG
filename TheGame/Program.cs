@@ -74,7 +74,7 @@ namespace TheGame
         {
             Console.WriteLine(File.ReadAllText(Path + @"\TextFiles\types.txt"));
 
-            int choice = int.Parse(Console.ReadLine()) - 1;
+            int choice = Program.Parse(Console.ReadLine()) - 1;
 
             Console.Clear();
 

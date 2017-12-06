@@ -16,7 +16,9 @@ namespace TheGame
             this.IsLive = true;
             this.Health = 48 + 2*level*level;
             this.Accuracy=0.75f;
-            
+            this.MoneyReward = 5 + 2 * level;
+            this.SkillReward = GetSkill(30, 80, 5, level);
+
         }
 
         public static List<Enemy> CreateEnemyWolf(int playerLevel = 1)

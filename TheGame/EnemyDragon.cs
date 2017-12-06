@@ -11,10 +11,12 @@ namespace TheGame
         public EnemyDragon(int level)
         {
             this.Name = "Dragon";
-            this.PowerAttack = 150 + level * level / 2;
+            this.PowerAttack = 150 + level * level / 4;
             this.IsLive = true;
             this.Health = 498 + 2 * level * level;
             this.Accuracy = 0.95f;
+            this.MoneyReward = 100 + 2 * level * level;
+            this.SkillReward = GetSkill(25, 50, 50, level);
         }
 
         public static List<Enemy> CreateEnemyDragon(int playerLevel)

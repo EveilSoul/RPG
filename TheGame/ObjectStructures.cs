@@ -85,7 +85,7 @@ namespace TheGame
             public string Description;
 
             public int GetCost() =>
-                this.Cost * this.Health / this.MaxHealth;
+                this.Cost * this.Health / (this.MaxHealth != 0 ? this.MaxHealth : 1);
 
             public int GetHealthToAdd() => this.MaxHealth - this.Health;
 
