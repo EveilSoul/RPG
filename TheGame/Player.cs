@@ -259,7 +259,7 @@ namespace TheGame
                 if (luck % 5 != 0)
                     result[number[i]] += this.PowerAttack;
                 result[number[i]] += Program.Random.Next(-5, 6);
-                if (result[i] < 0) result[i] = 0;
+                if (result[number[i]] < 0) result[number[i]] = 0;
             }
             return result;
         }

@@ -13,6 +13,16 @@ namespace TheGame
         public static ObjectStructures.Position enemyPosition = new ObjectStructures.Position { X = 0, Y = 0 };
         public static ObjectStructures.Position theLastBattlePosition = new ObjectStructures.Position { X = 0, Y = 0 };
 
+        public static int[] GetEnemyIndexs()
+        {
+            Console.WriteLine("Введите индексы противников через пробел");
+            var indexs = Console.ReadLine().Split(' ');
+            var result = new int[indexs.Length];
+            for (int i = 0; i < indexs.Length; i++)
+                result[i] = Program.Parse(indexs[i]);
+            return result;
+        }
+
         public static void GoBattle(Player player)
         {
             if (MayNewBattle(theLastBattlePosition, player.Position) || !TheBattleWas)
@@ -40,8 +50,9 @@ namespace TheGame
                             var bow = player.Bow;
                             var sword = player.GetSword(index < player.Swords.Count ? index : 0);
                             var spell = player.GetSpell(index < player.Spells.Count ? index : 0);
+                            var enInd = type == Weapons.WeaponsType.Sword ? GetEnemyIndexs() : new[] { 0 };
                             var numberOnEnemyAtsck = player.Attack(
-                                enemy.Count, type, bow, spell, sword, 0);
+                                enemy.Count, type, bow, spell, sword, enInd);
 
                             Enemy.OnEnemyAtack(enemy, numberOnEnemyAtsck);
 

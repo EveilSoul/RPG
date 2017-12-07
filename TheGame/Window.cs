@@ -22,7 +22,8 @@ namespace TheGame
         {
 
             foreach (var t in array)
-                Console.WriteLine(t);
+                if (t != null)
+                    Console.WriteLine(t);
         }
 
         public static void DrowWindow()
@@ -114,19 +115,19 @@ namespace TheGame
         public static void PrintOnEnemyAtack()
         {
 
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                for (int i = 0; i < WindowSizeY; i++)
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            for (int i = 0; i < WindowSizeY; i++)
+            {
+                if (i > 4) Console.ForegroundColor = ConsoleColor.Black;
+                for (int j = 0; j < WindowSizeX; j++)
                 {
-                    if (i > 4) Console.ForegroundColor = ConsoleColor.Black;
-                    for (int j = 0; j < WindowSizeX; j++)
-                    {
-                        Console.Write(Map[i, j]);
-                    }
-                    Console.WriteLine();
+                    Console.Write(Map[i, j]);
                 }
-                Thread.Sleep(400);
-            
+                Console.WriteLine();
+            }
+            Thread.Sleep(400);
+
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Black;
@@ -137,18 +138,18 @@ namespace TheGame
         public static void PrintEnemyAtack()
         {
 
-                Console.Clear();
-                for (int i = 0; i < WindowSizeY; i++)
+            Console.Clear();
+            for (int i = 0; i < WindowSizeY; i++)
+            {
+                if (i > 4) Console.ForegroundColor = ConsoleColor.Red;
+                for (int j = 0; j < WindowSizeX; j++)
                 {
-                    if (i > 4) Console.ForegroundColor = ConsoleColor.Red;
-                    for (int j = 0; j < WindowSizeX; j++)
-                    {
-                        Console.Write(Map[i, j]);
-                    }
-                    Console.WriteLine();
+                    Console.Write(Map[i, j]);
                 }
-                Thread.Sleep(400);
-            
+                Console.WriteLine();
+            }
+            Thread.Sleep(400);
+
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Black;
