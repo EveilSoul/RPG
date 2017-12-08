@@ -111,7 +111,9 @@ namespace TheGame
                 if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
                 {
                     city = City.IsSityNear(this.Position);
-                    if (city.Item1) Window.DrowCity(city.Item2, this.Position);
+                    if (city.Item1)
+                        Window.DrowCity(city.Item2, this.Position);
+                    else Window.ClearMap(Window.Map);
                     moveX = 0;
                     moveY = 0;
                     Window.PrintMovePlayerOnMap(moveX, moveY);
