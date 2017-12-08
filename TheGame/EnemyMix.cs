@@ -11,11 +11,11 @@ namespace TheGame
 
             for (int i = 0; i < count; i++)
             {
-                int rand = Program.Random.Next(1, 151 + PlayerLevel * PlayerLevel * PlayerLevel);
+                int rand = Program.Random.Next(1, 151 + PlayerLevel * PlayerLevel);
 
                 if (rand >= 1 && rand <= 50) enemy.Add(new EnemyWolf(PlayerLevel));
-                if (rand > 50 && rand <= 100) enemy.Add(new EnemyGoblin(PlayerLevel));
-                if (rand > 100 && rand <= 150) enemy.Add(new EnemyBear(PlayerLevel));
+                else if (rand > 50 && rand <= 100) enemy.Add(new EnemyGoblin(PlayerLevel));
+                else if (rand > 100 && rand <= 150) enemy.Add(new EnemyBear(PlayerLevel));
                 else enemy.Add(new EnemyDragon(PlayerLevel));
             }
             return enemy;

@@ -11,15 +11,19 @@ namespace TheGame
     {
         public static int WindowSizeX = 31;
         public static int WindowSizeY = 15;
+        private static char[,] Map = new char[WindowSizeY, WindowSizeX];
         public static char PlayerSymble = '@';
         public static char EnemySymble = '*';
-        private static char[,] Map = new char[WindowSizeY, WindowSizeX];
+        public static char CitySymble = '#';
         public static int EnemyGeneration = 4;
-        public static bool IsBattle = false;
         public static int EnemyCount;
+        public static bool IsBattle = false;
+        public static bool IsCity = false;
+        
 
         public static void PrintArray(string[] array)
         {
+
             foreach (var t in array)
                 if (t != null)
                     Console.WriteLine(t);
@@ -50,9 +54,10 @@ namespace TheGame
         public static void PrintMovePlayerOnMap(int moveX, int moveY)
         {
             Console.Clear();
+            var tempChar = Map[(WindowSizeY - 1) / 2 + moveY, (WindowSizeX - 1) / 2 + moveX];
             Map[(WindowSizeY - 1) / 2 + moveY, (WindowSizeX - 1) / 2 + moveX] = PlayerSymble;
             PrintMap();
-            Map[(WindowSizeY - 1) / 2 + moveY, (WindowSizeX - 1) / 2 + moveX] = ' ';
+            Map[(WindowSizeY - 1) / 2 + moveY, (WindowSizeX - 1) / 2 + moveX] = tempChar;
         }
 
 
@@ -164,6 +169,11 @@ namespace TheGame
                     Map[i, j] = ' ';
                 }
             }
+        }
+
+        public static void DrowCity(ObjectStructures.Position cityPosition, ObjectStructures.Position playerPosition)
+        {
+            Map[WindowSizeY / 2 + playerPosition.Y - cityPosition.Y, WindowSizeX / 2 + playerPosition.X - cityPosition.X] =CitySymble;
         }
 
     }
