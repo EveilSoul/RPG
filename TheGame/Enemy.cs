@@ -66,9 +66,9 @@ namespace TheGame
         public static ObjectStructures.Position EnemyGenerationPosition(ObjectStructures.Position playerPosition)
         {
             var enemyPosition = new ObjectStructures.Position {
-                X = Program.Random.Next(playerPosition.X - Window.WindowSizeX/3, 
+                X = Program.Random.Next(playerPosition.X + Window.WindowSizeX/3, 
                 playerPosition.X + Window.WindowSizeX/3),
-                Y = Program.Random.Next(playerPosition.Y - Window.WindowSizeY/3, 
+                Y = Program.Random.Next(playerPosition.Y + Window.WindowSizeY/3, 
                 playerPosition.Y + Window.WindowSizeY/3) }
             ;
             return enemyPosition;
@@ -82,20 +82,21 @@ namespace TheGame
 
         public static bool IsEnemyFar(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
         {
-            return Math.Abs(enemyPosition.X - playerPosition.X) >= Window.WindowSizeX/3 &&
-                Math.Abs(enemyPosition.Y - playerPosition.Y) >= Window.WindowSizeY/3;
+            return Math.Abs(enemyPosition.X - playerPosition.X) >= Window.WindowSizeX / 2 &&
+                Math.Abs(enemyPosition.Y - playerPosition.Y) >= Window.WindowSizeY / 2;
         }
 
         public static List<Enemy> CreateEnemy(int PlayerLevel)
         {
-            //увеличивается вероятность выпадения дракона в зависиости от уровня
+            //увеличивается вероятность выпадения дракона и смешаных монстров в зависиости от уровня
             int rand = Program.Random.Next(1 - 2 * PlayerLevel, 251 + 3 * PlayerLevel);
 
             if (rand < 1) return EnemyMix.CreateEnemyMix(PlayerLevel);
             if (rand >= 1 && rand <= 50) return EnemyWolf.CreateEnemyWolf(PlayerLevel);
             if (rand > 50 && rand <= 100) return EnemyGoblin.CreateEnemyGoblin(PlayerLevel);
             if (rand > 100 && rand <= 150) return EnemyBear.CreateEnemyBear(PlayerLevel);
-            //if (rand > 150 && rand <= 200) return EnemyOrk.CreateEnemyOrk(PlayerLevel);
+            if (rand > 150 && rand <= 200) return EnemyOrk.CreateEnemyOrk(PlayerLevel);
+            if (rand > 200 && rand <= 250) return EnemyGriffin.CreateGriffin(PlayerLevel);
             return EnemyDragon.CreateEnemyDragon(PlayerLevel);
         }
 

@@ -16,7 +16,7 @@ namespace TheGame
             this.Health = 498 + 2 * level * level;
             this.Accuracy = 0.95f;
             this.MoneyReward = 100 + 2 * level * level;
-            this.SkillReward = GetSkill(25, 50, 50, level);
+            this.SkillReward = GetSkill(25, 50, 75, level);
         }
 
         public static List<Enemy> CreateEnemyDragon(int playerLevel)

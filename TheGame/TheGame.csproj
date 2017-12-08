@@ -50,6 +50,7 @@
     <Compile Include="EnemyBear.cs" />
     <Compile Include="EnemyDragon.cs" />
     <Compile Include="EnemyGoblin.cs" />
+    <Compile Include="EnemyGriffin.cs" />
     <Compile Include="EnemyMix.cs" />
     <Compile Include="EnemyOrk.cs" />
     <Compile Include="EnemyWolf.cs" />
