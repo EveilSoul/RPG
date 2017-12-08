@@ -20,7 +20,7 @@ namespace TheGame
 
         public static string[] NamesSwords = { @"\baseWarriorSword.txt", @"\baseWizardKnife.txt", @"\baseStilet.txt",
         @"\middleElderSword.txt", @"\dragonSlayerSword.txt"};
-        public static string[] NamesBows = { @"\baseRangerBow.txt", @"\legendaryBow.txt" };
+        public static string[] NamesBows = { @"\baseRangerBow.txt",@"\middleRangerBow.txt", @"\legendaryBow.txt" };
         public static string[,] NamesArmor = {
             { @"\baseWarriorHeadArmor.txt", @"\baseWarriorBodyArmor.txt", @"\baseWarriorArmsArmor.txt", @"\baseWarriorLeggsArmor.txt", @"\baseWarriorBootsArmor.txt" },
             { @"\baseRangerHeadArmor.txt", @"\baseRangerBodyArmor.txt", @"\baseRangerArmsArmor.txt", @"\baseRangerLeggsArmor.txt", @"\baseRangerBootsArmor.txt"  }
@@ -119,6 +119,7 @@ namespace TheGame
 
         static void Main()
         {
+            Console.Title = "TheBestRPG";
             Random = new Random();
             Path = Environment.CurrentDirectory;
 

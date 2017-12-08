@@ -218,7 +218,7 @@ namespace TheGame
                     this.MagicAccuracy += 0.0001f;
                     return SimpleSpellAttack(countEnemy, spell, nums);
                 case Weapons.WeaponsType.Sword:
-                    this.SwordSkill+=0.0001f;
+                    this.SwordSkill += 0.0001f;
                     return SimpleSwordAttack(countEnemy, sword, nums);
             }
             return new int[0];
@@ -334,7 +334,7 @@ namespace TheGame
                 case Weapons.WeaponsType.Sword:
                     List<string> result = new List<string>();
                     foreach (var t in this.Swords)
-                        result.AddRange(t.GetCharacteristics().ToList<string>());
+                        result.AddRange(t.GetCharacteristics().ToList());
                     return result.ToArray();
                 case Weapons.WeaponsType.Spell:
                     List<string> res = new List<string>();
@@ -353,14 +353,23 @@ namespace TheGame
                 Console.WriteLine("2: Лук");
             if (this.Spells.Count != 0)
                 Console.WriteLine("3. Заклинание");
-            return (Weapons.WeaponsType)(Program.Parse(Console.ReadLine()) - 1);
+            var t = Console.ReadLine();
+            return (Weapons.WeaponsType)(Program.Parse(t != String.Empty ? t : "1") - 1);
         }
 
-        public Sword GetSword(int index) =>
-            this.Swords[index];
+        public Sword GetSword(int index)
+        {
+            if (index >= 0 && index < this.Swords.Count)
+                return this.Swords[index];
+            return null;
+        }
 
-        public Spell GetSpell(int index) =>
-            this.Spells[index];
+        public Spell GetSpell(int index)
+        {
+            if (index >= 0 && index < this.Spells.Count)
+                return this.Spells[index];
+            return null;
+        }
 
         public void AddHP(int count)
         {

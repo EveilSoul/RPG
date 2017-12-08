@@ -19,7 +19,9 @@ namespace TheGame
             Places.Add("Магазин для продажи брони");
             Places.Add("Ремонт брони");
             Places.Add("Лечебница");
-            Places.Add("Оружейный магазин");
+            Places.Add("Магазин мечей");
+            Places.Add("Библиотека");
+            Places.Add("Магазин луков");
         }
 
         public static void CheckPlayer(Player player)
@@ -75,6 +77,12 @@ namespace TheGame
                 case ConsoleKey.D5:
                     SwordStore(player);
                     break;
+                case ConsoleKey.D6:
+                    Libriary(player);
+                    break;
+                case ConsoleKey.D7:
+                    BowStore(player);
+                    break;
                 case ConsoleKey.Escape:
                     return;
             }
@@ -86,7 +94,7 @@ namespace TheGame
             HelloPlayer(player);
             Console.WriteLine("Мы представим вам весь наш ассортимент.\n" +
                 "Нажмите Y для покупки\n" +
-                " N, чтобы перейти к следующему\n" +
+                "N, чтобы перейти к следующему\n" +
                 "Esc для выхода");
             for (int i = 0; i < Program.Swords.Count; i++)
             {
@@ -100,6 +108,58 @@ namespace TheGame
                         {
                             Console.WriteLine("Вы приобрели {0}", Program.Swords[i].Name);
                             player.AddSword(Program.Swords[i]);
+                            return;
+                        }
+                        break;
+                    case ConsoleKey.Escape:
+                        return;
+                }
+            }
+        }
+
+        private void Libriary(Player player)
+        {
+            HelloPlayer(player);
+            Console.WriteLine("Мы представим вам все заклинания.\n" +
+            "Нажмите Y для покупки\n" +
+            "N, чтобы перейти к следующему\n" +
+            "Esc для выхода");
+            for (int i = 0; i < Program.Spells.Count; i++)
+            {
+                Console.Clear();
+                WriteCharacteristics(Program.Spells[i].GetCharacteristics(true));
+                switch (Console.ReadKey(true).Key)
+                {
+                    case ConsoleKey.Y:
+                        if (player.LearnSpell(Program.Spells[i]))
+                            Console.WriteLine("Вы изучили {0}", Program.Spells[i].Name);
+                        return;
+                    case ConsoleKey.Escape:
+                        return;
+                }
+            }
+        }
+
+        private void BowStore(Player player)
+        {
+            HelloPlayer(player);
+            Console.WriteLine("Мы представим вам ассортимент луков.\n" +
+            "Нажмите Y для покупки\n" +
+            "N, чтобы перейти к следующему\n" +
+            "Esc для выхода");
+            for (int i = 0; i<Program.Bows.Count; i++)
+            {
+                Console.Clear();
+                WriteCharacteristics(Program.Bows[i].GetCharacteristics(true));
+                switch (Console.ReadKey(true).Key)
+                {
+                    case ConsoleKey.Y:
+                        if (player.Level >= Program.Bows[i].MinLevelToUse &&
+                            player.GiveMoney(Program.Bows[i].Cost))
+                        {
+                            Console.WriteLine("Вы приобрели {0}", Program.Bows[i].Name);
+                            player.Bow = Program.Bows[i];
+                            return;
                         }
                         break;
                     case ConsoleKey.Escape:

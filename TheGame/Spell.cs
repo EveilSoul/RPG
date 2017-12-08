@@ -30,7 +30,7 @@ namespace TheGame
                 String.Format("Вы сможете поразить {0} противников", this.CountImpact),
                 String.Format("Использование заклинания стоит {0} маны", this.Mana),
                 (store ? String.Format("Стоимость изучения: {0}", this.Cost) : null),
-                (store ? String.Format("Минимальный уровень для владения: {0}", this.MinLevelToUse) : null),
+                (store ? String.Format("Минимальный уровень: {0}", this.MinLevelToUse) : null),
             };
         }
 
