@@ -24,7 +24,6 @@ namespace TheGame
 
         public static void PrintArray(string[] array)
         {
-
             foreach (var t in array)
                 if (t != null)
                     Console.WriteLine(t);
