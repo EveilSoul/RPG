@@ -27,10 +27,10 @@ namespace TheGame
         public static void CheckPlayer(Player player)
         {
             foreach (var t in Program.Cities)
-                t.IsCityNear(player);
+                t.CityNear(player);
         }
 
-        public void IsCityNear(Player player)
+        public void CityNear(Player player)
         {
             if (Program.GetDistance(this.Position, player.Position) < 2)
             {

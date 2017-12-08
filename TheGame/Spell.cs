@@ -27,8 +27,8 @@ namespace TheGame
             {
                 String.Format("\nИмя: {0}", this.Name),
                 String.Format("Мощность заклинания: {0}", this.Damage),
-                String.Format("Вы сможете поразить {0} противников", this.CountImpact),
-                String.Format("Использование заклинания стоит {0} маны", this.Mana),
+                String.Format("Атака на {0} противников", this.CountImpact),
+                String.Format("Использование стоит {0} маны", this.Mana),
                 (store ? String.Format("Стоимость изучения: {0}", this.Cost) : null),
                 (store ? String.Format("Минимальный уровень: {0}", this.MinLevelToUse) : null),
             };
