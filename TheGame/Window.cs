@@ -11,8 +11,8 @@ namespace TheGame
     {
         public static int WindowSizeX = 31;
         public static int WindowSizeY = 15;
-        private static char[,] Map = new char[WindowSizeY, WindowSizeX];
-        private static char[,] BattleMap = new char[WindowSizeY, WindowSizeX];
+        public static char[,] Map = new char[WindowSizeY, WindowSizeX];
+        public static char[,] BattleMap = new char[WindowSizeY, WindowSizeX];
         public static char PlayerSymble = '@';
         public static char EnemySymble = '*';
         public static char CitySymble = '#';
@@ -38,13 +38,13 @@ namespace TheGame
             Console.ForegroundColor = ConsoleColor.Black;
         }
 
-        public static void PrintMap()
+        public static void PrintMap(char[,] map)
         {
             for (int i = 0; i < WindowSizeY; i++)
             {
                 for (int j = 0; j < WindowSizeX; j++)
                 {
-                    Console.Write(Map[i, j]);
+                    Console.Write(map[i, j]);
                 }
                 Console.WriteLine();
             }
@@ -57,7 +57,7 @@ namespace TheGame
             Console.Clear();
             var tempChar = Map[(WindowSizeY - 1) / 2 + moveY, (WindowSizeX - 1) / 2 + moveX];
             Map[(WindowSizeY - 1) / 2 + moveY, (WindowSizeX - 1) / 2 + moveX] = PlayerSymble;
-            PrintMap();
+            PrintMap(Map);
             Map[(WindowSizeY - 1) / 2 + moveY, (WindowSizeX - 1) / 2 + moveX] = tempChar;
         }
 
@@ -68,14 +68,14 @@ namespace TheGame
 
             for (int i = -1 * (enemyCount - 1); i < enemyCount; i += 2)
             {
-                Map[EnemyGeneration, WindowSizeX / 2 + i] = EnemySymble;
+                BattleMap[EnemyGeneration, WindowSizeX / 2 + i] = EnemySymble;
 
                 enemy[count].Position = new ObjectStructures.Position { X = EnemyGeneration, Y = WindowSizeX / 2 + i };
                 count++;
             }
 
 
-            Map[WindowSizeY / 2, WindowSizeX / 2] = PlayerSymble;
+            BattleMap[WindowSizeY / 2, WindowSizeX / 2] = PlayerSymble;
         }
 
         public static void PrintEnemy(List<Enemy> enemy)
@@ -90,7 +90,7 @@ namespace TheGame
 
             for (int i = 0; i < WindowSizeX; i++)
             {
-                if (Map[EnemyGeneration, i] == EnemySymble)
+                if (BattleMap[EnemyGeneration, i] == EnemySymble)
                 {
                     bool isEnemy = false;
                     for (int j = 0; j < enemy.Count; j++)
@@ -101,11 +101,11 @@ namespace TheGame
                             break;
                         }
                     }
-                    if (!isEnemy) Map[EnemyGeneration, i] = ' ';
+                    if (!isEnemy) BattleMap[EnemyGeneration, i] = ' ';
                 }
             }
             Console.Clear();
-            PrintMap();
+            PrintMap(BattleMap);
 
             //test
             for (int i = 0; i < enemy.Count; i++)
@@ -127,7 +127,7 @@ namespace TheGame
                 if (i > 4) Console.ForegroundColor = ConsoleColor.Black;
                 for (int j = 0; j < WindowSizeX; j++)
                 {
-                    Console.Write(Map[i, j]);
+                    Console.Write(BattleMap[i, j]);
                 }
                 Console.WriteLine();
             }
@@ -149,7 +149,7 @@ namespace TheGame
                 if (i > 4) Console.ForegroundColor = ConsoleColor.Red;
                 for (int j = 0; j < WindowSizeX; j++)
                 {
-                    Console.Write(Map[i, j]);
+                    Console.Write(BattleMap[i, j]);
                 }
                 Console.WriteLine();
             }
@@ -161,19 +161,20 @@ namespace TheGame
 
         }
 
-        public static void ClearMap()
+        public static void ClearMap(char[,] map)
         {
             for (int i = 0; i < WindowSizeY; i++)
             {
                 for (int j = 0; j < WindowSizeX; j++)
                 {
-                    Map[i, j] = ' ';
+                    map[i, j] = ' ';
                 }
             }
         }
 
         public static void DrowCity(ObjectStructures.Position cityPosition, ObjectStructures.Position playerPosition)
         {
+            ClearMap(Map);
             Map[WindowSizeY / 2 + playerPosition.Y - cityPosition.Y, WindowSizeX / 2 - playerPosition.X + cityPosition.X] =CitySymble;
         }
 

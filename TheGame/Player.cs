@@ -106,19 +106,21 @@ namespace TheGame
             if (city.Item1) Window.DrowCity(city.Item2, this.Position);
             while (this.IsLive)
             {
-                Window.PrintMovePlayerOnMap(moveX, moveY);
                 Battle.GoBattle(this);
                 City.CheckPlayer(this);
                 if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
                 {
+                    city = City.IsSityNear(this.Position);
+                    if (city.Item1) Window.DrowCity(city.Item2, this.Position);
                     moveX = 0;
                     moveY = 0;
                     Window.PrintMovePlayerOnMap(moveX, moveY);
-                    city = City.IsSityNear(this.Position);
-                    if (city.Item1) Window.DrowCity(city.Item2, this.Position);
+                    
                 }
+                Window.PrintMovePlayerOnMap(moveX, moveY);
                 DrawChracteristics();
                 KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
+
             }
         }
 

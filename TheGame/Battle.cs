@@ -70,8 +70,11 @@ namespace TheGame
                             }
                         }
 
-                        Window.ClearMap();
+                        Window.ClearMap(Window.BattleMap);
                         Window.IsBattle = false;
+                        //var city = City.IsSityNear(player.Position);
+                        //if (city.Item1) Window.DrowCity(city.Item2, player.Position);
+
                         if (player.IsLive)
                         {
                             player.AddMoney(reward.Item1);

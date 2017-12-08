@@ -89,12 +89,13 @@ namespace TheGame
         public static List<Enemy> CreateEnemy(int PlayerLevel)
         {
             //увеличивается вероятность выпадения дракона в зависиости от уровня
-            int rand = Program.Random.Next(1 - 2 * PlayerLevel, 151 + 3 * PlayerLevel);
+            int rand = Program.Random.Next(1 - 2 * PlayerLevel, 251 + 3 * PlayerLevel);
 
             if (rand < 1) return EnemyMix.CreateEnemyMix(PlayerLevel);
             if (rand >= 1 && rand <= 50) return EnemyWolf.CreateEnemyWolf(PlayerLevel);
             if (rand > 50 && rand <= 100) return EnemyGoblin.CreateEnemyGoblin(PlayerLevel);
             if (rand > 100 && rand <= 150) return EnemyBear.CreateEnemyBear(PlayerLevel);
+            //if (rand > 150 && rand <= 200) return EnemyOrk.CreateEnemyOrk(PlayerLevel);
             return EnemyDragon.CreateEnemyDragon(PlayerLevel);
         }
 

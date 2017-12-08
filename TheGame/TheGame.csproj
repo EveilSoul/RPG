@@ -51,6 +51,7 @@
     <Compile Include="EnemyDragon.cs" />
     <Compile Include="EnemyGoblin.cs" />
     <Compile Include="EnemyMix.cs" />
+    <Compile Include="EnemyOrk.cs" />
     <Compile Include="EnemyWolf.cs" />
     <Compile Include="ObjectStructures.cs" />
     <Compile Include="Player.cs" />
