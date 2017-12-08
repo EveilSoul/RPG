@@ -150,7 +150,7 @@ namespace TheGame
                     //help
                     break;
                 case ConsoleKey.F1:
-                    //save
+                    Save save = new Save(this, "");
                     break;
                 case ConsoleKey.F2:
                     //load game
