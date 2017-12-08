@@ -8,9 +8,9 @@ namespace TheGame
         public EnemyGriffin(int level)
         {
             this.Name = "Griffin";
-            this.PowerAttack = 100 + level * level / 2;
+            this.PowerAttack = 58 + level * level / 2;
             this.IsLive = true;
-            this.Health = 248 + 2 * level * level;
+            this.Health = 148 + 2 * level * level;
             this.Accuracy = 0.9f;
             this.MoneyReward = 35 + 2 * level;
             this.SkillReward = GetSkill(30, 80, 35, level);
