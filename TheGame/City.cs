@@ -30,9 +30,20 @@ namespace TheGame
                 t.CityNear(player);
         }
 
+        public static Tuple<bool, ObjectStructures.Position> IsSityNear(ObjectStructures.Position playerPosition)
+        {
+            foreach (var t in Program.Cities)
+                if (Math.Abs(playerPosition.X - t.Position.X) <= Window.WindowSizeX / 2 &&
+                    Math.Abs(playerPosition.Y - t.Position.Y) <= Window.WindowSizeY / 2)
+                    return Tuple.Create(true, t.Position);
+            return Tuple.Create(false, new ObjectStructures.Position { X = 0, Y = 0 });
+
+
+        }
+
         public void CityNear(Player player)
         {
-            if (Program.GetDistance(this.Position, player.Position) < 2)
+            if (Program.GetDistance(this.Position, player.Position) < 1)
             {
                 Welcome(player);
             }

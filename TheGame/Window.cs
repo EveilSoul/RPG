@@ -12,13 +12,14 @@ namespace TheGame
         public static int WindowSizeX = 31;
         public static int WindowSizeY = 15;
         private static char[,] Map = new char[WindowSizeY, WindowSizeX];
+        private static char[,] BattleMap = new char[WindowSizeY, WindowSizeX];
         public static char PlayerSymble = '@';
         public static char EnemySymble = '*';
         public static char CitySymble = '#';
         public static int EnemyGeneration = 4;
         public static int EnemyCount;
         public static bool IsBattle = false;
-        public static bool IsCity = false;
+
         
 
         public static void PrintArray(string[] array)
@@ -173,8 +174,9 @@ namespace TheGame
 
         public static void DrowCity(ObjectStructures.Position cityPosition, ObjectStructures.Position playerPosition)
         {
-            Map[WindowSizeY / 2 + playerPosition.Y - cityPosition.Y, WindowSizeX / 2 + playerPosition.X - cityPosition.X] =CitySymble;
+            Map[WindowSizeY / 2 + playerPosition.Y - cityPosition.Y, WindowSizeX / 2 - playerPosition.X + cityPosition.X] =CitySymble;
         }
 
+        
     }
 }

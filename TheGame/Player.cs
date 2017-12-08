@@ -102,6 +102,8 @@ namespace TheGame
         {
             int moveX = 0, moveY = 0;
             Window.DrowWindow();
+            var city = City.IsSityNear(this.Position);
+            if (city.Item1) Window.DrowCity(city.Item2, this.Position);
             while (this.IsLive)
             {
                 Window.PrintMovePlayerOnMap(moveX, moveY);
@@ -112,6 +114,8 @@ namespace TheGame
                     moveX = 0;
                     moveY = 0;
                     Window.PrintMovePlayerOnMap(moveX, moveY);
+                    city = City.IsSityNear(this.Position);
+                    if (city.Item1) Window.DrowCity(city.Item2, this.Position);
                 }
                 DrawChracteristics();
                 KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
