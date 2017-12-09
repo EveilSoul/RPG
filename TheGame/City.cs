@@ -284,7 +284,7 @@ namespace TheGame
                 case ConsoleKey.N:
                     Console.WriteLine("Введите нужную емкость");
                     int t = Program.Parse(Console.ReadLine());
-                    if (player.GiveMoney((int)(1.6 * t)))
+                    if (player.GiveMoney((int)(t / 1.6)))
                         player.MedicineKits.Add(new ObjectStructures.MedicineKit { HpToAdd = t });
                     break;
                 case ConsoleKey.Escape:

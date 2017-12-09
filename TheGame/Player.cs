@@ -192,6 +192,9 @@ namespace TheGame
                 case ConsoleKey.H:
                     //help
                     break;
+                case ConsoleKey.F1:
+                    UseMedicineKit();
+                    break;
             }
         }
 
@@ -413,6 +416,21 @@ namespace TheGame
             this.CurrentHealth += count;
             if (this.CurrentHealth > this.MaxHealth)
                 this.CurrentHealth = this.MaxHealth;
+        }
+
+        public void UseMedicineKit()
+        {
+            if (this.MedicineKits.Count != 0)
+            {
+                for (int i = 0; i < this.MedicineKits.Count; i++)
+                    Console.WriteLine("{0} восстановит {1}", i + 1, this.MedicineKits[i].HpToAdd);
+                Console.WriteLine("Введите номер аптечки, 0 для выхода");
+                int index = Program.Parse(Console.ReadLine(), 0, this.MedicineKits.Count) - 1;
+                if (index == -1)
+                    return;
+                this.MedicineKits[index].JoinKit(this);
+                this.MedicineKits.RemoveAt(index);
+            }
         }
     }
 }

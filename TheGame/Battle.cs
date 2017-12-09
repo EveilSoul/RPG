@@ -25,7 +25,6 @@ namespace TheGame
 
         public static void GoBattle(Player player, List<Enemy> enemy)
         {
-
             var reward = Enemy.GetReward(enemy);
             while (Enemy.IsEnemyLive(enemy) && player.IsLive)
             {
@@ -50,7 +49,6 @@ namespace TheGame
                 for (int i = 0; i < enemy.Count; i++)
                     player.ApplyDamage(enemy[i].EnemyAttack());
 
-
                 if (Enemy.IsEnemyLive(enemy))
                 {
                     Window.PrintEnemyAtack();
@@ -63,7 +61,6 @@ namespace TheGame
             Window.IsBattle = false;
             TheBattleWas = true;
             TheFirstBattleWas = true;
-
 
             if (player.IsLive)
             {
