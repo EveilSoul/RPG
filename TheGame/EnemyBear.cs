@@ -18,6 +18,7 @@ namespace TheGame
             this.Accuracy = 0.85f;
             this.MoneyReward = 15 + 2 * level;
             this.SkillReward = GetSkill(30, 80, 12, level);
+            this.Mimicry = false;
         }
 
         public static List<Enemy> CreateEnemyBear(int playerLevel)

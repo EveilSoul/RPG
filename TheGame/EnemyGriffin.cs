@@ -14,6 +14,7 @@ namespace TheGame
             this.Accuracy = 0.9f;
             this.MoneyReward = 35 + 2 * level;
             this.SkillReward = GetSkill(30, 80, 35, level);
+            this.Mimicry = true;
         }
 
         public static List<Enemy> CreateGriffin(int playerLevel)

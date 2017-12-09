@@ -8,12 +8,13 @@ namespace TheGame
         public EnemyOrk(int level)
         {
             this.Name = "Ork";
-            this.PowerAttack = 50 + level * level / 2;
+            this.PowerAttack = 35 + level * level / 2;
             this.IsLive = true;
-            this.Health = 148 + 2 * level * level;
+            this.Health = 98 + 2 * level * level;
             this.Accuracy = 0.85f;
             this.MoneyReward = 25 + 2 * level;
             this.SkillReward = GetSkill(30, 80, 25, level);
+            this.Mimicry = false;
         }
 
         public static List<Enemy> CreateEnemyOrk(int playerLevel)

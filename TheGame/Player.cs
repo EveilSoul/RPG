@@ -102,18 +102,43 @@ namespace TheGame
         {
             int moveX = 0, moveY = 0;
             Window.DrowWindow();
+
             var city = City.IsSityNear(this.Position);
             if (city.Item1) Window.DrowCity(city.Item2, this.Position);
+
+            var enemy = Enemy.CreateEnemy(this.Level, this.Position);
+            Enemy.TheLastEnemyPosition = enemy.Item1;
+            if (Enemy.IsEnemyNear(enemy.Item1, this.Position) && !enemy.Item2[0].Mimicry) Window.DrowEnemy(enemy.Item1, this.Position, moveX, moveY);
+
             while (this.IsLive)
             {
-                Battle.GoBattle(this);
+                Enemy.CheckEnemy(enemy.Item2, this, enemy.Item1);
+                if (Battle.MayNewBattle(Enemy.TheLastEnemyPosition, this.Position))
+                {
+                    enemy = Enemy.CreateEnemy(this.Level, this.Position);
+                    Battle.TheBattleWas = false;
+                    Enemy.TheLastEnemyPosition = enemy.Item1;
+                }
                 City.CheckPlayer(this);
+
                 if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
                 {
+                    
+                    
+                    if (Enemy.IsEnemyNear(enemy.Item1, this.Position) && !Battle.TheBattleWas && !enemy.Item2[0].Mimicry)
+                        Window.DrowEnemy(enemy.Item1, this.Position);
+                    else
+                    {
+                        Window.ClearMap(Window.Map, Window.EnemySymble);
+                    }
+
                     city = City.IsSityNear(this.Position);
                     if (city.Item1)
                         Window.DrowCity(city.Item2, this.Position);
-                    else Window.ClearMap(Window.Map);
+                    else
+                    {
+                        Window.ClearMap(Window.Map, Window.CitySymble);
+                    }
                     moveX = 0;
                     moveY = 0;
                     Window.PrintMovePlayerOnMap(moveX, moveY);

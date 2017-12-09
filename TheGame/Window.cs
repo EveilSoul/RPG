@@ -61,7 +61,7 @@ namespace TheGame
         }
 
 
-        public static void DrowEnemy(int enemyCount, List<Enemy> enemy)
+        public static void DrowEnemyBattle(int enemyCount, List<Enemy> enemy)
         {
             int count = 0;
 
@@ -82,7 +82,7 @@ namespace TheGame
             if (!IsBattle)
             {
                 EnemyCount = enemy.Count;
-                DrowEnemy(EnemyCount, enemy);
+                DrowEnemyBattle(EnemyCount, enemy);
                 IsBattle = true;
             }
 
@@ -160,23 +160,33 @@ namespace TheGame
 
         }
 
-        public static void ClearMap(char[,] map)
+        public static void ClearMap(char[,] map, char symbleDelete)
         {
             for (int i = 0; i < WindowSizeY; i++)
             {
                 for (int j = 0; j < WindowSizeX; j++)
                 {
-                    map[i, j] = ' ';
+                    if (map[i, j] == symbleDelete) map[i, j] = ' ';
                 }
             }
         }
 
         public static void DrowCity(ObjectStructures.Position cityPosition, ObjectStructures.Position playerPosition)
         {
-            ClearMap(Map);
+            ClearMap(Map, CitySymble);
             Map[WindowSizeY / 2 + playerPosition.Y - cityPosition.Y, WindowSizeX / 2 - playerPosition.X + cityPosition.X] =CitySymble;
         }
 
+        public static void DrowEnemy(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition,
+            int moveX = 0, int moveY = 0)
+        {
+            ClearMap(Map, EnemySymble);
+            if (WindowSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY>=0 
+                && WindowSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY<=WindowSizeY
+                && WindowSizeX / 2 - playerPosition.X + enemyPosition.X + moveX>=0
+                && WindowSizeX / 2 - playerPosition.X + enemyPosition.X + moveX<=WindowSizeX)
+            Map[WindowSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY, WindowSizeX / 2 - playerPosition.X + enemyPosition.X + moveX] = EnemySymble;
+        }
         
     }
 }

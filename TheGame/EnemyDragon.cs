@@ -17,6 +17,7 @@ namespace TheGame
             this.Accuracy = 0.95f;
             this.MoneyReward = 100 + 2 * level * level;
             this.SkillReward = GetSkill(25, 50, 75, level);
+            this.Mimicry = true;
         }
 
         public static List<Enemy> CreateEnemyDragon(int playerLevel)
