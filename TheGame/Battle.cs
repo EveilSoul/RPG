@@ -31,16 +31,7 @@ namespace TheGame
                 Window.PrintEnemy(enemy);
                 Window.PrintBattleCharacteristic(player, enemy);
 
-                var type = player.SelectType();
-                Window.PrintArray(player.GetCharacteristicsOfWeapons(type));
-                int index = Program.Parse(Console.ReadLine());
-                var bow = player.Bow;
-                var sword = player.GetSword(index < player.Swords.Count ? index : 0);
-                var spell = player.GetSpell(index < player.Spells.Count ? index : 0);
-                var enInd = type == Weapons.WeaponsType.Sword ? GetEnemyIndexs() : new[] { 0 };
-                var numberOnEnemyAtsck = player.Attack(
-                    enemy.Count, type, bow, spell, sword, enInd);
-
+                var numberOnEnemyAtsck = PlayerAttack(player, enemy.Count);
 
                 for (int i = 0; i < enemy.Count; i++)
                 {
@@ -75,9 +66,6 @@ namespace TheGame
             TheBattleWas = true;
             IsEnemy = false;
             Enemy.EnemyExist = false;
-
-
-
         }
 
         public static bool MayNewBattle(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
@@ -86,5 +74,18 @@ namespace TheGame
                 (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 10;
         }
 
+        public static int[] PlayerAttack(Player player, int enemyCount)
+        {
+            var type = player.SelectType();
+            Window.PrintArray(player.GetCharacteristicsOfWeapons(type));
+            int index = Program.Parse(Console.ReadLine());
+            if (index == -1)
+                return player.SuperAttack(enemyCount);
+            var bow = player.Bow;
+            var sword = player.GetSword(index < player.Swords.Count ? index : 0);
+            var spell = player.GetSpell(index < player.Spells.Count ? index : 0);
+            var enInd = type == Weapons.WeaponsType.Sword ? GetEnemyIndexs() : new[] { 0 };
+            return player.Attack(enemyCount, type, bow, spell, sword, enInd);
+        }
     }
 }
