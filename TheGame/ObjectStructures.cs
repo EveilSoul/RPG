@@ -14,6 +14,14 @@ namespace TheGame
             public int Y;
         }
 
+        public struct MedicineKit
+        {
+            public int HpToAdd;
+
+            public void JoinKit(Player player) =>
+                player.AddHP(HpToAdd);
+        }
+
         public struct ArmorComplect
         {
             public Armor Head;

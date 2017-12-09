@@ -20,14 +20,14 @@ namespace TheGame
 
         public static string[] NamesSwords = { @"\baseWarriorSword.txt", @"\baseWizardKnife.txt", @"\baseStilet.txt",
         @"\middleElderSword.txt", @"\dragonSlayerSword.txt"};
-        public static string[] NamesBows = { @"\baseRangerBow.txt",@"\middleRangerBow.txt", @"\legendaryBow.txt" };
+        public static string[] NamesBows = { @"\baseRangerBow.txt", @"\middleRangerBow.txt", @"\legendaryBow.txt" };
         public static string[,] NamesArmor = {
             { @"\baseWarriorHeadArmor.txt", @"\baseWarriorBodyArmor.txt", @"\baseWarriorArmsArmor.txt", @"\baseWarriorLeggsArmor.txt", @"\baseWarriorBootsArmor.txt" },
             { @"\baseRangerHeadArmor.txt", @"\baseRangerBodyArmor.txt", @"\baseRangerArmsArmor.txt", @"\baseRangerLeggsArmor.txt", @"\baseRangerBootsArmor.txt"  }
         };
         public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt", @"\basePointAttack.txt", @"\middleThunderAttack.txt",
         @"\baseWarriorMultiplyAttack.txt", @"\dragonsFlame.txt"};
-        public static string[] CitiesNames = { "Неаполь" };
+        public static string[] CitiesNames = { "Неаполь", "Лордерон", "Царьград", "Омск", "Тартарос", "Лондон", "Штормград", "Мордор", "Эребор", "Минас Тирит",  };
 
         static List<Sword> GetSwords(string path)
         {
@@ -93,18 +93,23 @@ namespace TheGame
         {
             var result = new List<City>();
             foreach (var name in CitiesNames)
-                result.Add(new City(name, GetPosition(0,0)));
+                result.Add(new City(name, GetPosition(-25, 25)));
             return result;
         }
 
         public static double GetDistance(ObjectStructures.Position first, ObjectStructures.Position second) =>
             Math.Sqrt(Math.Pow(first.X - second.X, 2) + Math.Pow(first.Y - second.Y, 2));
 
-        public static int Parse(string str)
+        public static int Parse(string str, double min = -1e18, double max = 1e18)
         {
             try
             {
-                return int.Parse(str);
+                int t = int.Parse(str);
+                if (t < min)
+                    t = (int)(Math.Ceiling(min));
+                else if (t > max)
+                    t = (int)(Math.Ceiling(max));
+                return t;
             }
             catch (FormatException)
             {
@@ -119,6 +124,7 @@ namespace TheGame
 
         static void Main()
         {
+            Console
             Console.Title = "TheBestRPG";
             Random = new Random();
             Path = Environment.CurrentDirectory;

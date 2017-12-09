@@ -22,6 +22,7 @@ namespace TheGame
             Places.Add("Магазин мечей");
             Places.Add("Библиотека");
             Places.Add("Магазин луков");
+            Places.Add("Аптека");
         }
 
         public static void CheckPlayer(Player player)
@@ -37,8 +38,6 @@ namespace TheGame
                     Math.Abs(playerPosition.Y - t.Position.Y) <= Window.WindowSizeY / 2)
                     return Tuple.Create(true, t.Position);
             return Tuple.Create(false, new ObjectStructures.Position { X = 0, Y = 0 });
-
-
         }
 
         public void CityNear(Player player)
@@ -55,7 +54,7 @@ namespace TheGame
             Console.WriteLine("Вы можете восстановить {0} здоровья", player.MaxHealth - player.CurrentHealth);
             Console.WriteLine("Цена: 1 монета за {0} единиц здоровья", this.OneCoinCountHP);
             Console.WriteLine("Сколько вы хотите восстановить?");
-            int hp = int.Parse(Console.ReadLine());
+            int hp = Program.Parse(Console.ReadLine());
             if (player.GiveMoney(hp / this.OneCoinCountHP))
                 player.AddHP(hp);
             Console.WriteLine("Ваше здоровье теперь составляет {0}", player.CurrentHealth);
@@ -70,6 +69,12 @@ namespace TheGame
             int i = 0;
             foreach (var place in Places)
                 Console.WriteLine("{0}: {1}", ++i, place);
+            if (Select(player))
+                Welcome(player);
+        }
+
+        private bool Select(Player player)
+        {
             Console.WriteLine("Куда бы вы хотели отправиться?");
             switch (Console.ReadKey(true).Key)
             {
@@ -94,10 +99,13 @@ namespace TheGame
                 case ConsoleKey.D7:
                     BowStore(player);
                     break;
+                case ConsoleKey.D8:
+                    ByeMedicineKit(player);
+                    break;
                 case ConsoleKey.Escape:
-                    return;
+                    return false;
             }
-            Welcome(player);
+            return true;
         }
 
         private void SwordStore(Player player)
@@ -158,7 +166,7 @@ namespace TheGame
             "Нажмите Y для покупки\n" +
             "N, чтобы перейти к следующему\n" +
             "Esc для выхода");
-            for (int i = 0; i<Program.Bows.Count; i++)
+            for (int i = 0; i < Program.Bows.Count; i++)
             {
                 Console.Clear();
                 WriteCharacteristics(Program.Bows[i].GetCharacteristics(true));
@@ -244,7 +252,7 @@ namespace TheGame
         private ObjectStructures.ArmorComplect GetChoice()
         {
             Console.WriteLine("Введите номер интересующего вас товара");
-            var armor = Program.Armor[Program.Parse(Console.ReadLine()) - 1];
+            var armor = Program.Armor[Program.Parse(Console.ReadLine(), 1, Program.Armor.Count) - 1];
 
             WriteCharacteristics(armor.GetCharacteristics());
             Console.WriteLine("Итогo:{0}", armor.GetCost());
@@ -257,6 +265,31 @@ namespace TheGame
                     return new ObjectStructures.ArmorComplect();
             }
             return GetChoice();
+        }
+
+        private void ByeMedicineKit(Player player)
+        {
+            HelloPlayer(player);
+            Console.WriteLine("Вы можете купить стандартную аптечку:\n50 единиц здоровья за 30 монет");
+            Console.WriteLine("Но вы можете заказать с любым числом здоровья");
+            Console.WriteLine("Стоить будет это 1.6 hp за 1 монету");
+            Console.WriteLine("S для стандартной,\nN для своей,\nEsc для выхода");
+            switch (Console.ReadKey(true).Key)
+            {
+                case ConsoleKey.S:
+                    ObjectStructures.MedicineKit medicineKit = new ObjectStructures.MedicineKit { HpToAdd = 50 };
+                    if (player.GiveMoney(30))
+                        Console.WriteLine("30");
+                    break;
+                case ConsoleKey.N:
+                    Console.WriteLine("Введите нужную емкость");
+                    int t = Program.Parse(Console.ReadLine());
+                    if (player.GiveMoney((int)(1.6 * t)))
+                        Console.WriteLine("Вы купили аптечку");
+                    break;
+                case ConsoleKey.Escape:
+                    return;
+            }
         }
     }
 }
