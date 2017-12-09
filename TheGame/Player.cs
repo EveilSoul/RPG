@@ -131,7 +131,7 @@ namespace TheGame
                 }
                 City.CheckPlayer(this);
 
-                if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
+                if (Math.Abs(moveX) == Window.MapSizeX / 2 || Math.Abs(moveY) == Window.MapSizeY / 2)
                 {
 
 
@@ -155,7 +155,7 @@ namespace TheGame
 
                 }
                 Window.PrintMovePlayerOnMap(moveX, moveY);
-                DrawChracteristics();
+                Window.PrintCharacteristic(this);
                 KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
 
             }

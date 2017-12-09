@@ -34,8 +34,8 @@ namespace TheGame
         public static Tuple<bool, ObjectStructures.Position> IsSityNear(ObjectStructures.Position playerPosition)
         {
             foreach (var t in Program.Cities)
-                if (Math.Abs(playerPosition.X - t.Position.X) <= Window.WindowSizeX / 2 &&
-                    Math.Abs(playerPosition.Y - t.Position.Y) <= Window.WindowSizeY / 2)
+                if (Math.Abs(playerPosition.X - t.Position.X) <= Window.MapSizeX / 2 &&
+                    Math.Abs(playerPosition.Y - t.Position.Y) <= Window.MapSizeY / 2)
                     return Tuple.Create(true, t.Position);
             return Tuple.Create(false, new ObjectStructures.Position { X = 0, Y = 0 });
         }

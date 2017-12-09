@@ -23,7 +23,7 @@ namespace TheGame
 
         public static List<Enemy> CreateEnemyWolf(int playerLevel = 1)
         {
-            int count = Program.Random.Next(3, 82);
+            int count = Program.Random.Next(3, 8);
             int level = Program.Random.Next(1, 101);
             var enemyes = new List<Enemy>(count);
             for (int i = 0; i < count; i++)
