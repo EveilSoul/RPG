@@ -29,7 +29,7 @@ namespace TheGame
             while (Enemy.IsEnemyLive(enemy) && player.IsLive)
             {
                 Window.PrintEnemy(enemy);
-                Console.WriteLine(player.CurrentHealth);
+                Window.PrintBattleCharacteristic(player, enemy);
 
                 var type = player.SelectType();
                 Window.PrintArray(player.GetCharacteristicsOfWeapons(type));
@@ -52,14 +52,11 @@ namespace TheGame
                 Window.PrintOnEnemyAtack();
                 Window.PrintEnemy(enemy);
 
+
                 for (int i = 0; i < enemy.Count; i++)
                     player.ApplyDamage(enemy[i].EnemyAttack());
 
-                if (Enemy.IsEnemyLive(enemy))
-                {
-                    Window.PrintEnemyAtack();
-                    Window.PrintEnemy(enemy);
-                }
+
             }
 
             Window.ClearMap(Window.BattleMap, Window.EnemySymble);

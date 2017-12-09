@@ -11,7 +11,7 @@ namespace TheGame
         public EnemyWolf(int level)
         {
             if (level < 0) level = 0;
-            this.Name = "Wolf";
+            this.Name = "Волк";
             this.PowerAttack = 10 + level * level/2;
             this.IsLive = true;
             this.Health = 48 + 2*level*level;
@@ -23,7 +23,7 @@ namespace TheGame
 
         public static List<Enemy> CreateEnemyWolf(int playerLevel = 1)
         {
-            int count = Program.Random.Next(3, 6);
+            int count = Program.Random.Next(3, 82);
             int level = Program.Random.Next(1, 101);
             var enemyes = new List<Enemy>(count);
             for (int i = 0; i < count; i++)

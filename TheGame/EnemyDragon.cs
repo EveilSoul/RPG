@@ -10,7 +10,7 @@ namespace TheGame
     {
         public EnemyDragon(int level)
         {
-            this.Name = "Dragon";
+            this.Name = "Дракон";
             this.PowerAttack = 150 + level * level / 4;
             this.IsLive = true;
             this.Health = 498 + 2 * level * level;

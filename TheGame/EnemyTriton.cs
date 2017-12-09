@@ -7,7 +7,7 @@ namespace TheGame
     {
         public EnemyTriton(int level)
         {
-            this.Name = "Triton";
+            this.Name = "Тритон";
             this.PowerAttack = 50 + level * level / 4;
             this.IsLive = true;
             this.Health = 128 + 2 * level * level;

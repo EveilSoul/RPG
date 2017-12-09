@@ -9,10 +9,12 @@ namespace TheGame
 {
     class Window
     {
-        public static int WindowSizeX = 31;
-        public static int WindowSizeY = 15;
-        public static char[,] Map = new char[WindowSizeY, WindowSizeX];
-        public static char[,] BattleMap = new char[WindowSizeY, WindowSizeX];
+        public static int MapSizeX = 31;
+        public static int MapSizeY = 15;
+        public static int WindowSizeX = 61;
+        public static int WindowSizeY = 18;
+        public static char[,] Map = new char[MapSizeY, MapSizeX];
+        public static char[,] BattleMap = new char[MapSizeY, MapSizeX];
         public static char PlayerSymble = '@';
         public static char EnemySymble = '*';
         public static char CitySymble = '#';
@@ -39,11 +41,12 @@ namespace TheGame
 
         public static void PrintMap(char[,] map)
         {
-            for (int i = 0; i < WindowSizeY; i++)
+            for (int i = 0; i < MapSizeY; i++)
             {
-                for (int j = 0; j < WindowSizeX; j++)
+                for (int j = 0; j < MapSizeX; j++)
                 {
                     Console.Write(map[i, j]);
+                    if (j == MapSizeX - 1) Console.Write('|');
                 }
                 Console.WriteLine();
             }
@@ -51,13 +54,70 @@ namespace TheGame
 
         }
 
+        public static void PrintCharacteristic(Player player)
+        {
+            Console.SetCursorPosition(MapSizeX + 1, 0);
+            Console.WriteLine("Ваше имя: {0}", player.Name);
+            Console.SetCursorPosition(MapSizeX + 1, 1);
+            Console.WriteLine("Текущее здоровье: {0}", player.CurrentHealth);
+            Console.SetCursorPosition(MapSizeX + 1, 2);
+            Console.WriteLine("Максимальное здоровье: {0}", player.MaxHealth);
+            Console.SetCursorPosition(MapSizeX + 1, 3);
+            Console.WriteLine("Текущая мана: {0}", player.CurrentMana);
+            Console.SetCursorPosition(MapSizeX + 1, 4);
+            Console.WriteLine("Максимальная мана: {0}", player.MaxMana);
+            Console.SetCursorPosition(MapSizeX + 1, 5);
+            Console.WriteLine("Мощность атаки: {0}", player.PowerAttack);
+            Console.SetCursorPosition(MapSizeX + 1, 6);
+            Console.WriteLine("Баланс: {0}", player.Money);
+            Console.SetCursorPosition(MapSizeX + 1, 7);
+            Console.WriteLine("Тип: {0}", player.Type);
+            Console.SetCursorPosition(MapSizeX + 1, 8);
+            Console.WriteLine("Уровень: {0}", player.Level);
+            Console.SetCursorPosition(MapSizeX + 1, 9);
+            Console.WriteLine("Уровень магии {0}", player.MagicLevel);
+            Console.SetCursorPosition(MapSizeX + 1, 10);
+            Console.WriteLine("Опыт сражений {0}", player.BattleSkill);
+            Console.SetCursorPosition(MapSizeX + 1, 11);
+            Console.WriteLine("Навык меча {0:0.0000}", player.SwordSkill);
+            Console.SetCursorPosition(MapSizeX + 1, 12);
+            Console.WriteLine("Навык лука {0:0.0000}", player.BowSkill);
+            Console.SetCursorPosition(MapSizeX + 1, 13);
+            Console.WriteLine("Навык магии {0:0.0000}", player.MagicAccuracy);
+            Console.SetCursorPosition(0, MapSizeY + 1);
+
+        }
+
+        public static void PrintBattleCharacteristic(Player player, List<Enemy> enemy)
+        {
+
+            Console.SetCursorPosition(MapSizeX + 1, 1);
+            Console.WriteLine("Ваше здоровье: {0}", player.CurrentHealth);
+            Console.SetCursorPosition(MapSizeX + 1, 2);
+            Console.WriteLine("Ваша мана: {0}", player.CurrentMana);
+            Console.SetCursorPosition(MapSizeX + 1, 3);
+            Console.WriteLine("-----------------------------");
+            Console.SetCursorPosition(MapSizeX + 1, 5);
+            Console.WriteLine("Название монстров: {0}", enemy[0].Name);
+            Console.SetCursorPosition(MapSizeX + 1, 6);
+            Console.WriteLine("Сила атакаки: ");
+            for (int i = 0; i < enemy.Count; i++)
+            {
+                Console.SetCursorPosition(MapSizeX + 1, 7 + i);
+                Console.WriteLine("{0}: {1}", i + 1, enemy[i].PowerAttack);
+            }
+            Console.SetCursorPosition(0, MapSizeY + 3);
+          
+        }
+
         public static void PrintMovePlayerOnMap(int moveX, int moveY)
         {
             Console.Clear();
-            var tempChar = Map[(WindowSizeY - 1) / 2 + moveY, (WindowSizeX - 1) / 2 + moveX];
-            Map[(WindowSizeY - 1) / 2 + moveY, (WindowSizeX - 1) / 2 + moveX] = PlayerSymble;
+            var tempChar = Map[(MapSizeY - 1) / 2 + moveY, (MapSizeX - 1) / 2 + moveX];
+            Map[(MapSizeY - 1) / 2 + moveY, (MapSizeX - 1) / 2 + moveX] = PlayerSymble;
             PrintMap(Map);
-            Map[(WindowSizeY - 1) / 2 + moveY, (WindowSizeX - 1) / 2 + moveX] = tempChar;
+            Map[(MapSizeY - 1) / 2 + moveY, (MapSizeX - 1) / 2 + moveX] = tempChar;
+            Console.WriteLine("--------------------------------");
         }
 
 
@@ -67,14 +127,14 @@ namespace TheGame
 
             for (int i = -1 * (enemyCount - 1); i < enemyCount; i += 2)
             {
-                BattleMap[EnemyGeneration, WindowSizeX / 2 + i] = EnemySymble;
+                BattleMap[EnemyGeneration, MapSizeX / 2 + i] = EnemySymble;
 
-                enemy[count].Position = new ObjectStructures.Position { X = EnemyGeneration, Y = WindowSizeX / 2 + i };
+                enemy[count].Position = new ObjectStructures.Position { X = EnemyGeneration, Y = MapSizeX / 2 + i };
                 count++;
             }
 
 
-            BattleMap[WindowSizeY / 2, WindowSizeX / 2] = PlayerSymble;
+            BattleMap[MapSizeY / 2, MapSizeX / 2] = PlayerSymble;
         }
 
         public static void PrintEnemy(List<Enemy> enemy)
@@ -87,7 +147,7 @@ namespace TheGame
             }
 
 
-            for (int i = 0; i < WindowSizeX; i++)
+            for (int i = 0; i < MapSizeX; i++)
             {
                 if (BattleMap[EnemyGeneration, i] == EnemySymble)
                 {
@@ -105,14 +165,13 @@ namespace TheGame
             }
             Console.Clear();
             PrintMap(BattleMap);
-
-            //test
+            Console.WriteLine("--------------------------------");
+            Console.WriteLine("Здоровье врагов:");
             for (int i = 0; i < enemy.Count; i++)
             {
-                Console.Write("{0} ", enemy[i].Health);
+                Console.Write("{0} ",enemy[i].Health);
             }
             Console.WriteLine();
-
         }
 
 
@@ -121,10 +180,10 @@ namespace TheGame
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            for (int i = 0; i < WindowSizeY; i++)
+            for (int i = 0; i < MapSizeY; i++)
             {
                 if (i > 4) Console.ForegroundColor = ConsoleColor.Black;
-                for (int j = 0; j < WindowSizeX; j++)
+                for (int j = 0; j < MapSizeX; j++)
                 {
                     Console.Write(BattleMap[i, j]);
                 }
@@ -143,10 +202,10 @@ namespace TheGame
         {
 
             Console.Clear();
-            for (int i = 0; i < WindowSizeY; i++)
+            for (int i = 0; i < MapSizeY; i++)
             {
                 if (i > 4) Console.ForegroundColor = ConsoleColor.Red;
-                for (int j = 0; j < WindowSizeX; j++)
+                for (int j = 0; j < MapSizeX; j++)
                 {
                     Console.Write(BattleMap[i, j]);
                 }
@@ -162,9 +221,9 @@ namespace TheGame
 
         public static void ClearMap(char[,] map, char symbleDelete)
         {
-            for (int i = 0; i < WindowSizeY; i++)
+            for (int i = 0; i < MapSizeY; i++)
             {
-                for (int j = 0; j < WindowSizeX; j++)
+                for (int j = 0; j < MapSizeX; j++)
                 {
                     if (map[i, j] == symbleDelete) map[i, j] = ' ';
                 }
@@ -174,18 +233,18 @@ namespace TheGame
         public static void DrowCity(ObjectStructures.Position cityPosition, ObjectStructures.Position playerPosition)
         {
             ClearMap(Map, CitySymble);
-            Map[WindowSizeY / 2 + playerPosition.Y - cityPosition.Y, WindowSizeX / 2 - playerPosition.X + cityPosition.X] =CitySymble;
+            Map[MapSizeY / 2 + playerPosition.Y - cityPosition.Y, MapSizeX / 2 - playerPosition.X + cityPosition.X] =CitySymble;
         }
 
         public static void DrowEnemy(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition,
             int moveX = 0, int moveY = 0)
         {
             ClearMap(Map, EnemySymble);
-            if (WindowSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY>=0 
-                && WindowSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY<=WindowSizeY
-                && WindowSizeX / 2 - playerPosition.X + enemyPosition.X + moveX>=0
-                && WindowSizeX / 2 - playerPosition.X + enemyPosition.X + moveX<=WindowSizeX)
-            Map[WindowSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY, WindowSizeX / 2 - playerPosition.X + enemyPosition.X + moveX] = EnemySymble;
+            if (MapSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY>=0 
+                && MapSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY<=MapSizeY
+                && MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX>=0
+                && MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX<=MapSizeX)
+            Map[MapSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY, MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX] = EnemySymble;
         }
         
     }

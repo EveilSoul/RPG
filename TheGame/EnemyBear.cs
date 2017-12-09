@@ -11,7 +11,7 @@ namespace TheGame
 
         public EnemyBear(int level)
         {
-            this.Name = "Bear";
+            this.Name = "Медведь";
             this.PowerAttack = 20 + level * level / 2;
             this.IsLive = true;
             this.Health = 98 + 2 * level * level;

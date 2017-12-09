@@ -7,7 +7,7 @@ namespace TheGame
     {
         public EnemyBandit(int level)
         {
-            this.Name = "Bandit";
+            this.Name = "Бандит";
             this.PowerAttack = 30 + level * level / 4;
             this.IsLive = true;
             this.Health = 68 + 2 * level * level;

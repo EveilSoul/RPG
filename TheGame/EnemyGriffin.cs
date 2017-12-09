@@ -7,7 +7,7 @@ namespace TheGame
     {
         public EnemyGriffin(int level)
         {
-            this.Name = "Griffin";
+            this.Name = "Грифон";
             this.PowerAttack = 58 + level * level / 2;
             this.IsLive = true;
             this.Health = 148 + 2 * level * level;

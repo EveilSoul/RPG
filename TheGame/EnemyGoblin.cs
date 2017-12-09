@@ -10,7 +10,7 @@ namespace TheGame
     {
         public EnemyGoblin(int level)
         {
-            this.Name = "Goblin";
+            this.Name = "Гоблин";
             this.PowerAttack = 20 + level * level / 4;
             this.IsLive = true;
             this.Health = 48 + 2 * level * level;

@@ -22,7 +22,9 @@ namespace TheGame
                 else if (rand > 250 && rand <= 300) enemy.Add(new EnemyBandit(count <= 16 ? PlayerLevel : PlayerLevel + count - 16));
                 else enemy.Add(new EnemyDragon(PlayerLevel));
                 enemy[i].Mimicry = true;
+                
             }
+
             return enemy;
         }
     }

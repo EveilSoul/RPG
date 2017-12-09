@@ -7,7 +7,7 @@ namespace TheGame
     {
         public EnemyOrk(int level)
         {
-            this.Name = "Ork";
+            this.Name = "Орк";
             this.PowerAttack = 35 + level * level / 2;
             this.IsLive = true;
             this.Health = 98 + 2 * level * level;
