@@ -114,7 +114,7 @@ namespace TheGame
             Window.DrowWindow();
 
             var city = City.IsSityNear(this.Position);
-            if (city.Item1) Window.DrowCity(city.Item2, this.Position);
+            Window.DrowCity(city, this.Position);
 
             var enemy = Enemy.CreateEnemy(this.Level, this.Position);
             Enemy.TheLastEnemyPosition = enemy.Item1;
@@ -143,12 +143,11 @@ namespace TheGame
                     }
 
                     city = City.IsSityNear(this.Position);
-                    if (city.Item1)
-                        Window.DrowCity(city.Item2, this.Position);
-                    else
-                    {
-                        Window.ClearMap(Window.Map, Window.CitySymble);
-                    }
+                    Window.DrowCity(city, this.Position);
+                    //else
+                    //{
+                    //    Window.ClearMap(Window.Map, Window.CitySymble);
+                    //}
                     moveX = 0;
                     moveY = 0;
                     Window.PrintMovePlayerOnMap(moveX, moveY);

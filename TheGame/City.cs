@@ -31,13 +31,19 @@ namespace TheGame
                 t.CityNear(player);
         }
 
-        public static Tuple<bool, ObjectStructures.Position> IsSityNear(ObjectStructures.Position playerPosition)
+        public static List<ObjectStructures.Position> IsSityNear(ObjectStructures.Position playerPosition)
         {
+            var cities = new List<ObjectStructures.Position>();
+
             foreach (var t in Program.Cities)
                 if (Math.Abs(playerPosition.X - t.Position.X) <= Window.MapSizeX / 2 &&
                     Math.Abs(playerPosition.Y - t.Position.Y) <= Window.MapSizeY / 2)
-                    return Tuple.Create(true, t.Position);
-            return Tuple.Create(false, new ObjectStructures.Position { X = 0, Y = 0 });
+
+                    cities.Add(t.Position);
+                
+                    
+
+            return cities;
         }
 
         public void CityNear(Player player)

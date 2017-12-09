@@ -84,6 +84,10 @@ namespace TheGame
             Console.WriteLine("Навык лука {0:0.0000}", player.BowSkill);
             Console.SetCursorPosition(MapSizeX + 1, 13);
             Console.WriteLine("Навык магии {0:0.0000}", player.MagicAccuracy);
+            Console.SetCursorPosition(MapSizeX + 1, 14);
+            Console.WriteLine("Позиция: ({0}, {1})", player.Position.X, player.Position.Y);
+            Console.SetCursorPosition(MapSizeX + 1, 15);
+            Console.WriteLine("Сила атаки: {0}", player.PowerAttack);
             Console.SetCursorPosition(0, MapSizeY + 1);
 
         }
@@ -230,10 +234,11 @@ namespace TheGame
             }
         }
 
-        public static void DrowCity(ObjectStructures.Position cityPosition, ObjectStructures.Position playerPosition)
+        public static void DrowCity(List<ObjectStructures.Position> cityPosition, ObjectStructures.Position playerPosition)
         {
             ClearMap(Map, CitySymble);
-            Map[MapSizeY / 2 + playerPosition.Y - cityPosition.Y, MapSizeX / 2 - playerPosition.X + cityPosition.X] =CitySymble;
+            for (int i=0;i<cityPosition.Count;i++)
+            Map[MapSizeY / 2 + playerPosition.Y - cityPosition[i].Y, MapSizeX / 2 - playerPosition.X + cityPosition[i].X] = CitySymble;
         }
 
         public static void DrowEnemy(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition,
