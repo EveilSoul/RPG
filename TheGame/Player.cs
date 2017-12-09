@@ -225,6 +225,11 @@ namespace TheGame
             Console.WriteLine("Навык использования магии {0:0.0000}", this.MagicAccuracy);
         }
 
+        public virtual int[] SuperAttack(int enemyCount)
+        {
+            return new int[enemyCount];
+        }
+
         public void ApplyDamage(int damage)
         {
             var t = Program.Random.Next(0, 5);
