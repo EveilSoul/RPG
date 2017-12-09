@@ -24,6 +24,7 @@ namespace TheGame
         public float MagicAccuracy;
         public int MagicLevel = 1;
         public bool IsLive;
+        public List<ObjectStructures.MedicineKit> MedicineKits;
         public delegate int[] Attacks(int countEnemy, int ingexOfWeapons, params int[] nums);
 
         public enum PlayerType
@@ -50,6 +51,15 @@ namespace TheGame
             this.Swords = new List<Sword>();
             this.Armor = new ObjectStructures.ArmorComplect();
             this.Spells = new List<Spell>();
+            this.MedicineKits = new List<ObjectStructures.MedicineKit>()
+            {
+                new ObjectStructures.MedicineKit{ HpToAdd = 50 },
+                new ObjectStructures.MedicineKit{ HpToAdd = 50 },
+                new ObjectStructures.MedicineKit{ HpToAdd = 50 },
+                new ObjectStructures.MedicineKit{ HpToAdd = 50 },
+                new ObjectStructures.MedicineKit{ HpToAdd = 50 },
+                new ObjectStructures.MedicineKit{ HpToAdd = 150 }
+            };
             this.IsLive = true;
         }
 
@@ -123,8 +133,8 @@ namespace TheGame
 
                 if (Math.Abs(moveX) == Window.WindowSizeX / 2 || Math.Abs(moveY) == Window.WindowSizeY / 2)
                 {
-                    
-                    
+
+
                     if (Enemy.IsEnemyNear(enemy.Item1, this.Position) && !Battle.TheBattleWas && !enemy.Item2[0].Mimicry)
                         Window.DrowEnemy(enemy.Item1, this.Position);
                     else
@@ -142,7 +152,7 @@ namespace TheGame
                     moveX = 0;
                     moveY = 0;
                     Window.PrintMovePlayerOnMap(moveX, moveY);
-                    
+
                 }
                 Window.PrintMovePlayerOnMap(moveX, moveY);
                 DrawChracteristics();

@@ -124,7 +124,6 @@ namespace TheGame
 
         static void Main()
         {
-            Console
             Console.Title = "TheBestRPG";
             Random = new Random();
             Path = Environment.CurrentDirectory;

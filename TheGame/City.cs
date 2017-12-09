@@ -279,13 +279,13 @@ namespace TheGame
                 case ConsoleKey.S:
                     ObjectStructures.MedicineKit medicineKit = new ObjectStructures.MedicineKit { HpToAdd = 50 };
                     if (player.GiveMoney(30))
-                        Console.WriteLine("30");
+                        player.MedicineKits.Add(medicineKit);
                     break;
                 case ConsoleKey.N:
                     Console.WriteLine("Введите нужную емкость");
                     int t = Program.Parse(Console.ReadLine());
                     if (player.GiveMoney((int)(1.6 * t)))
-                        Console.WriteLine("Вы купили аптечку");
+                        player.MedicineKits.Add(new ObjectStructures.MedicineKit { HpToAdd = t });
                     break;
                 case ConsoleKey.Escape:
                     return;
