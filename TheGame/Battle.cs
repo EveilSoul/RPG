@@ -41,7 +41,13 @@ namespace TheGame
                 var numberOnEnemyAtsck = player.Attack(
                     enemy.Count, type, bow, spell, sword, enInd);
 
-                Enemy.OnEnemyAtack(enemy, numberOnEnemyAtsck);
+
+                for (int i = 0; i < enemy.Count; i++)
+                {
+                    enemy[i].OnEnemyAtack(enemy[i], numberOnEnemyAtsck[i]);
+                }
+
+                Enemy.CheckEnemyDie(enemy);
 
                 Window.PrintOnEnemyAtack();
                 Window.PrintEnemy(enemy);
