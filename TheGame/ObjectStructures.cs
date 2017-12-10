@@ -29,7 +29,6 @@ namespace TheGame
             public Armor Arms;
             public Armor Leggs;
             public Armor Boots;
-
             public int Protect(int damage, int num)
             {
                 switch (num)
@@ -62,12 +61,12 @@ namespace TheGame
                 res.AddRange(this.Boots.GetCharacteristics());
                 return res.ToArray<string>();
             }
-            public int GetCost() =>
-                this.Head.Cost + this.Body.Cost + this.Arms.Cost + this.Leggs.Cost + this.Boots.Cost;
+            public int GetCost(float cost = 1) =>
+                (int)(cost * (this.Head.Cost + this.Body.Cost + this.Arms.Cost + this.Leggs.Cost + this.Boots.Cost));
             public int GetMana() =>
                 this.Head.Mana + this.Body.Mana + this.Arms.Mana + this.Leggs.Mana + this.Boots.Mana;
-            public int GetRealCost() =>
-                this.Head.GetCost() + this.Body.GetCost() + this.Arms.GetCost() + this.Leggs.GetCost() + this.Boots.GetCost();
+            public int GetRealCost(float cost = 1) =>
+                (int)(cost * (this.Head.GetCost() + this.Body.GetCost() + this.Arms.GetCost() + this.Leggs.GetCost() + this.Boots.GetCost()));
             public int GetHealthToAdd() =>
                 this.Head.GetHealthToAdd() + this.Body.GetHealthToAdd() + this.Arms.GetHealthToAdd() + this.Leggs.GetHealthToAdd() + this.Boots.GetHealthToAdd();
             public int GetOnHPCost() =>
@@ -89,6 +88,7 @@ namespace TheGame
             public int Health;
             public int Cost;
             public float Strength;
+            public float Luck;
             public int Mana;
             public string Description;
 
@@ -111,6 +111,8 @@ namespace TheGame
 
             public int Protect(int damage)
             {
+                if (this.Health > 0 && Program.Random.NextDouble() <= this.Luck)
+                    return 0;
                 damage = (int)(damage * (1 - this.Strength));
                 this.Health -= (this.Strength == 0) ? 0 : damage / 5;
                 if (this.Health <= 0)
@@ -127,6 +129,7 @@ namespace TheGame
                     String.Format("Количество жизней: {0}", this.Health),
                     String.Format("Стоимость: {0}", this.Cost),
                     String.Format("Прочность: {0}", this.Strength),
+                    String.Format("Шанс полной защиты: {0}", this.Luck),
                     this.Description + '\n'};
             }
         }
@@ -141,9 +144,9 @@ namespace TheGame
             armor.Cost = int.Parse(characteristics[2]);
             armor.Strength = float.Parse(characteristics[3]);
             armor.Description = characteristics[4];
-
-            if (characteristics.Length != 5)
-                armor.Mana = int.Parse(characteristics[5]);
+            armor.Luck = float.Parse(characteristics[5]);
+            if (characteristics.Length != 6)
+                armor.Mana = int.Parse(characteristics[6]);
 
             armor.MaxHealth = armor.Health;
             return armor;

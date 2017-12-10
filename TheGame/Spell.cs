@@ -21,7 +21,7 @@ namespace TheGame
                 this.Description += lines[i] + "\n";
         }
 
-        public override string[] GetCharacteristics(bool store = false)
+        public override string[] GetCharacteristics(bool store = false, float cost = 1)
         {
             return new[]
             {
@@ -29,7 +29,7 @@ namespace TheGame
                 String.Format("Мощность заклинания: {0}", this.Damage),
                 String.Format("Атака на {0} противников", this.CountImpact),
                 String.Format("Использование стоит {0} маны", this.Mana),
-                (store ? String.Format("Стоимость изучения: {0}", this.Cost) : null),
+                (store ? String.Format("Стоимость изучения: {0}", this.Cost * cost) : null),
                 (store ? String.Format("Минимальный уровень: {0}", this.MinLevelToUse) : null),
             };
         }

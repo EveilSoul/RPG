@@ -21,14 +21,14 @@ namespace TheGame
             Spell
         }
 
-        public virtual string[] GetCharacteristics(bool store = false)
+        public virtual string[] GetCharacteristics(bool store = false, float cost = 1)
         {
             return new[]
             {
                 String.Format("\nИмя: {0}", this.Name),
                 String.Format("Мощность атаки: {0}", this.PowerAttack),
                 String.Format("Атака на {0} противников", this.CountImpact),
-                (store ? String.Format("Стоимость: {0}", this.Cost) : null),
+                (store ? String.Format("Стоимость: {0}", this.Cost * cost) : null),
                 (store ? String.Format("Минимальный уровень для владения: {0}", this.MinLevelToUse) : null),
                 (store ? String.Format("Прибавка к мане: {0}", this.Mana) : null)
             };

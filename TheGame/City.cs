@@ -7,11 +7,14 @@ namespace TheGame
         public string Name;
         public ObjectStructures.Position Position;
         private int OneCoinCountHP;
+        public Dictionary<string, float> RealCosts;
 
         List<string> Places = new List<string>();
 
         public City(string name, ObjectStructures.Position position)
         {
+            RealCosts = new Dictionary<string, float>();
+            SetCost();
             OneCoinCountHP = 2;
             this.Name = name;
             this.Position = position;
@@ -23,6 +26,15 @@ namespace TheGame
             Places.Add("Библиотека");
             Places.Add("Магазин луков");
             Places.Add("Аптека");
+        }
+
+        private void SetCost()
+        {
+            RealCosts.Add("sword", Program.Random.Next(50, 150) / 100f);
+            RealCosts.Add("bow", Program.Random.Next(50, 150) / 100f);
+            RealCosts.Add("armor", Program.Random.Next(50, 150) / 100f);
+            RealCosts.Add("spell", Program.Random.Next(50, 150) / 100f);
+            RealCosts.Add("health", Program.Random.Next(50, 150) / 100f);
         }
 
         public static void CheckPlayer(Player player)
@@ -38,11 +50,7 @@ namespace TheGame
             foreach (var t in Program.Cities)
                 if (Math.Abs(playerPosition.X - t.Position.X) <= Window.MapSizeX / 2 &&
                     Math.Abs(playerPosition.Y - t.Position.Y) <= Window.MapSizeY / 2)
-
                     cities.Add(t.Position);
-                
-                    
-
             return cities;
         }
 
@@ -58,10 +66,10 @@ namespace TheGame
         {
             Console.WriteLine("Ваш баланс: {0}", player.Money);
             Console.WriteLine("Вы можете восстановить {0} здоровья", player.MaxHealth - player.CurrentHealth);
-            Console.WriteLine("Цена: 1 монета за {0} единиц здоровья", this.OneCoinCountHP);
+            Console.WriteLine("Цена: 1 монета за {0} единиц здоровья", this.OneCoinCountHP * RealCosts["health"]);
             Console.WriteLine("Сколько вы хотите восстановить?");
             int hp = Program.Parse(Console.ReadLine());
-            if (player.GiveMoney(hp / this.OneCoinCountHP))
+            if (player.GiveMoney(hp / (int)(this.OneCoinCountHP * RealCosts["health"])))
                 player.AddHP(hp);
             Console.WriteLine("Ваше здоровье теперь составляет {0}", player.CurrentHealth);
         }
@@ -124,12 +132,12 @@ namespace TheGame
             for (int i = 0; i < Program.Swords.Count; i++)
             {
                 Console.Clear();
-                WriteCharacteristics(Program.Swords[i].GetCharacteristics(true));
+                WriteCharacteristics(Program.Swords[i].GetCharacteristics(true, RealCosts["sword"]));
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.Y:
                         if (player.Level >= Program.Swords[i].MinLevelToUse &&
-                            player.GiveMoney(Program.Swords[i].Cost))
+                            player.GiveMoney((int)((Program.Swords[i].Cost * RealCosts["sword"]))))
                         {
                             Console.WriteLine("Вы приобрели {0}", Program.Swords[i].Name);
                             player.AddSword(Program.Swords[i]);
@@ -152,11 +160,11 @@ namespace TheGame
             for (int i = 0; i < Program.Spells.Count; i++)
             {
                 Console.Clear();
-                WriteCharacteristics(Program.Spells[i].GetCharacteristics(true));
+                WriteCharacteristics(Program.Spells[i].GetCharacteristics(true, RealCosts["spell"]));
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.Y:
-                        if (player.LearnSpell(Program.Spells[i]))
+                        if (player.LearnSpell(Program.Spells[i], RealCosts["spell"]))
                             Console.WriteLine("Вы изучили {0}", Program.Spells[i].Name);
                         return;
                     case ConsoleKey.Escape:
@@ -175,12 +183,12 @@ namespace TheGame
             for (int i = 0; i < Program.Bows.Count; i++)
             {
                 Console.Clear();
-                WriteCharacteristics(Program.Bows[i].GetCharacteristics(true));
+                WriteCharacteristics(Program.Bows[i].GetCharacteristics(true, RealCosts["bow"]));
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.Y:
                         if (player.Level >= Program.Bows[i].MinLevelToUse &&
-                            player.GiveMoney(Program.Bows[i].Cost))
+                            player.GiveMoney((int)(Program.Bows[i].Cost * RealCosts["bow"])))
                         {
                             Console.WriteLine("Вы приобрели {0}", Program.Bows[i].Name);
                             player.Bow = Program.Bows[i];
@@ -206,9 +214,9 @@ namespace TheGame
             Console.WriteLine();
             ObjectStructures.ArmorComplect armor = GetChoice();
 
-            if (armor.GetCost() == 0) return;
+            if (armor.GetCost(RealCosts["armor"]) == 0) return;
 
-            if (player.GiveMoney(armor.GetCost()))
+            if (player.GiveMoney(armor.GetCost(RealCosts["armor"])))
             {
                 player.AddArmor(armor);
                 Console.WriteLine("вы купили комплект брони");
@@ -219,11 +227,11 @@ namespace TheGame
         public void ArmorShopSell(Player player)
         {
             HelloPlayer(player);
-            Console.WriteLine("Вы точно хотите продать вашу броню? \nY / N \n Вы получите {0} монет", player.Armor.GetRealCost());
+            Console.WriteLine("Вы точно хотите продать вашу броню? \nY / N \n Вы получите {0} монет", player.Armor.GetRealCost(RealCosts["armor"]));
             switch (Console.ReadKey(true).Key)
             {
                 case ConsoleKey.Y:
-                    player.AddMoney(player.Armor.GetRealCost());
+                    player.AddMoney(player.Armor.GetRealCost(RealCosts["armor"]));
                     player.AddArmor(new ObjectStructures.ArmorComplect());
                     Console.WriteLine("Вы успешно продали свой комплект брони.\nВаш баланс: {0}", player.Money);
                     return;
@@ -237,10 +245,10 @@ namespace TheGame
         {
             HelloPlayer(player);
             Console.WriteLine("Вы можете восстановить {0} единиц брони по стоимости 1 монета за {1} брони.",
-                player.Armor.GetHealthToAdd(), player.Armor.GetOnHPCost());
+                player.Armor.GetHealthToAdd(), player.Armor.GetOnHPCost() * RealCosts["armor"]);
             Console.WriteLine("Введите число единиц, которое вы хотите восстановить.");
-            int additionCount = Program.Parse(Console.ReadLine());
-            if (player.GiveMoney(additionCount / player.Armor.GetOnHPCost()))
+            int additionCount = Program.Parse(Console.ReadLine(), 0, 1e18);
+            if (player.GiveMoney((int)(additionCount / (player.Armor.GetOnHPCost() * RealCosts["armor"]))))
             {
                 player.Armor.Repair(additionCount);
                 Console.WriteLine("Вы восстановили {0} единиц", additionCount);
@@ -261,7 +269,7 @@ namespace TheGame
             var armor = Program.Armor[Program.Parse(Console.ReadLine(), 1, Program.Armor.Count) - 1];
 
             WriteCharacteristics(armor.GetCharacteristics());
-            Console.WriteLine("Итогo:{0}", armor.GetCost());
+            Console.WriteLine("Итогo:{0}", armor.GetCost(RealCosts["armor"]));
             Console.WriteLine("Если хотите купить, нажмите Y. Если нет, то N");
             switch (Console.ReadKey(true).Key)
             {

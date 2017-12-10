@@ -20,14 +20,15 @@ namespace TheGame
 
         public static string[] NamesSwords = { @"\baseWarriorSword.txt", @"\baseWizardKnife.txt", @"\baseStilet.txt",
         @"\middleElderSword.txt", @"\dragonSlayerSword.txt"};
-        public static string[] NamesBows = { @"\baseRangerBow.txt", @"\middleRangerBow.txt", @"\legendaryBow.txt" };
+        public static string[] NamesBows = { @"\baseRangerBow.txt", @"\middleRangerBow.txt", @"\hunterBow.txt", @"\legendaryBow.txt" };
         public static string[,] NamesArmor = {
             { @"\baseWarriorHeadArmor.txt", @"\baseWarriorBodyArmor.txt", @"\baseWarriorArmsArmor.txt", @"\baseWarriorLeggsArmor.txt", @"\baseWarriorBootsArmor.txt" },
             { @"\baseRangerHeadArmor.txt", @"\baseRangerBodyArmor.txt", @"\baseRangerArmsArmor.txt", @"\baseRangerLeggsArmor.txt", @"\baseRangerBootsArmor.txt"  }
         };
         public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt", @"\basePointAttack.txt", @"\middleThunderAttack.txt",
-        @"\baseWarriorMultiplyAttack.txt", @"\dragonsFlame.txt"};
-        public static string[] CitiesNames = { "Неаполь", "Лордерон", "Царьград", "Омск", "Тартарос", "Лондон", "Штормград", "Мордор", "Эребор", "Минас Тирит",  };
+        @"\baseWarriorMultiplyAttack.txt", @"\dragonsFlame.txt", @"\LightStars.txt"};
+        public static string[] CitiesNames = { "Неаполь", "Лордерон", "Царьград", "Омск", "Тартарос", "Лондон",
+            "Штормград", "Мордор", "Эребор", "Минас Тирит", "Солнечный колодец"};
 
         static List<Sword> GetSwords(string path)
         {

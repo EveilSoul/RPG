@@ -358,11 +358,11 @@ namespace TheGame
             }
         }
 
-        public bool LearnSpell(Spell spell)
+        public bool LearnSpell(Spell spell, float cost = 1)
         {
-            if (spell.MinLevelToUse <= this.MagicLevel && spell.Cost <= this.Money)
+            if (spell.MinLevelToUse <= this.MagicLevel && (int)(spell.Cost * cost) <= this.Money)
             {
-                this.Money -= spell.Cost;
+                this.Money -= (int)(spell.Cost * cost);
                 this.Spells.Add(spell);
                 return true;
             }
