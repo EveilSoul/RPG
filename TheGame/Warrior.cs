@@ -38,7 +38,7 @@ namespace TheGame
             {
                 for (int i = 0; i < enemyCount; i++)
                 {
-                    result[i] += Swords[i].Attack();
+                    result[i] += Swords[index].Attack();
                     result[i] += this.SimpleSwordAttack(1, Swords[index], 0, 0)[0];
                     result[i] += Program.Random.Next(0, this.Level * this.Level);
                 }

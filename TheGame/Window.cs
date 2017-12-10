@@ -56,72 +56,62 @@ namespace TheGame
 
         public static void PrintCharacteristic(Player player)
         {
-            Console.SetCursorPosition(MapSizeX + 1, 0);
+            int i = 0;
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Ваше имя: {0}", player.Name);
-            Console.SetCursorPosition(MapSizeX + 1, 1);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Текущее здоровье: {0}", player.CurrentHealth);
-            Console.SetCursorPosition(MapSizeX + 1, 2);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Максимальное здоровье: {0}", player.MaxHealth);
-            Console.SetCursorPosition(MapSizeX + 1, 3);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Текущая мана: {0}", player.CurrentMana);
-            Console.SetCursorPosition(MapSizeX + 1, 4);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Максимальная мана: {0}", player.MaxMana);
-            Console.SetCursorPosition(MapSizeX + 1, 5);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Мощность атаки: {0}", player.PowerAttack);
-            Console.SetCursorPosition(MapSizeX + 1, 6);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Баланс: {0}", player.Money);
-            Console.SetCursorPosition(MapSizeX + 1, 7);
-            Console.WriteLine("Тип: {0}", player.Type);
-            Console.SetCursorPosition(MapSizeX + 1, 8);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Уровень: {0}", player.Level);
-            Console.SetCursorPosition(MapSizeX + 1, 9);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Уровень магии {0}", player.MagicLevel);
-            Console.SetCursorPosition(MapSizeX + 1, 10);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Опыт сражений {0}", player.BattleSkill);
-            Console.SetCursorPosition(MapSizeX + 1, 11);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Навык меча {0:0.0000}", player.SwordSkill);
-            Console.SetCursorPosition(MapSizeX + 1, 12);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Навык лука {0:0.0000}", player.BowSkill);
-            Console.SetCursorPosition(MapSizeX + 1, 13);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Навык магии {0:0.0000}", player.MagicAccuracy);
-            Console.SetCursorPosition(MapSizeX + 1, 14);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Позиция: ({0}, {1})", player.Position.X, player.Position.Y);
-            Console.SetCursorPosition(MapSizeX + 1, 15);
-            Console.WriteLine("Сила атаки: {0}", player.PowerAttack);
             Console.SetCursorPosition(0, MapSizeY + 1);
+
 
         }
 
         public static void PrintBattleCharacteristic(Player player, List<Enemy> enemy)
         {
-
-            Console.SetCursorPosition(MapSizeX + 1, 1);
+            int i = 0;
+            Console.SetCursorPosition(MapSizeX + 1, ++i);
             Console.WriteLine("Ваше здоровье: {0}", player.CurrentHealth);
-            Console.SetCursorPosition(MapSizeX + 1, 2);
+            Console.SetCursorPosition(MapSizeX + 1, ++i);
             Console.WriteLine("Ваша мана: {0}", player.CurrentMana);
-            Console.SetCursorPosition(MapSizeX + 1, 3);
+            Console.SetCursorPosition(MapSizeX + 1, ++i);
+            Console.WriteLine("Сила атаки: {0}", player.PowerAttack);
+            Console.SetCursorPosition(MapSizeX + 1, ++i);
             Console.WriteLine("-----------------------------");
-            Console.SetCursorPosition(MapSizeX + 1, 5);
+            Console.SetCursorPosition(MapSizeX + 1, ++i);
             Console.WriteLine("Название монстров: {0}", enemy[0].Name);
-            Console.SetCursorPosition(MapSizeX + 1, 6);
+            Console.SetCursorPosition(MapSizeX + 1, ++i);
             Console.WriteLine("Сила атакаки: ");
-            for (int i = 0; i < enemy.Count; i++)
-            {
-                Console.SetCursorPosition(MapSizeX + 1, 7 + i);
-                Console.WriteLine("{0}: {1}", i + 1, enemy[i].PowerAttack);
+            for (int j = 0; j < enemy.Count; j++)
+            { 
+                Console.SetCursorPosition(MapSizeX + 1, 7 + j);
+                Console.WriteLine("{0}: {1}", j + 1, enemy[j].PowerAttack);
             }
             Console.SetCursorPosition(0, MapSizeY + 3);
           
-        }
-
-        public static void PrintMovePlayerOnMap(int moveX, int moveY)
-        {
-            Console.Clear();
-            var tempChar = Map[(MapSizeY - 1) / 2 + moveY, (MapSizeX - 1) / 2 + moveX];
-            Map[(MapSizeY - 1) / 2 + moveY, (MapSizeX - 1) / 2 + moveX] = PlayerSymble;
-            PrintMap(Map);
-            Map[(MapSizeY - 1) / 2 + moveY, (MapSizeX - 1) / 2 + moveX] = tempChar;
-            Console.WriteLine("--------------------------------");
         }
 
 
@@ -238,18 +228,29 @@ namespace TheGame
         {
             ClearMap(Map, CitySymble);
             for (int i=0;i<cityPosition.Count;i++)
-            Map[MapSizeY / 2 + playerPosition.Y - cityPosition[i].Y, MapSizeX / 2 - playerPosition.X + cityPosition[i].X] = CitySymble;
+            Map[MapSizeY / 2 - playerPosition.Y + cityPosition[i].Y, MapSizeX / 2 - playerPosition.X + cityPosition[i].X] = CitySymble;
+        }
+
+        public static void PrintMovePlayerOnMap(int moveX, int moveY)
+        {
+            Console.Clear();
+            var tempChar = Map[(MapSizeY - 1) / 2 + moveY, (MapSizeX - 1) / 2 + moveX];
+            Map[(MapSizeY - 1) / 2 + moveY, (MapSizeX - 1) / 2 + moveX] = PlayerSymble;
+            PrintMap(Map);
+            Map[(MapSizeY - 1) / 2 + moveY, (MapSizeX - 1) / 2 + moveX] = tempChar;
+            Console.WriteLine("--------------------------------");
         }
 
         public static void DrowEnemy(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition,
             int moveX = 0, int moveY = 0)
         {
             ClearMap(Map, EnemySymble);
-            if (MapSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY>=0 
-                && MapSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY<=MapSizeY
-                && MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX>=0
-                && MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX<=MapSizeX)
-            Map[MapSizeY / 2 + playerPosition.Y - enemyPosition.Y + moveY, MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX] = EnemySymble;
+            if (MapSizeY / 2 - playerPosition.Y + enemyPosition.Y + moveY >= 0
+                && MapSizeY / 2 - playerPosition.Y + enemyPosition.Y + moveY < MapSizeY
+                && MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX >= 0
+                && MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX < MapSizeX)
+
+                Map[MapSizeY / 2 - playerPosition.Y + enemyPosition.Y + moveY, MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX] = EnemySymble;
         }
         
     }

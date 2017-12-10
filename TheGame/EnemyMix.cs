@@ -24,6 +24,7 @@ namespace TheGame
                 enemy[i].Mimicry = true;
                 
             }
+            enemy[0].Name = "Неизвестный";
 
             return enemy;
         }

@@ -78,8 +78,8 @@ namespace TheGame
         {
             var type = player.SelectType();
             Window.PrintArray(player.GetCharacteristicsOfWeapons(type));
-            int index = Program.Parse(Console.ReadLine());
-            if (index == -1)
+            int index = Program.Parse(Console.ReadLine(), 0);
+            if (index == 333)
                 return player.SuperAttack(enemyCount);
             var bow = player.Bow;
             var sword = player.GetSword(index < player.Swords.Count ? index : 0);

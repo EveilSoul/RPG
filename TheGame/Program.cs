@@ -114,7 +114,7 @@ namespace TheGame
             }
             catch (FormatException)
             {
-                return 0;
+                return (int)min;
             }
         }
 
