@@ -8,6 +8,7 @@ namespace TheGame
 {
     public class Player
     {
+        public int NextLevelBorder;
         public string Name;
         public int CurrentHealth;
         public int MaxHealth;
@@ -47,6 +48,7 @@ namespace TheGame
             this.Level = 1;
             this.MagicLevel = 1;
             this.Money = 200;
+            this.NextLevelBorder = 150;
 
             this.Swords = new List<Sword>();
             this.Armor = new ObjectStructures.ArmorComplect();
@@ -69,9 +71,13 @@ namespace TheGame
             this.Position.Y += y;
         }
 
+        /// <summary>
+        /// Повышение уровня персонажа
+        /// </summary>
         public void ChangeBattleLevel()
         {
             this.Level++;
+            this.NextLevelBorder += 150 * (int)Math.Sqrt(this.Level);
             int increase = (int)Math.Sqrt(this.BattleSkill) + 500 / this.BattleSkill;
             this.MaxHealth += increase;
             switch (this.Type)
@@ -156,10 +162,15 @@ namespace TheGame
                 Window.PrintMovePlayerOnMap(moveX, moveY);
                 Window.PrintCharacteristic(this);
                 KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
-
             }
         }
 
+        /// <summary>
+        /// Обработка нажатий на клавиатуру
+        /// </summary>
+        /// <param name="ch">Нажатая клавиша</param>
+        /// <param name="moveX">Сдвиг по оси X от центра</param>
+        /// <param name="moveY">Сдвиг по оси Y от центра</param>
         public void KeyDown(ConsoleKey ch, ref int moveX, ref int moveY)
         {
             switch (ch)
@@ -184,10 +195,6 @@ namespace TheGame
                     this.Walk(1, 0);
                     moveX++;
                     break;
-                case ConsoleKey.I:
-                    DrawAllCharacteristics();
-                    Console.ReadKey(true);
-                    break;
                 case ConsoleKey.H:
                     //help
                     break;
@@ -203,25 +210,6 @@ namespace TheGame
             Console.WriteLine("Health: {0}", this.CurrentHealth);
             Console.WriteLine("Level: {0}", this.Level);
             Console.WriteLine("Position: ({0};{1})", this.Position.X, this.Position.Y);
-        }
-
-        public void DrawAllCharacteristics()
-        {
-            Console.Clear();
-            Console.WriteLine("Ваше имя: {0}", this.Name);
-            Console.WriteLine("Текущее здоровье: {0}", this.CurrentHealth);
-            Console.WriteLine("Максимальное здоровье: {0}", this.MaxHealth);
-            Console.WriteLine("Текущая мана: {0}", this.CurrentMana);
-            Console.WriteLine("Максимальная мана: {0}", this.MaxMana);
-            Console.WriteLine("Мощность атаки: {0}", this.PowerAttack);
-            Console.WriteLine("Баланс: {0}", this.Money);
-            Console.WriteLine("Тип: {0}", this.Type);
-            Console.WriteLine("Уровень: {0}", this.Level);
-            Console.WriteLine("Уровень магии {0}", this.MagicLevel);
-            Console.WriteLine("Опыт сражений {0}", this.BattleSkill);
-            Console.WriteLine("Навык использования меча {0:0.0000}", this.SwordSkill);
-            Console.WriteLine("Навык стрельбы из лука {0:0.0000}", this.BowSkill);
-            Console.WriteLine("Навык использования магии {0:0.0000}", this.MagicAccuracy);
         }
 
         public virtual int[] SuperAttack(int enemyCount)

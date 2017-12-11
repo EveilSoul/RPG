@@ -60,7 +60,7 @@ namespace TheGame
             {
                 player.AddMoney(reward.Item1);
                 player.BattleSkill += reward.Item2;
-                while (player.Level * 100 <= player.BattleSkill)
+                while (player.NextLevelBorder <= player.BattleSkill)
                     player.ChangeBattleLevel();
             }
             TheBattleWas = true;

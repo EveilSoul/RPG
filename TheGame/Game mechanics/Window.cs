@@ -85,9 +85,9 @@ namespace TheGame
             Console.WriteLine("Навык магии {0:0.0000}", player.MagicAccuracy);
             Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Позиция: ({0}, {1})", player.Position.X, player.Position.Y);
+            Console.SetCursorPosition(MapSizeX + 1, i++);
+            Console.WriteLine("До следующего уровня {0}", player.NextLevelBorder - player.BattleSkill);
             Console.SetCursorPosition(0, MapSizeY + 1);
-
-
         }
 
         public static void PrintBattleCharacteristic(Player player, List<Enemy> enemy)
