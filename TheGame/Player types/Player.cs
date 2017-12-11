@@ -65,6 +65,11 @@ namespace TheGame
             this.IsLive = true;
         }
 
+        /// <summary>
+        /// Перемещение
+        /// </summary>
+        /// <param name="x">По оси X</param>
+        /// <param name="y">По оси Y</param>
         public void Walk(int x, int y)
         {
             this.Position.X += x;
@@ -114,6 +119,9 @@ namespace TheGame
             this.CurrentMana = this.MaxMana;
         }
 
+        /// <summary>
+        /// Метод для начала игры
+        /// </summary>
         public void JoinGame()
         {
             int moveX = 0, moveY = 0;
@@ -203,20 +211,20 @@ namespace TheGame
                     break;
             }
         }
-
-        public void DrawChracteristics()
-        {
-            Console.WriteLine("------------------------------");
-            Console.WriteLine("Health: {0}", this.CurrentHealth);
-            Console.WriteLine("Level: {0}", this.Level);
-            Console.WriteLine("Position: ({0};{1})", this.Position.X, this.Position.Y);
-        }
-
+        /// <summary>
+        /// Метод для супер-атаки
+        /// </summary>
+        /// <param name="enemyCount">Количество врагов</param>
+        /// <returns></returns>
         public virtual int[] SuperAttack(int enemyCount)
         {
             return new int[enemyCount];
         }
 
+        /// <summary>
+        /// Нанесение урона персонажу
+        /// </summary>
+        /// <param name="damage">Количество урона</param>
         public void ApplyDamage(int damage)
         {
             var t = Program.Random.Next(0, 5);
@@ -227,6 +235,11 @@ namespace TheGame
                 this.IsLive = false;
         }
 
+        /// <summary>
+        /// Проверяет, есть ли заданное количество маны у персонажа и забирает ее
+        /// </summary>
+        /// <param name="mana">Сколько маны нужно потратить</param>
+        /// <returns></returns>
         private bool HaveMana(int mana)
         {
             this.CurrentMana -= mana;
@@ -238,6 +251,16 @@ namespace TheGame
             return false;
         }
 
+        /// <summary>
+        /// Нанесение атаки врагу
+        /// </summary>
+        /// <param name="countEnemy"></param>
+        /// <param name="weapons"></param>
+        /// <param name="bow"></param>
+        /// <param name="spell"></param>
+        /// <param name="sword"></param>
+        /// <param name="nums"></param>
+        /// <returns></returns>
         public int[] Attack(int countEnemy,
             Weapons.WeaponsType weapons, Bow bow = null, Spell spell = null, Sword sword = null, params int[] nums)
         {
