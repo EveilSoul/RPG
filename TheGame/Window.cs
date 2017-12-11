@@ -113,24 +113,7 @@ namespace TheGame
             Console.SetCursorPosition(0, MapSizeY + 3);
           
         }
-
-
-        public static void DrowEnemyBattle(int enemyCount, List<Enemy> enemy)
-        {
-            int count = 0;
-
-            for (int i = -1 * (enemyCount - 1); i < enemyCount; i += 2)
-            {
-                BattleMap[EnemyGeneration, MapSizeX / 2 + i] = EnemySymble;
-
-                enemy[count].Position = new ObjectStructures.Position { X = EnemyGeneration, Y = MapSizeX / 2 + i };
-                count++;
-            }
-
-
-            BattleMap[MapSizeY / 2, MapSizeX / 2] = PlayerSymble;
-        }
-
+        
         public static void PrintEnemy(List<Enemy> enemy)
         {
             if (!IsBattle)
@@ -167,7 +150,6 @@ namespace TheGame
             }
             Console.WriteLine();
         }
-
 
         public static void PrintOnEnemyAtack()
         {
@@ -213,24 +195,6 @@ namespace TheGame
 
         }
 
-        public static void ClearMap(char[,] map, char symbleDelete)
-        {
-            for (int i = 0; i < MapSizeY; i++)
-            {
-                for (int j = 0; j < MapSizeX; j++)
-                {
-                    if (map[i, j] == symbleDelete) map[i, j] = ' ';
-                }
-            }
-        }
-
-        public static void DrowCity(List<ObjectStructures.Position> cityPosition, ObjectStructures.Position playerPosition)
-        {
-            ClearMap(Map, CitySymble);
-            for (int i=0;i<cityPosition.Count;i++)
-            Map[MapSizeY / 2 - playerPosition.Y + cityPosition[i].Y, MapSizeX / 2 - playerPosition.X + cityPosition[i].X] = CitySymble;
-        }
-
         public static void PrintMovePlayerOnMap(int moveX, int moveY)
         {
             Console.Clear();
@@ -239,6 +203,13 @@ namespace TheGame
             PrintMap(Map);
             Map[(MapSizeY - 1) / 2 + moveY, (MapSizeX - 1) / 2 + moveX] = tempChar;
             Console.WriteLine("--------------------------------");
+        }
+
+        public static void DrowCity(List<ObjectStructures.Position> cityPosition, ObjectStructures.Position playerPosition)
+        {
+            ClearMap(Map, CitySymble);
+            for (int i=0;i<cityPosition.Count;i++)
+            Map[MapSizeY / 2 - playerPosition.Y + cityPosition[i].Y, MapSizeX / 2 - playerPosition.X + cityPosition[i].X] = CitySymble;
         }
 
         public static void DrowEnemy(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition,
@@ -252,6 +223,33 @@ namespace TheGame
 
                 Map[MapSizeY / 2 - playerPosition.Y + enemyPosition.Y + moveY, MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX] = EnemySymble;
         }
-        
+
+        public static void DrowEnemyBattle(int enemyCount, List<Enemy> enemy)
+        {
+            int count = 0;
+
+            for (int i = -1 * (enemyCount - 1); i < enemyCount; i += 2)
+            {
+                BattleMap[EnemyGeneration, MapSizeX / 2 + i] = EnemySymble;
+
+                enemy[count].Position = new ObjectStructures.Position { X = EnemyGeneration, Y = MapSizeX / 2 + i };
+                count++;
+            }
+
+
+            BattleMap[MapSizeY / 2, MapSizeX / 2] = PlayerSymble;
+        }
+
+        public static void ClearMap(char[,] map, char symbleDelete)
+        {
+            for (int i = 0; i < MapSizeY; i++)
+            {
+                for (int j = 0; j < MapSizeX; j++)
+                {
+                    if (map[i, j] == symbleDelete) map[i, j] = ' ';
+                }
+            }
+        }
+
     }
 }

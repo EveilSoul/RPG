@@ -75,8 +75,8 @@ namespace TheGame
                 playerPosition.X + Window.MapSizeX / 2),
                 Y = Program.Random.Next(playerPosition.Y - Window.MapSizeY / 2,
                 playerPosition.Y + Window.MapSizeY / 2)
-            }
-            ;
+            };
+
             return enemyPosition;
         }
 
@@ -97,6 +97,21 @@ namespace TheGame
             //увеличивается вероятность выпадения дракона и смешаных монстров в зависиости от уровня
             int rand = Program.Random.Next(1 - 2 * PlayerLevel, 301 + 3 * PlayerLevel - (PlayerLevel < 3 ? 150 : 0));
             var enemyPosition = EnemyGenerationPosition(playerPosition);
+            bool exictPosition = false;
+            do
+            {
+                exictPosition = false;
+                foreach (var city in Program.Cities)
+                {
+                    if (city.Position.X == enemyPosition.X && city.Position.Y == enemyPosition.Y)
+                    {
+                        enemyPosition = EnemyGenerationPosition(playerPosition);
+                        exictPosition = true;
+                        break;
+                    }
+                }
+            } while (exictPosition);
+
             EnemyExist = true;
 
             if (rand < 1) return Tuple.Create(enemyPosition, EnemyMix.CreateEnemyMix(PlayerLevel));

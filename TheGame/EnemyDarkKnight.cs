@@ -7,7 +7,7 @@ namespace TheGame
     {
         public EnemyDarkKnight(int level)
         {
-            this.Name = "Темный рыцарь";
+            this.Name = "Темный воин";
             this.PowerAttack = 58 + level * level / 2;
             this.IsLive = true;
             this.Health = 148 + 2 * level * level;
