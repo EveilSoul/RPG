@@ -43,32 +43,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Battle.cs" />
-    <Compile Include="Bow.cs" />
-    <Compile Include="City.cs" />
-    <Compile Include="Enemy.cs" />
-    <Compile Include="EnemyBandit.cs" />
-    <Compile Include="EnemyBear.cs" />
-    <Compile Include="EnemyDarkKnight.cs" />
-    <Compile Include="EnemyDragon.cs" />
-    <Compile Include="EnemyGoblin.cs" />
-    <Compile Include="EnemyGriffin.cs" />
-    <Compile Include="EnemyMix.cs" />
-    <Compile Include="EnemyOrk.cs" />
-    <Compile Include="EnemyTriton.cs" />
-    <Compile Include="EnemyWolf.cs" />
-    <Compile Include="ObjectStructures.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Game mechanics\Battle.cs" />
+    <Compile Include="Weapons\Bow.cs" />
+    <Compile Include="Items on map\City.cs" />
+    <Compile Include="Enemy types\Enemy.cs" />
+    <Compile Include="Enemy types\EnemyBandit.cs" />
+    <Compile Include="Enemy types\EnemyBear.cs" />
+    <Compile Include="Enemy types\EnemyDarkKnight.cs" />
+    <Compile Include="Enemy types\EnemyDragon.cs" />
+    <Compile Include="Enemy types\EnemyGoblin.cs" />
+    <Compile Include="Enemy types\EnemyGriffin.cs" />
+    <Compile Include="Enemy types\EnemyMix.cs" />
+    <Compile Include="Enemy types\EnemyOrk.cs" />
+    <Compile Include="Enemy types\EnemyTriton.cs" />
+    <Compile Include="Enemy types\EnemyWolf.cs" />
+    <Compile Include="Game mechanics\ObjectStructures.cs" />
+    <Compile Include="Player types\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ranger.cs" />
-    <Compile Include="Spell.cs" />
-    <Compile Include="Treasure.cs" />
-    <Compile Include="Warrior.cs" />
-    <Compile Include="Sword.cs" />
-    <Compile Include="Weapons.cs" />
-    <Compile Include="Window.cs" />
-    <Compile Include="Wizard.cs" />
+    <Compile Include="Player types\Ranger.cs" />
+    <Compile Include="Weapons\Spell.cs" />
+    <Compile Include="Items on map\Treasure.cs" />
+    <Compile Include="Player types\Warrior.cs" />
+    <Compile Include="Weapons\Sword.cs" />
+    <Compile Include="Weapons\Weapons.cs" />
+    <Compile Include="Game mechanics\Window.cs" />
+    <Compile Include="Player types\Wizard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
