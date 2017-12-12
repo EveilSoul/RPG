@@ -18,6 +18,7 @@ namespace TheGame
         public static char PlayerSymble = '@';
         public static char EnemySymble = '*';
         public static char CitySymble = '#';
+        public static char TreasureSymble = '$';
         public static int EnemyGeneration = 4;
         public static int EnemyCount;
         public static bool IsBattle = false;
@@ -222,6 +223,18 @@ namespace TheGame
                 && MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX < MapSizeX)
 
                 Map[MapSizeY / 2 - playerPosition.Y + enemyPosition.Y + moveY, MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX] = EnemySymble;
+        }
+
+        public static void DrowTreasure(ObjectStructures.Position treasurePosition, ObjectStructures.Position playerPosition,
+            int moveX = 0, int moveY = 0)
+        {
+            ClearMap(Map, TreasureSymble);
+            if (MapSizeY / 2 - playerPosition.Y + treasurePosition.Y + moveY >= 0
+                && MapSizeY / 2 - playerPosition.Y + treasurePosition.Y + moveY < MapSizeY
+                && MapSizeX / 2 - playerPosition.X + treasurePosition.X + moveX >= 0
+                && MapSizeX / 2 - playerPosition.X + treasurePosition.X + moveX < MapSizeX)
+
+                Map[MapSizeY / 2 - playerPosition.Y + treasurePosition.Y + moveY, MapSizeX / 2 - playerPosition.X + treasurePosition.X + moveX] = TreasureSymble;
         }
 
         public static void DrowEnemyBattle(int enemyCount, List<Enemy> enemy)

@@ -130,10 +130,14 @@ namespace TheGame
             var city = City.IsSityNear(this.Position);
             Window.DrowCity(city, this.Position);
 
+            var treasure = new Treasure(this);
+            Window.DrowTreasure(treasure.Position, this.Position);
+            Treasure.TheLastTreasurePosition = treasure.Position;
+
             //Item1-позиция монстров, Item2-лист монстров
             var enemy = Enemy.CreateEnemy(this.Level, this.Position);
             Enemy.TheLastEnemyPosition = enemy.Item1;
-            if (Enemy.IsEnemyNear(enemy.Item1, this.Position) && !enemy.Item2[0].Mimicry) Window.DrowEnemy(enemy.Item1, this.Position, moveX, moveY);
+            if (!enemy.Item2[0].Mimicry) Window.DrowEnemy(enemy.Item1, this.Position);
 
             while (this.IsLive)
             {
@@ -141,23 +145,37 @@ namespace TheGame
                 if (Battle.MayNewBattle(Enemy.TheLastEnemyPosition, this.Position))
                 {
                     enemy = Enemy.CreateEnemy(this.Level, this.Position);
-                    if (Enemy.IsEnemyNear(enemy.Item1, this.Position) && !Battle.TheBattleWas && !enemy.Item2[0].Mimicry)
+                    if (!enemy.Item2[0].Mimicry)
                         Window.DrowEnemy(enemy.Item1, this.Position, moveX, moveY);
 
                     Battle.TheBattleWas = false;
                     Enemy.TheLastEnemyPosition = enemy.Item1;
                 }
+
                 City.CheckPlayer(this);
+
+                treasure.CkeckTreasure(this);
+
+                if (treasure.MayNewTreasure(Treasure.TheLastTreasurePosition, treasure.Position))
+                {
+                    treasure = new Treasure(this);
+                    Window.DrowTreasure(treasure.Position, this.Position, moveX, moveY);
+                    Treasure.TheLastTreasurePosition = treasure.Position;
+                }
+
 
                 //если произошел выход за границу карты
                 if (Math.Abs(moveX) == Window.MapSizeX / 2 || Math.Abs(moveY) == Window.MapSizeY / 2)
                 {
-                    if (Enemy.IsEnemyNear(enemy.Item1, this.Position) && !Battle.TheBattleWas && !enemy.Item2[0].Mimicry)
+                    if (!enemy.Item2[0].Mimicry)
                         Window.DrowEnemy(enemy.Item1, this.Position);
-                    else
-                    {
-                        Window.ClearMap(Window.Map, Window.EnemySymble);
-                    }
+                    //else
+                    //{
+                    //    Window.ClearMap(Window.Map, Window.EnemySymble);
+                    //}
+
+                    Window.DrowTreasure(treasure.Position, this.Position);
+
 
                     city = City.IsSityNear(this.Position);
                     Window.DrowCity(city, this.Position);

@@ -11,7 +11,7 @@ namespace TheGame
         public static bool IsEnemy = false;
         public static bool TheBattleWas = false;
         public static bool TheFirstBattleWas = false;
-        public static ObjectStructures.Position EnemyPosition = new ObjectStructures.Position { X = 0, Y = 0 };
+        public static bool TheTreasureBattleWas = false;
 
         public static int[] GetEnemyIndexs()
         {
@@ -52,9 +52,14 @@ namespace TheGame
 
             Window.ClearMap(Window.BattleMap, Window.EnemySymble);
             Window.ClearMap(Window.Map, Window.EnemySymble);
+            Window.ClearMap(Window.Map, Window.TreasureSymble);
             Window.IsBattle = false;
             TheBattleWas = true;
             TheFirstBattleWas = true;
+            TheTreasureBattleWas = true;
+            IsEnemy = false;
+            Enemy.EnemyExist = false;
+            Treasure.EnemyExist = false;
 
             if (player.IsLive)
             {
@@ -63,9 +68,7 @@ namespace TheGame
                 while (player.NextLevelBorder <= player.BattleSkill)
                     player.ChangeBattleLevel();
             }
-            TheBattleWas = true;
-            IsEnemy = false;
-            Enemy.EnemyExist = false;
+            
         }
 
         public static bool MayNewBattle(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
