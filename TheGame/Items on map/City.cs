@@ -34,7 +34,7 @@ namespace TheGame
             RealCosts.Add("bow", Program.Random.Next(50, 150) / 100f);
             RealCosts.Add("armor", Program.Random.Next(50, 150) / 100f);
             RealCosts.Add("spell", Program.Random.Next(50, 150) / 100f);
-            RealCosts.Add("health", Program.Random.Next(50, 150) / 100f);
+            RealCosts.Add("health", Program.Random.Next(50, 400) / 100f);
         }
 
         public static void CheckPlayer(Player player)
