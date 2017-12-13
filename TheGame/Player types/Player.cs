@@ -130,60 +130,52 @@ namespace TheGame
             var city = City.IsSityNear(this.Position);
             Window.DrowCity(city, this.Position);
 
-            var treasure = new Treasure(this);
-            Window.DrowTreasure(treasure.Position, this.Position);
-            Treasure.TheLastTreasurePosition = treasure.Position;
-
             //Item1-позиция монстров, Item2-лист монстров
             var enemy = Enemy.CreateEnemy(this.Level, this.Position);
             Enemy.TheLastEnemyPosition = enemy.Item1;
-            if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry) Window.DrowEnemy(enemy.Item1, this.Position);
+            if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry) Window.DrowEnemy(enemy.Item1, this.Position, moveX, moveY);
+
+            var treasure = new Treasure(this, enemy.Item1);
+            Window.DrowTreasure(treasure.Position, this.Position, moveX, moveY);
+            Treasure.TheLastTreasurePosition = treasure.Position;
 
             while (this.IsLive)
             {
-                Enemy.CheckEnemy(enemy.Item2, this, enemy.Item1);
-                if (Battle.MayNewBattle(Enemy.TheLastEnemyPosition, this.Position))
+                Enemy.CheckPlayer(enemy.Item2, this, enemy.Item1);
+                if (Enemy.MayNewEnemy(Enemy.TheLastEnemyPosition, this.Position))
                 {
                     enemy = Enemy.CreateEnemy(this.Level, this.Position);
-                    if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry)
+                    if (!enemy.Item2[0].Mimicry)
                         Window.DrowEnemy(enemy.Item1, this.Position, moveX, moveY);
 
-                    Battle.TheBattleWas = false;
                     Enemy.TheLastEnemyPosition = enemy.Item1;
                 }
 
                 City.CheckPlayer(this);
 
-                treasure.CkeckTreasure(this);
-
-                if (treasure.MayNewTreasure(Treasure.TheLastTreasurePosition, treasure.Position))
+                treasure.CkeckPlayer(this);
+                if (treasure.MayNewEnemy(Treasure.TheLastTreasurePosition, this.Position))
                 {
-                    treasure = new Treasure(this);
+                    treasure = new Treasure(this, enemy.Item1);
                     Window.DrowTreasure(treasure.Position, this.Position, moveX, moveY);
                     Treasure.TheLastTreasurePosition = treasure.Position;
                 }
-
 
                 //если произошел выход за границу карты
                 if (Math.Abs(moveX) == Window.MapSizeX / 2 || Math.Abs(moveY) == Window.MapSizeY / 2)
                 {
                     if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry)
                         Window.DrowEnemy(enemy.Item1, this.Position);
-                    //else
-                    //{
-                    //    Window.ClearMap(Window.Map, Window.EnemySymble);
-                    //}
 
-                    
+                    if (Treasure.TreasureExist)
                     Window.DrowTreasure(treasure.Position, this.Position);
-
 
                     city = City.IsSityNear(this.Position);
                     Window.DrowCity(city, this.Position);
+
                     moveX = 0;
                     moveY = 0;
                     Window.PrintMovePlayerOnMap(moveX, moveY);
-
                 }
 
                 Window.PrintMovePlayerOnMap(moveX, moveY);
@@ -191,6 +183,8 @@ namespace TheGame
                 KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
             }
         }
+
+
 
         /// <summary>
         /// Обработка нажатий на клавиатуру

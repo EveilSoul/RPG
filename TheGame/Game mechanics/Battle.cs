@@ -8,10 +8,6 @@ namespace TheGame
 {
     class Battle
     {
-        public static bool IsEnemy = false;
-        public static bool TheBattleWas = false;
-        public static bool TheFirstBattleWas = false;
-        public static bool TheTreasureBattleWas = false;
 
         public static int[] GetEnemyIndexs()
         {
@@ -43,33 +39,28 @@ namespace TheGame
                     player.ApplyDamage(enemy[i].EnemyAttack());
             }
 
-            Window.ClearMap(Window.BattleMap, Window.EnemySymble);
-            Window.ClearMap(Window.Map, Window.EnemySymble);
-            Window.ClearMap(Window.Map, Window.TreasureSymble);
-            Window.IsBattle = false;
-            TheBattleWas = true;
-            TheFirstBattleWas = true;
-            TheTreasureBattleWas = true;
-            IsEnemy = false;
-            Enemy.EnemyExist = false;
-            Treasure.EnemyExist = false; //metod
+            SomeMetod();
 
             if (player.IsLive)
-            {
-                player.AddMoney(reward.Item1);
-                player.BattleSkill += reward.Item2;
-                while (player.NextLevelBorder <= player.BattleSkill)
-                    player.ChangeBattleLevel(); //metod
-            }
+                GetRewardForPlayer(player, reward.Item1, reward.Item2);
             
         }
 
-        public static bool MayNewBattle(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
+        public static void SomeMetod()
         {
-            return (int)(Math.Sqrt((lastPosition.X - newPosition.X) * (lastPosition.X - newPosition.X) +
-                (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 10;
+            Window.ClearMap(Window.BattleMap, Window.EnemySymble);
+            Enemy.EnemyExist = false;
+            Treasure.TreasureExist = false; 
         }
 
+        public static void GetRewardForPlayer(Player player, int money, int skill)
+        {
+            player.AddMoney(money);
+            player.BattleSkill += skill;
+            while (player.NextLevelBorder <= player.BattleSkill)
+                player.ChangeBattleLevel(); 
+        }
+        
         public static int[] PlayerAttack(Player player, int enemyCount)
         {
             var type = player.SelectType();
