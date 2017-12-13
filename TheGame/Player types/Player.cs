@@ -369,8 +369,8 @@ namespace TheGame
             for (int i = 0; i < sword.CountImpact; i++)
             {
                 double luck = Program.Random.NextDouble();
-                if (i < number.Length)
-                    i = number[0];
+                if (i == number.Length)
+                    break;
                 if (luck <= this.SwordSkill)
                     result[number[i]] = damage;
                 if (luck % 5 != 0)

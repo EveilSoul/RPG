@@ -49,7 +49,7 @@ namespace TheGame
                 {
                     result[i] += this.Bow.Attack();
                     result[i] += this.Bow.Attack();
-                    result[i] += this.SimpleSwordAttack(1, Swords[index], 0, 0)[0];
+                    result[i] += this.SimpleSwordAttack(1, Swords[index], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)[0];
                 }
             }
             else CurrentMana += 29 * this.Level * this.Level;

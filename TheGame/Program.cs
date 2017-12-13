@@ -19,7 +19,7 @@ namespace TheGame
         public static List<City> Cities;
 
         public static string[] NamesSwords = { @"\baseWarriorSword.txt", @"\baseWizardKnife.txt", @"\baseStilet.txt",
-        @"\middleElderSword.txt", @"\dragonSlayerSword.txt"};
+        @"\basePoleaxe.txt", @"\middleElderSword.txt", @"\DarkPoleaxe.txt", @"\dragonSlayerSword.txt", @"\FireGodSword.txt"};
         public static string[] NamesBows = { @"\baseRangerBow.txt", @"\middleRangerBow.txt", @"\hunterBow.txt", @"\legendaryBow.txt" };
         public static string[,] NamesArmor = {
             { @"\baseWarriorHeadArmor.txt", @"\baseWarriorBodyArmor.txt", @"\baseWarriorArmsArmor.txt", @"\baseWarriorLeggsArmor.txt", @"\baseWarriorBootsArmor.txt" },
@@ -28,7 +28,7 @@ namespace TheGame
         public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt", @"\basePointAttack.txt", @"\middleThunderAttack.txt",
         @"\baseWarriorMultiplyAttack.txt", @"\dragonsFlame.txt", @"\LightStars.txt"};
         public static string[] CitiesNames = { "Неаполь", "Лордерон", "Царьград", "Омск", "Тартарос", "Лондон",
-            "Штормград", "Мордор", "Эребор", "Минас Тирит", "Солнечный колодец"};
+            "Штормград", "Мордор", "Эребор", "Минас Тирит", "Солнечный колодец", "Троя"};
 
         static List<Sword> GetSwords(string path)
         {
@@ -94,7 +94,7 @@ namespace TheGame
         {
             var result = new List<City>();
             foreach (var name in CitiesNames)
-                result.Add(new City(name, GetPosition(-25, 25)));
+                result.Add(new City(name, GetPosition(-75, 75)));
             return result;
         }
 

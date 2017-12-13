@@ -38,7 +38,7 @@ namespace TheGame
                 result = SimpleSpellAttack(enemyCount, this.Spells[index1], 0);
                 for (int i = 0; i < enemyCount; i++)
                 {
-                    result[i] += SimpleSwordAttack(enemyCount, Swords[index2], 0, 0)[0];
+                    result[i] += SimpleSwordAttack(enemyCount, Swords[index2], 0, 0, 0, 0, 0, 0, 0)[0];
                     result[i] *= (int)System.Math.Sqrt(Level) + 3 / Level;
                 }
             }

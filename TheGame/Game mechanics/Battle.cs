@@ -19,7 +19,7 @@ namespace TheGame
             var indexs = Console.ReadLine().Split(' ');
             var result = new int[indexs.Length];
             for (int i = 0; i < indexs.Length; i++)
-                result[i] = Program.Parse(indexs[i]);
+                result[i] = Program.Parse(indexs[i], 0);
             return result;
         }
 
