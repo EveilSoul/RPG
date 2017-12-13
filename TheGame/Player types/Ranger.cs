@@ -8,7 +8,6 @@ namespace TheGame
     {
         public Ranger(string name, ObjectStructures.Position position) : base(name, position)
         {
-            this.TravelSkill = 10;
             this.BattleSkill = 0;
 
             this.MaxHealth = 220;
@@ -19,7 +18,7 @@ namespace TheGame
 
             this.SwordSkill = 0.75f;
             this.BowSkill = 0.9f;
-            this.MagicAccuracy = 0.8f;
+            this.MagicSkill = 0.8f;
 
             this.CurrentMana = this.MaxMana;
             this.CurrentHealth = this.MaxHealth;

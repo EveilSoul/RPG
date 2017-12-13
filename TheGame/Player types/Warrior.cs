@@ -6,7 +6,6 @@ namespace TheGame
     {
         public Warrior(string name, ObjectStructures.Position position) : base(name, position)
         {
-            this.TravelSkill = 0;
             this.BattleSkill = 10;
 
             this.MaxHealth = 250;
@@ -17,7 +16,7 @@ namespace TheGame
 
             this.SwordSkill = 0.8f;
             this.BowSkill = 0.4f;
-            this.MagicAccuracy = 0.7f;
+            this.MagicSkill = 0.7f;
 
             this.CurrentHealth = this.MaxHealth;
             this.CurrentMana = this.MaxMana;

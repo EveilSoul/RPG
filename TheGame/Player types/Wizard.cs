@@ -5,7 +5,6 @@ namespace TheGame
     {
         public Wizard(string name, ObjectStructures.Position position) : base(name, position)
         {
-            this.TravelSkill = 0;
             this.BattleSkill = 0;
 
             this.MaxHealth = 200;
@@ -16,7 +15,7 @@ namespace TheGame
 
             this.SwordSkill = 0.7f;
             this.BowSkill = 0.5f;
-            this.MagicAccuracy = 0.9f;
+            this.MagicSkill = 0.9f;
 
             this.CurrentMana = this.MaxMana;
             this.CurrentHealth = this.MaxHealth;

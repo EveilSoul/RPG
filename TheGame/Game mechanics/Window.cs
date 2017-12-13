@@ -83,7 +83,7 @@ namespace TheGame
             Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Навык лука {0:0.0000}", player.BowSkill);
             Console.SetCursorPosition(MapSizeX + 1, i++);
-            Console.WriteLine("Навык магии {0:0.0000}", player.MagicAccuracy);
+            Console.WriteLine("Навык магии {0:0.0000}", player.MagicSkill);
             Console.SetCursorPosition(MapSizeX + 1, i++);
             Console.WriteLine("Позиция: ({0}, {1})", player.Position.X, player.Position.Y);
             Console.SetCursorPosition(MapSizeX + 1, i++);
