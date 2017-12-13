@@ -11,7 +11,7 @@ namespace TheGame
         public ObjectStructures.Position Position;
         public bool IsEnemy;
         public static ObjectStructures.Position TheLastTreasurePosition;
-        public static bool EnemyExist;
+        public static bool TreasureExist;
         public List<Enemy> enemy;
 
         public ObjectStructures.Position TreasureGenerationPosition(ObjectStructures.Position playerPosition)
@@ -27,7 +27,7 @@ namespace TheGame
             return treasurePosition;
         }
 
-        public Treasure(Player player)
+        public Treasure(Player player, ObjectStructures.Position enemyPosition)
         {
             this.Position = TreasureGenerationPosition(player.Position);
 
@@ -44,6 +44,11 @@ namespace TheGame
                         break;
                     }
                 }
+                if (enemyPosition.X==this.Position.X && enemyPosition.Y==this.Position.Y)
+                {
+                    this.Position = TreasureGenerationPosition(player.Position);
+                    exictPosition = true;
+                }
             } while (exictPosition);
 
             var rand = Program.Random.Next(0, 100 - player.Level*(int)Math.Sqrt(player.Level));
@@ -54,12 +59,13 @@ namespace TheGame
 
         }
 
-        public void CkeckTreasure(Player player)
+        public void CkeckPlayer(Player player)
         {
-            if (EnemyExist && player.Position.X == this.Position.X && player.Position.Y == this.Position.Y && this.IsEnemy)
+            if (player.Position.X == this.Position.X && player.Position.Y == this.Position.Y)
             {
-                Battle.GoBattle(player, this.enemy);
+                if (this.IsEnemy) Battle.GoBattle(player, this.enemy);
                 player.AddMoney(GetReward(player.Level));
+                Window.ClearMap(Window.Map, Window.TreasureSymble);
             }
         }
 
@@ -67,7 +73,7 @@ namespace TheGame
         {
 
             int rand = Program.Random.Next(1 - PlayerLevel, 301 + PlayerLevel);
-            EnemyExist = true;
+            TreasureExist = true;
             PlayerLevel-=3;
 
             if (rand < 1) return EnemyMix.CreateEnemyMix(PlayerLevel);
@@ -85,7 +91,7 @@ namespace TheGame
             return Program.Random.Next(30 + playerLevel * playerLevel, 80 + playerLevel * playerLevel * playerLevel);
         }
 
-        public bool MayNewTreasure(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
+        public bool MayNewEnemy(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
         {
             return (int)(Math.Sqrt((lastPosition.X - newPosition.X) * (lastPosition.X - newPosition.X) +
                 (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 10;

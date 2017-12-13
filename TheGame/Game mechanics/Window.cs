@@ -21,7 +21,7 @@ namespace TheGame
         public static char TreasureSymble = '$';
         public static int EnemyGeneration = 4;
         public static int EnemyCount;
-        public static bool IsBattle = false;
+        
 
         
 
@@ -117,12 +117,10 @@ namespace TheGame
         
         public static void PrintEnemy(List<Enemy> enemy)
         {
-            if (!IsBattle)
-            {
+
                 EnemyCount = enemy.Count;
                 DrowEnemyBattle(EnemyCount, enemy);
-                IsBattle = true;
-            }
+
 
 
             for (int i = 0; i < MapSizeX; i++)

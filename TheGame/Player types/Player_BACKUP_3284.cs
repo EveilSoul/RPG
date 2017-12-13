@@ -194,8 +194,11 @@ namespace TheGame
                     if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry)
                         Window.DrowEnemy(enemy.Item1, this.Position);
 
-                    if (Treasure.TreasureExist)
+<<<<<<< HEAD
 
+=======
+                    if (Treasure.TreasureExist)
+>>>>>>> TreasureBranch
                     Window.DrowTreasure(treasure.Position, this.Position);
 
                     city = City.IsSityNear(this.Position);

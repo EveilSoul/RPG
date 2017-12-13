@@ -8,38 +8,25 @@ namespace TheGame
 {
     public class Player
     {
-        //Сколько очков необходимо набрать для перехода на следующий уровень
         public int NextLevelBorder;
-        //Имя персонажа
         public string Name;
-        //Текущее здоровье
         public int CurrentHealth;
-        //Максимальное здоровье
         public int MaxHealth;
-        //Сила атаки без оружия
         public int PowerAttack;
-        //Максимальная мана
         public int MaxMana;
-        //Текущая мана - используется в заклинаниях
         public int CurrentMana;
-        //Баланс
         public int Money;
-        //Опыт сражений
         public int BattleSkill;
-        //Тип персонажа
+        public int TravelSkill;
         public PlayerType Type;
-        //Уровень, изначально 1
         public int Level;
-        //Навык обращения с мечом
         public float SwordSkill;
-        //Навык стрельбы из лука
         public float BowSkill;
-        //Навык владения магией
-        public float MagicSkill;
-        //Уровень магии
-        public int MagicLevel;
-        //Необходима для совершения хода
+        public float MagicAccuracy;
+        public int MagicLevel = 1;
         public bool IsLive;
+        public List<ObjectStructures.MedicineKit> MedicineKits;
+        public delegate int[] Attacks(int countEnemy, int ingexOfWeapons, params int[] nums);
 
         public enum PlayerType
         {
@@ -48,17 +35,10 @@ namespace TheGame
             Wizard
         };
 
-        //Аптечки хранятся здесь
-        public List<ObjectStructures.MedicineKit> MedicineKits;
-        //Позиция персонажа в виде (x,y)
         public ObjectStructures.Position Position;
-        //Комплект брони
         public ObjectStructures.ArmorComplect Armor;
-        //Все мечи
         public List<Sword> Swords;
-        //Лук (при наличии)
         public Bow Bow;
-        //Все заклинания
         public List<Spell> Spells;
 
         public Player(string name, ObjectStructures.Position position)
@@ -73,7 +53,6 @@ namespace TheGame
             this.Swords = new List<Sword>();
             this.Armor = new ObjectStructures.ArmorComplect();
             this.Spells = new List<Spell>();
-
             this.MedicineKits = new List<ObjectStructures.MedicineKit>()
             {
                 new ObjectStructures.MedicineKit{ HpToAdd = 50 },
@@ -103,22 +82,17 @@ namespace TheGame
         public void ChangeBattleLevel()
         {
             this.Level++;
-            //устанавливаем границу для следующего уровня
             this.NextLevelBorder += 150 * (int)Math.Sqrt(this.Level);
-            //вычисляем временную величину увеличения
-            int increase = (int)Math.Sqrt(this.BattleSkill) + 60 / (this.BattleSkill / 10);
-            //Здоровье у всех персонажей увеличивается равномерно,
-            //а остальные характеристики в зависимости от типа
+            int increase = (int)Math.Sqrt(this.BattleSkill) + 500 / this.BattleSkill;
             this.MaxHealth += increase;
-
             switch (this.Type)
             {
                 case PlayerType.Ranger:
                     this.MaxMana += increase;
                     this.PowerAttack += (2 * increase) / 3;
                     this.BowSkill += 0.001f * this.Level;
-                    this.SwordSkill += 0.003f * this.Level;
-                    this.MagicSkill += 0.003f * this.Level;
+                    this.SwordSkill += 0.005f * this.Level;
+                    this.MagicAccuracy += 0.005f * this.Level;
                     if (this.Level % 3 == 0)
                         this.MagicLevel++;
                     break;
@@ -126,22 +100,21 @@ namespace TheGame
                     this.MaxMana += increase / 2;
                     this.PowerAttack += increase;
                     this.SwordSkill += 0.001f * this.Level;
-                    this.MagicSkill += 0.003f * this.Level;
-                    this.BowSkill += 0.005f * this.Level;
+                    this.MagicAccuracy += 0.005f * this.Level;
+                    this.BowSkill += 0.007f * this.Level;
                     if (this.Level % 4 == 0)
                         this.MagicLevel++;
                     break;
                 case PlayerType.Wizard:
                     this.MaxMana += 2 * increase;
                     this.PowerAttack += increase / 2;
-                    this.MagicSkill += 0.001f * this.Level;
-                    this.SwordSkill += 0.003f * this.Level;
-                    this.BowSkill += 0.005f * this.Level;
+                    this.MagicAccuracy += 0.001f * this.Level;
+                    this.SwordSkill += 0.005f * this.Level;
+                    this.BowSkill += 0.007f * this.Level;
                     if (this.Level % 2 == 0)
                         this.MagicLevel++;
                     break;
             }
-            //устанавливаем текущее здоровье и ману максимальными
             this.CurrentHealth = this.MaxHealth;
             this.CurrentMana = this.MaxMana;
         }
@@ -157,53 +130,60 @@ namespace TheGame
             var city = City.IsSityNear(this.Position);
             Window.DrowCity(city, this.Position);
 
+            var treasure = new Treasure(this);
+            Window.DrowTreasure(treasure.Position, this.Position);
+            Treasure.TheLastTreasurePosition = treasure.Position;
+
             //Item1-позиция монстров, Item2-лист монстров
             var enemy = Enemy.CreateEnemy(this.Level, this.Position);
             Enemy.TheLastEnemyPosition = enemy.Item1;
-            if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry) Window.DrowEnemy(enemy.Item1, this.Position, moveX, moveY);
-
-            var treasure = new Treasure(this, enemy.Item1);
-            Window.DrowTreasure(treasure.Position, this.Position, moveX, moveY);
-            Treasure.TheLastTreasurePosition = treasure.Position;
+            if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry) Window.DrowEnemy(enemy.Item1, this.Position);
 
             while (this.IsLive)
             {
-                Enemy.CheckPlayer(enemy.Item2, this, enemy.Item1);
-                if (Enemy.MayNewEnemy(Enemy.TheLastEnemyPosition, this.Position))
+                Enemy.CheckEnemy(enemy.Item2, this, enemy.Item1);
+                if (Battle.MayNewBattle(Enemy.TheLastEnemyPosition, this.Position))
                 {
                     enemy = Enemy.CreateEnemy(this.Level, this.Position);
-                    if (!enemy.Item2[0].Mimicry)
+                    if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry)
                         Window.DrowEnemy(enemy.Item1, this.Position, moveX, moveY);
 
+                    Battle.TheBattleWas = false;
                     Enemy.TheLastEnemyPosition = enemy.Item1;
                 }
 
                 City.CheckPlayer(this);
 
-                treasure.CkeckPlayer(this);
-                if (treasure.MayNewEnemy(Treasure.TheLastTreasurePosition, this.Position))
+                treasure.CkeckTreasure(this);
+
+                if (treasure.MayNewTreasure(Treasure.TheLastTreasurePosition, treasure.Position))
                 {
-                    treasure = new Treasure(this, enemy.Item1);
+                    treasure = new Treasure(this);
                     Window.DrowTreasure(treasure.Position, this.Position, moveX, moveY);
                     Treasure.TheLastTreasurePosition = treasure.Position;
                 }
+
 
                 //если произошел выход за границу карты
                 if (Math.Abs(moveX) == Window.MapSizeX / 2 || Math.Abs(moveY) == Window.MapSizeY / 2)
                 {
                     if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry)
                         Window.DrowEnemy(enemy.Item1, this.Position);
+                    //else
+                    //{
+                    //    Window.ClearMap(Window.Map, Window.EnemySymble);
+                    //}
 
-                    if (Treasure.TreasureExist)
-
+                    
                     Window.DrowTreasure(treasure.Position, this.Position);
+
 
                     city = City.IsSityNear(this.Position);
                     Window.DrowCity(city, this.Position);
-
                     moveX = 0;
                     moveY = 0;
                     Window.PrintMovePlayerOnMap(moveX, moveY);
+
                 }
 
                 Window.PrintMovePlayerOnMap(moveX, moveY);
@@ -211,8 +191,6 @@ namespace TheGame
                 KeyDown(Console.ReadKey(true).Key, ref moveX, ref moveY);
             }
         }
-
-
 
         /// <summary>
         /// Обработка нажатий на клавиатуру
@@ -256,7 +234,7 @@ namespace TheGame
         /// Метод для супер-атаки
         /// </summary>
         /// <param name="enemyCount">Количество врагов</param>
-        /// <returns>Массив с уроном для врагов</returns>
+        /// <returns></returns>
         public virtual int[] SuperAttack(int enemyCount)
         {
             return new int[enemyCount];
@@ -280,7 +258,7 @@ namespace TheGame
         /// Проверяет, есть ли заданное количество маны у персонажа и забирает ее
         /// </summary>
         /// <param name="mana">Сколько маны нужно потратить</param>
-        /// <returns>Есть ли у персонажа нужное количество маны</returns>
+        /// <returns></returns>
         private bool HaveMana(int mana)
         {
             this.CurrentMana -= mana;
@@ -293,17 +271,17 @@ namespace TheGame
         }
 
         /// <summary>
-        /// Нанесение атаки врагу, в зависимости от выбранного оружия увеличиваем навык владения
+        /// Нанесение атаки врагу
         /// </summary>
-        /// <param name="countEnemy">количество противников</param>
-        /// <param name="weapons">тип оружия</param>
-        /// <param name="bow">лук, при наличии</param>
-        /// <param name="spell">заклинание, при наличии</param>
-        /// <param name="sword">меч, при наличии</param>
-        /// <param name="nums">индексы противников, которых надо атаковать</param>
-        /// <returns>Массив с уроном для противников</returns>
-        public int[] Attack(int countEnemy, Weapons.WeaponsType weapons, 
-            Bow bow = null, Spell spell = null, Sword sword = null, params int[] nums)
+        /// <param name="countEnemy"></param>
+        /// <param name="weapons"></param>
+        /// <param name="bow"></param>
+        /// <param name="spell"></param>
+        /// <param name="sword"></param>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int[] Attack(int countEnemy,
+            Weapons.WeaponsType weapons, Bow bow = null, Spell spell = null, Sword sword = null, params int[] nums)
         {
             switch (weapons)
             {
@@ -311,7 +289,7 @@ namespace TheGame
                     this.BowSkill += 0.0001f;
                     return SimpleBowAttack(countEnemy, bow);
                 case Weapons.WeaponsType.Spell:
-                    this.MagicSkill += 0.0001f;
+                    this.MagicAccuracy += 0.0001f;
                     return SimpleSpellAttack(countEnemy, spell, nums);
                 case Weapons.WeaponsType.Sword:
                     this.SwordSkill += 0.0001f;
@@ -320,20 +298,13 @@ namespace TheGame
             return new int[0];
         }
 
-        /// <summary>
-        /// Простая атака магией
-        /// </summary>
-        /// <param name="countEmemy">Количество противников</param>
-        /// <param name="spell">Выбранное заклинание</param>
-        /// <param name="nums">Индексы противников, которых надо атаковать</param>
-        /// <returns>Массив с уроном для противников</returns>
         public int[] SimpleSpellAttack(int countEmemy, Spell spell, params int[] nums)
         {
             int[] res = spell.JoinSpell(countEmemy, nums);
             if (HaveMana(spell.Mana))
                 for (int i = 0; i < res.Length; i++)
                 {
-                    if (Program.Random.NextDouble() > this.MagicSkill)
+                    if (Program.Random.NextDouble() > this.MagicAccuracy)
                         res[i] = 0;
                     if (Program.Random.NextDouble() <= this.SwordSkill)
                     {
@@ -349,13 +320,6 @@ namespace TheGame
             return res;
         }
 
-        /// <summary>
-        /// Простая атака мечом
-        /// </summary>
-        /// <param name="countEnemy">количество противников</param>
-        /// <param name="sword">меч, которым совершаем атаку</param>
-        /// <param name="number">индексы противников для атаки</param>
-        /// <returns>массив с уроном для врагов</returns>
         public int[] SimpleSwordAttack(int countEnemy, Sword sword, params int[] number)
         {
             int[] result = new int[countEnemy];
@@ -364,8 +328,6 @@ namespace TheGame
             for (int i = 0; i < sword.CountImpact; i++)
             {
                 double luck = Program.Random.NextDouble();
-                if (i == number.Length)
-                    break;
                 if (luck <= this.SwordSkill)
                     result[number[i]] = damage;
                 if (luck % 5 != 0)
@@ -375,13 +337,7 @@ namespace TheGame
             }
             return result;
         }
-        
-        /// <summary>
-        /// Простая атака луком
-        /// </summary>
-        /// <param name="countEnemy">Количество противников</param>
-        /// <param name="bow">Лук, которым атакуем</param>
-        /// <returns>Массив с уроном для противников</returns>
+
         public int[] SimpleBowAttack(int countEnemy, Bow bow)
         {
             int[] result = new int[countEnemy];
@@ -404,11 +360,6 @@ namespace TheGame
             return result;
         }
 
-        /// <summary>
-        /// Забираем у игрока деньги, если они есть
-        /// </summary>
-        /// <param name="count">Количество монет, которые нужно взять</param>
-        /// <returns>Возвращаем, есть ли у игрока нужные деньги</returns>
         public bool GiveMoney(int count)
         {
             this.Money -= count;
@@ -418,10 +369,8 @@ namespace TheGame
             return false;
         }
 
-        //Добавряем деньги игроку
         public void AddMoney(int count) => this.Money += count;
 
-        //Надеваем на игрока комплект брони
         public void AddArmor(ObjectStructures.ArmorComplect armor)
         {
             this.MaxMana -= this.Armor.GetMana();
@@ -430,7 +379,6 @@ namespace TheGame
             this.CurrentMana = this.MaxMana;
         }
 
-        //Добавляем меч в инвентарь
         public void AddSword(Sword sword)
         {
             if (sword.MinLevelToUse <= this.Level)
@@ -440,12 +388,6 @@ namespace TheGame
             }
         }
 
-        /// <summary>
-        /// Пробуем изучить определенное заклинание
-        /// </summary>
-        /// <param name="spell">Собственно, заклинание</param>
-        /// <param name="cost">Коэффицент стоимости</param>
-        /// <returns>Успешность изучения</returns>
         public bool LearnSpell(Spell spell, float cost = 1)
         {
             if (spell.MinLevelToUse <= this.MagicLevel && (int)(spell.Cost * cost) <= this.Money)
@@ -457,7 +399,6 @@ namespace TheGame
             else return false;
         }
 
-        //Возвращает массив из строк - характеристики всего оружия определенного типа
         public string[] GetCharacteristicsOfWeapons(Weapons.WeaponsType type)
         {
             switch (type)
@@ -478,7 +419,6 @@ namespace TheGame
             return null;
         }
 
-        //Выбираем тип заклинания и возвращаем его
         public Weapons.WeaponsType SelectType()
         {
             if (this.Swords.Count != 0)
@@ -491,15 +431,13 @@ namespace TheGame
             return (Weapons.WeaponsType)(Program.Parse(t != String.Empty ? t : "1") - 1);
         }
 
-        //Возвращаем меч по индексу
         public Sword GetSword(int index)
         {
             if (index >= 0 && index < this.Swords.Count)
                 return this.Swords[index];
-            return new Sword();
+            return null;
         }
 
-        //Возвращаем заклинание по индексу
         public Spell GetSpell(int index)
         {
             if (index >= 0 && index < this.Spells.Count)
@@ -507,7 +445,6 @@ namespace TheGame
             return null;
         }
 
-        //Восстанавливаем CurrentHealth на заданное число единиц
         public void AddHP(int count)
         {
             this.CurrentHealth += count;
@@ -515,7 +452,6 @@ namespace TheGame
                 this.CurrentHealth = this.MaxHealth;
         }
 
-        //Используем одну из аптечек в инвентаре
         public void UseMedicineKit()
         {
             if (this.MedicineKits.Count != 0)

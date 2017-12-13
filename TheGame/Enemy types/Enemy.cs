@@ -127,12 +127,21 @@ namespace TheGame
         }
 
 
-        public static void CheckEnemy(List<Enemy> enemy, Player player, ObjectStructures.Position enemyPosition)
+        public static void CheckPlayer(List<Enemy> enemy, Player player, ObjectStructures.Position enemyPosition)
         {
-            if (EnemyExist && enemyPosition.X == player.Position.X && enemyPosition.Y == player.Position.Y && !enemy[0].Mimicry) Battle.GoBattle(player, enemy);
+            if (EnemyExist && enemyPosition.X == player.Position.X && enemyPosition.Y == player.Position.Y && !enemy[0].Mimicry)
+            {
+                Battle.GoBattle(player, enemy);
+                Window.ClearMap(Window.Map, Window.EnemySymble);
+            }
             else if (EnemyExist && IsEnemyNear(enemyPosition, player.Position) && enemy[0].Mimicry) Battle.GoBattle(player, enemy);
         }
 
+        public static bool MayNewEnemy(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
+        {
+            return (int)(Math.Sqrt((lastPosition.X - newPosition.X) * (lastPosition.X - newPosition.X) +
+                (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 15;
+        }
 
 
 
