@@ -195,7 +195,6 @@ namespace TheGame
                         Window.DrowEnemy(enemy.Item1, this.Position);
 
                     if (Treasure.TreasureExist)
-
                     Window.DrowTreasure(treasure.Position, this.Position);
 
                     city = City.IsSityNear(this.Position);
