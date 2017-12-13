@@ -20,9 +20,15 @@ namespace TheGame
         public static ObjectStructures.Position TheLastEnemyPosition;
         public static bool EnemyExist = false;
 
+
         public static int GetSkill(int offset, int divider, int minValue, int level) =>
             (int)Math.Pow(30 - level, 2) / divider + minValue;
 
+        /// <summary>
+        /// Получение награды за монстров
+        /// </summary>
+        /// <param name="enemy">лист монстров</param>
+        /// <returns></returns>
         public static Tuple<int, int> GetReward(List<Enemy> enemy)
         {
             int money = 0;
@@ -35,13 +41,20 @@ namespace TheGame
             return Tuple.Create(money, skill);
         }
 
-        //атака на мостра
+        /// <summary>
+        /// Атака на монстра
+        /// </summary>
+        /// <param name="enemy">монстр</param>
+        /// <param name="damageAtackEnemy">урон,который ему наносится</param>
         public virtual void OnEnemyAtack(Enemy enemy, int damageAtackEnemy)
         {
             enemy.Health -= damageAtackEnemy;
         }
 
-        //атака монстра
+        /// <summary>
+        /// Монстр атакует
+        /// </summary>
+        /// <returns>сила атаки</returns>
         public int EnemyAttack()
         {
             if (Program.Random.NextDouble() <= this.Accuracy && this.IsLive)
@@ -49,6 +62,10 @@ namespace TheGame
             else return 0;
         }
 
+        /// <summary>
+        /// Удаление из листа монтров, чье здоровье меньше 0
+        /// </summary>
+        /// <param name="enemy">лист монстров</param>
         public static void CheckEnemyDie(List<Enemy> enemy)
         {
             for (int i = enemy.Count - 1; i >= 0; i--)
@@ -56,7 +73,10 @@ namespace TheGame
                     enemy.RemoveAt(i);
         }
 
-        //проверка того, жив ли хоть один враг
+        /// <summary>
+        /// Проверка того, жив ли еще хоть один монстр
+        /// </summary>
+        /// <param name="enemy">лист монстров</param>
         public static bool IsEnemyLive(List<Enemy> enemy)
         {
             bool result = false;
@@ -67,6 +87,11 @@ namespace TheGame
             return result;
         }
 
+        /// <summary>
+        /// Генерация монстра относительно позиции игрока на карте
+        /// </summary>
+        /// <param name="playerPosition">позиция игрока</param>
+        /// <returns>позиция монстра</returns>
         public static ObjectStructures.Position EnemyGenerationPosition(ObjectStructures.Position playerPosition)
         {
             var enemyPosition = new ObjectStructures.Position
@@ -76,26 +101,32 @@ namespace TheGame
                 Y = Program.Random.Next(playerPosition.Y - Window.MapSizeY / 2,
                 playerPosition.Y + Window.MapSizeY / 2)
             };
-
             return enemyPosition;
         }
 
+        /// <summary>
+        /// Проверка того, находится ли игрок в зоне поражения невидимых монстров
+        /// </summary>
+        /// <param name="enemyPosition">позиция монстров</param>
+        /// <param name="playerPosition">позиция игрока</param>
+        /// <returns></returns>
         public static bool IsEnemyNear(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
         {
             return Math.Abs(enemyPosition.X - playerPosition.X) <= Window.MapSizeX / 4 &&
                 Math.Abs(enemyPosition.Y - playerPosition.Y) <= Window.MapSizeY / 4;
         }
 
-        public static bool IsEnemyFar(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
-        {
-            return Math.Abs(enemyPosition.X - playerPosition.X) >= Window.MapSizeX / 2 &&
-                Math.Abs(enemyPosition.Y - playerPosition.Y) >= Window.MapSizeY / 2;
-        }
-
+        /// <summary>
+        /// Создание монстров
+        /// </summary>
+        /// <param name="PlayerLevel">Уровень игрока</param>
+        /// <param name="playerPosition">Позиция игрока</param>
+        /// <returns>позиция монстров и лист с ними</returns>
         public static Tuple<ObjectStructures.Position, List<Enemy>> CreateEnemy(int PlayerLevel, ObjectStructures.Position playerPosition)
         {
             //увеличивается вероятность выпадения дракона и смешаных монстров в зависиости от уровня
             int rand = Program.Random.Next(1 - 2 * PlayerLevel, 301 + 3 * PlayerLevel - (PlayerLevel < 3 ? 150 : 0));
+            EnemyExist = true;
             var enemyPosition = EnemyGenerationPosition(playerPosition);
             bool exictPosition = false;
             do
@@ -112,8 +143,6 @@ namespace TheGame
                 }
             } while (exictPosition);
 
-            EnemyExist = true;
-
             if (rand < 1) return Tuple.Create(enemyPosition, EnemyMix.CreateEnemyMix(PlayerLevel));
             if (rand >= 1 && rand <= 50) return Tuple.Create(enemyPosition, EnemyWolf.CreateEnemyWolf(PlayerLevel));
             if (rand > 50 && rand <= 100) return Tuple.Create(enemyPosition, EnemyGoblin.CreateEnemyGoblin(PlayerLevel));
@@ -126,7 +155,12 @@ namespace TheGame
             return Tuple.Create(enemyPosition, EnemyDragon.CreateEnemyDragon(PlayerLevel));
         }
 
-
+        /// <summary>
+        /// Проверка столкновения игрока и монстров
+        /// </summary>
+        /// <param name="enemy">монстры</param>
+        /// <param name="player">игрок</param>
+        /// <param name="enemyPosition">позиция монстров</param>
         public static void CheckPlayer(List<Enemy> enemy, Player player, ObjectStructures.Position enemyPosition)
         {
             if (EnemyExist && enemyPosition.X == player.Position.X && enemyPosition.Y == player.Position.Y && !enemy[0].Mimicry)
@@ -137,6 +171,12 @@ namespace TheGame
             else if (EnemyExist && IsEnemyNear(enemyPosition, player.Position) && enemy[0].Mimicry) Battle.GoBattle(player, enemy);
         }
 
+        /// <summary>
+        /// Можно ли создавать нового монтра (достаточно ли далеко отошли от предыдущего)
+        /// </summary>
+        /// <param name="lastPosition">предыдущая позиция</param>
+        /// <param name="newPosition">текущая позиция</param>
+        /// <returns></returns>
         public static bool MayNewEnemy(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
         {
             return (int)(Math.Sqrt((lastPosition.X - newPosition.X) * (lastPosition.X - newPosition.X) +

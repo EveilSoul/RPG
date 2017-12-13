@@ -21,9 +21,9 @@ namespace TheGame
         public static char TreasureSymble = '$';
         public static int EnemyGeneration = 4;
         public static int EnemyCount;
-        
 
-        
+
+
 
         public static void PrintArray(string[] array)
         {
@@ -32,6 +32,9 @@ namespace TheGame
                     Console.WriteLine(t);
         }
 
+        /// <summary>
+        /// Задается размер и цвет консоли
+        /// </summary>
         public static void DrowWindow()
         {
             Console.SetWindowSize(WindowSizeX + 1, WindowSizeY + 10);
@@ -40,6 +43,10 @@ namespace TheGame
             Console.ForegroundColor = ConsoleColor.Black;
         }
 
+        /// <summary>
+        /// Вывод карты на консоль
+        /// </summary>
+        /// <param name="map">карта, которую нужно вывести</param>
         public static void PrintMap(char[,] map)
         {
             for (int i = 0; i < MapSizeY; i++)
@@ -55,6 +62,10 @@ namespace TheGame
 
         }
 
+        /// <summary>
+        /// Вывод характеристик персонажа на консоль при перемещении по миру
+        /// </summary>
+        /// <param name="player">игрок</param>
         public static void PrintCharacteristic(Player player)
         {
             int i = 0;
@@ -91,6 +102,11 @@ namespace TheGame
             Console.SetCursorPosition(0, MapSizeY + 1);
         }
 
+        /// <summary>
+        /// Вывод характеристик во время битвы
+        /// </summary>
+        /// <param name="player">игрок</param>
+        /// <param name="enemy">монстры</param>
         public static void PrintBattleCharacteristic(Player player, List<Enemy> enemy)
         {
             int i = 0;
@@ -107,21 +123,22 @@ namespace TheGame
             Console.SetCursorPosition(MapSizeX + 1, ++i);
             Console.WriteLine("Сила атакаки: ");
             for (int j = 0; j < enemy.Count; j++)
-            { 
+            {
                 Console.SetCursorPosition(MapSizeX + 1, 7 + j);
                 Console.WriteLine("{0}: {1}", j + 1, enemy[j].PowerAttack);
             }
             Console.SetCursorPosition(0, MapSizeY + 3);
-          
+
         }
-        
+
+        /// <summary>
+        /// Вывод монстров на боевую карту и изменение их количества после того, как кого то из них убивают
+        /// </summary>
+        /// <param name="enemy">монстры</param>
         public static void PrintEnemy(List<Enemy> enemy)
         {
-
-                EnemyCount = enemy.Count;
-                DrowEnemyBattle(EnemyCount, enemy);
-
-
+            EnemyCount = enemy.Count;
+            DrowEnemyBattle(EnemyCount, enemy);
 
             for (int i = 0; i < MapSizeX; i++)
             {
@@ -145,11 +162,14 @@ namespace TheGame
             Console.WriteLine("Здоровье врагов:");
             for (int i = 0; i < enemy.Count; i++)
             {
-                Console.Write("{0} ",enemy[i].Health);
+                Console.Write("{0} ", enemy[i].Health);
             }
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Вывод атаки на монстра
+        /// </summary>
         public static void PrintOnEnemyAtack()
         {
 
@@ -166,13 +186,13 @@ namespace TheGame
             }
             Thread.Sleep(400);
 
-
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Black;
-
-
         }
 
+        /// <summary>
+        /// ВЫвод атаки монстра
+        /// </summary>
         public static void PrintEnemyAtack()
         {
 
@@ -188,12 +208,15 @@ namespace TheGame
             }
             Thread.Sleep(400);
 
-
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Black;
-
         }
 
+        /// <summary>
+        /// Вывод передвижения игрока по карте
+        /// </summary>
+        /// <param name="moveX">сдвиг по оси Х относительно середины карты</param>
+        /// <param name="moveY">сдвиг по оси Y относительно середины карты</param>
         public static void PrintMovePlayerOnMap(int moveX, int moveY)
         {
             Console.Clear();
@@ -204,13 +227,25 @@ namespace TheGame
             Console.WriteLine("--------------------------------");
         }
 
+        /// <summary>
+        /// Отрисовка городов на карте
+        /// </summary>
+        /// <param name="cityPosition">позиции городов</param>
+        /// <param name="playerPosition">позиция игрока</param>
         public static void DrowCity(List<ObjectStructures.Position> cityPosition, ObjectStructures.Position playerPosition)
         {
             ClearMap(Map, CitySymble);
-            for (int i=0;i<cityPosition.Count;i++)
-            Map[MapSizeY / 2 - playerPosition.Y + cityPosition[i].Y, MapSizeX / 2 - playerPosition.X + cityPosition[i].X] = CitySymble;
+            for (int i = 0; i < cityPosition.Count; i++)
+                Map[MapSizeY / 2 - playerPosition.Y + cityPosition[i].Y, MapSizeX / 2 - playerPosition.X + cityPosition[i].X] = CitySymble;
         }
 
+        /// <summary>
+        /// Отрисовка врагов на карте
+        /// </summary>
+        /// <param name="enemyPosition">позиция врагов</param>
+        /// <param name="playerPosition">позиция игрока</param>
+        /// <param name="moveX">сдвиг по оси Х относительно середины карты</param>
+        /// <param name="moveY">сдвиг по оси У относительно середины карты</param>
         public static void DrowEnemy(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition,
             int moveX = 0, int moveY = 0)
         {
@@ -223,6 +258,13 @@ namespace TheGame
                 Map[MapSizeY / 2 - playerPosition.Y + enemyPosition.Y + moveY, MapSizeX / 2 - playerPosition.X + enemyPosition.X + moveX] = EnemySymble;
         }
 
+        /// <summary>
+        /// Отрисовка кладов на карте
+        /// </summary>
+        /// <param name="treasurePosition">позиция клада</param>
+        /// <param name="playerPosition">позиция игрока</param>
+        /// <param name="moveX">сдвиг по оси Х относительно середины карты</param>
+        /// <param name="moveY">сдвиг по оси У относительно середины карты</param>
         public static void DrowTreasure(ObjectStructures.Position treasurePosition, ObjectStructures.Position playerPosition,
             int moveX = 0, int moveY = 0)
         {
@@ -235,6 +277,11 @@ namespace TheGame
                 Map[MapSizeY / 2 - playerPosition.Y + treasurePosition.Y + moveY, MapSizeX / 2 - playerPosition.X + treasurePosition.X + moveX] = TreasureSymble;
         }
 
+        /// <summary>
+        ///  Отрисовка монстров во время битвы
+        /// </summary>
+        /// <param name="enemyCount">количество монстров</param>
+        /// <param name="enemy">монстры</param>
         public static void DrowEnemyBattle(int enemyCount, List<Enemy> enemy)
         {
             int count = 0;
@@ -246,11 +293,14 @@ namespace TheGame
                 enemy[count].Position = new ObjectStructures.Position { X = EnemyGeneration, Y = MapSizeX / 2 + i };
                 count++;
             }
-
-
             BattleMap[MapSizeY / 2, MapSizeX / 2] = PlayerSymble;
         }
 
+        /// <summary>
+        /// удаление с заданной карты заданных символов
+        /// </summary>
+        /// <param name="map">карта</param>
+        /// <param name="symbleDelete">символ</param>
         public static void ClearMap(char[,] map, char symbleDelete)
         {
             for (int i = 0; i < MapSizeY; i++)

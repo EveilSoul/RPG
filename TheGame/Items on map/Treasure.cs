@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace TheGame
 {
@@ -30,6 +30,7 @@ namespace TheGame
         public Treasure(Player player, ObjectStructures.Position enemyPosition)
         {
             this.Position = TreasureGenerationPosition(player.Position);
+            TreasureExist = true;
 
             bool exictPosition = false;
             do
@@ -61,20 +62,22 @@ namespace TheGame
 
         public void CkeckPlayer(Player player)
         {
-            if (player.Position.X == this.Position.X && player.Position.Y == this.Position.Y)
+            if (TreasureExist && player.Position.X == this.Position.X && player.Position.Y == this.Position.Y)
             {
                 if (this.IsEnemy) Battle.GoBattle(player, this.enemy);
                 player.AddMoney(GetReward(player.Level));
+                Thread.Sleep(1000);
                 Window.ClearMap(Window.Map, Window.TreasureSymble);
+                TreasureExist = false;
             }
         }
 
         public List<Enemy> CreateEnemyForTreasure(int PlayerLevel)
         {
 
-            int rand = Program.Random.Next(1 - PlayerLevel, 301 + PlayerLevel);
+            int rand = Program.Random.Next(1 - 2*PlayerLevel, 301 + 3*PlayerLevel);
             TreasureExist = true;
-            PlayerLevel-=3;
+            PlayerLevel -= 3;
 
             if (rand < 1) return EnemyMix.CreateEnemyMix(PlayerLevel);
             if (rand > 0 && rand <= 50) return EnemyBear.CreateEnemyBear(PlayerLevel);
@@ -88,13 +91,15 @@ namespace TheGame
 
         public int GetReward(int playerLevel)
         {
-            return Program.Random.Next(30 + playerLevel * playerLevel, 80 + playerLevel * playerLevel * playerLevel);
+            var reward = Program.Random.Next(80 + playerLevel * playerLevel, 150 + playerLevel * playerLevel * playerLevel);
+            Console.WriteLine("Вы получили {0} монет.", reward);
+            return reward;
         }
 
         public bool MayNewEnemy(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
         {
             return (int)(Math.Sqrt((lastPosition.X - newPosition.X) * (lastPosition.X - newPosition.X) +
-                (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 10;
+                (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 20;
         }
     }
 }
