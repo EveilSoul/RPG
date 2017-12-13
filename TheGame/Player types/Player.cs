@@ -137,7 +137,7 @@ namespace TheGame
             //Item1-позиция монстров, Item2-лист монстров
             var enemy = Enemy.CreateEnemy(this.Level, this.Position);
             Enemy.TheLastEnemyPosition = enemy.Item1;
-            if (!enemy.Item2[0].Mimicry) Window.DrowEnemy(enemy.Item1, this.Position);
+            if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry) Window.DrowEnemy(enemy.Item1, this.Position);
 
             while (this.IsLive)
             {
@@ -145,7 +145,7 @@ namespace TheGame
                 if (Battle.MayNewBattle(Enemy.TheLastEnemyPosition, this.Position))
                 {
                     enemy = Enemy.CreateEnemy(this.Level, this.Position);
-                    if (!enemy.Item2[0].Mimicry)
+                    if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry)
                         Window.DrowEnemy(enemy.Item1, this.Position, moveX, moveY);
 
                     Battle.TheBattleWas = false;
@@ -167,13 +167,14 @@ namespace TheGame
                 //если произошел выход за границу карты
                 if (Math.Abs(moveX) == Window.MapSizeX / 2 || Math.Abs(moveY) == Window.MapSizeY / 2)
                 {
-                    if (!enemy.Item2[0].Mimicry)
+                    if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry)
                         Window.DrowEnemy(enemy.Item1, this.Position);
                     //else
                     //{
                     //    Window.ClearMap(Window.Map, Window.EnemySymble);
                     //}
 
+                    
                     Window.DrowTreasure(treasure.Position, this.Position);
 
 

@@ -56,8 +56,11 @@ namespace TheGame
 
         public void CkeckTreasure(Player player)
         {
-            if (EnemyExist && player.Position.X == this.Position.X && player.Position.Y == this.Position.Y) Battle.GoBattle(player, this.enemy);
-            player.AddMoney(GetReward(player.Level));
+            if (EnemyExist && player.Position.X == this.Position.X && player.Position.Y == this.Position.Y && this.IsEnemy)
+            {
+                Battle.GoBattle(player, this.enemy);
+                player.AddMoney(GetReward(player.Level));
+            }
         }
 
         public List<Enemy> CreateEnemyForTreasure(int PlayerLevel)

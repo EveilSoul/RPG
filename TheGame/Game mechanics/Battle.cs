@@ -30,24 +30,17 @@ namespace TheGame
             {
                 Window.PrintEnemy(enemy);
                 Window.PrintBattleCharacteristic(player, enemy);
-
                 var numberOnEnemyAtsck = PlayerAttack(player, enemy.Count);
 
                 for (int i = 0; i < enemy.Count; i++)
-                {
                     enemy[i].OnEnemyAtack(enemy[i], numberOnEnemyAtsck[i]);
-                }
-
+                
                 Enemy.CheckEnemyDie(enemy);
-
                 Window.PrintOnEnemyAtack();
                 Window.PrintEnemy(enemy);
 
-
                 for (int i = 0; i < enemy.Count; i++)
                     player.ApplyDamage(enemy[i].EnemyAttack());
-
-
             }
 
             Window.ClearMap(Window.BattleMap, Window.EnemySymble);
@@ -59,14 +52,14 @@ namespace TheGame
             TheTreasureBattleWas = true;
             IsEnemy = false;
             Enemy.EnemyExist = false;
-            Treasure.EnemyExist = false;
+            Treasure.EnemyExist = false; //metod
 
             if (player.IsLive)
             {
                 player.AddMoney(reward.Item1);
                 player.BattleSkill += reward.Item2;
                 while (player.NextLevelBorder <= player.BattleSkill)
-                    player.ChangeBattleLevel();
+                    player.ChangeBattleLevel(); //metod
             }
             
         }
