@@ -270,6 +270,7 @@ namespace TheGame
 
             WriteCharacteristics(armor.GetCharacteristics());
             Console.WriteLine("Итогo:{0}", armor.GetCost(RealCosts["armor"]));
+            Console.WriteLine("Комплект прибавит {0} маны", armor.GetMana());
             Console.WriteLine("Если хотите купить, нажмите Y. Если нет, то N");
             switch (Console.ReadKey(true).Key)
             {

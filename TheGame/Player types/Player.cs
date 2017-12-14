@@ -171,7 +171,7 @@ namespace TheGame
                 CheckAndCreateEnemy(ref enemy, moveX, moveY);
                 City.CheckPlayer(this);
                 CheckAndCreateTreasure(ref treasure, moveX, moveY, enemy.Item1);
-
+                this.AddMana(this.Level);
                 //если произошел выход за границу карты
                 if (Math.Abs(moveX) == Window.MapSizeX / 2 || Math.Abs(moveY) == Window.MapSizeY / 2)
                 {
@@ -243,6 +243,18 @@ namespace TheGame
             Window.DrowCity(city, this.Position);
         }
 
+        //Печатает основные игровые комбинации и подсказки
+        public void PrintTips()
+        {
+            Console.WriteLine("Перемещание по стрелкам или WSAD\n" +
+                "Города обозначаются #\n" +
+                "Противники обозначены *\n" +
+                "Клад обозначен $\n" +
+                "F1 для активации аптечки\n" +
+                "F2 для вывода состояния брони\n" +
+                "H для помощи");
+            Console.ReadKey();
+        }
 
         /// <summary>
         /// Обработка нажатий на клавиатуру
@@ -275,10 +287,14 @@ namespace TheGame
                     moveX++;
                     break;
                 case ConsoleKey.H:
-                    //help
+                    PrintTips();
                     break;
                 case ConsoleKey.F1:
                     UseMedicineKit();
+                    break;
+                case ConsoleKey.F2:
+                    Window.PrintArray(this.Armor.GetStatistic());
+                    Console.ReadKey();
                     break;
             }
         }
@@ -287,10 +303,8 @@ namespace TheGame
         /// </summary>
         /// <param name="enemyCount">Количество врагов</param>
         /// <returns>Массив с уроном для врагов</returns>
-        public virtual int[] SuperAttack(int enemyCount)
-        {
-            return new int[enemyCount];
-        }
+        public virtual int[] SuperAttack(int enemyCount) =>
+            new int[enemyCount];
 
         /// <summary>
         /// Нанесение урона персонажу
@@ -535,6 +549,14 @@ namespace TheGame
             if (index >= 0 && index < this.Spells.Count)
                 return this.Spells[index];
             return null;
+        }
+
+        //Увеличиваем CurrentMana на count
+        public void AddMana(int count)
+        {
+            this.CurrentMana += count;
+            if (this.CurrentMana > this.MaxMana)
+                this.CurrentMana = this.MaxMana;
         }
 
         //Восстанавливаем CurrentHealth на заданное число единиц

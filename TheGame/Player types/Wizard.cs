@@ -35,14 +35,16 @@ namespace TheGame
             int index2 = Program.Parse(System.Console.ReadLine(), 0, Swords.Count - 1);
             if (this.CurrentMana >= 0)
             {
-                result = SimpleSpellAttack(enemyCount, this.Spells[index1], 0);
+                result = this.Spells[index1].JoinSpell(1,0);
                 for (int i = 0; i < enemyCount; i++)
                 {
                     result[i] += SimpleSwordAttack(enemyCount, Swords[index2], 0, 0, 0, 0, 0, 0, 0)[0];
-                    result[i] *= (int)System.Math.Sqrt(Level) + 3 / Level;
+                    if (this.Bow != null)
+                        result[i] += this.Bow.Attack();
+                    else result[i] += SimpleSwordAttack(enemyCount, Swords[index2], 0, 0, 0, 0, 0, 0, 0)[0];
                 }
             }
-            else CurrentMana += 29 * this.Level * this.Level * this.Level;
+            else CurrentMana += 29 * this.Level * this.Level;
             return result;
         }
     }

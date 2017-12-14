@@ -113,6 +113,18 @@ namespace TheGame
                 hp = this.Arms.Repair(hp);
                 hp = this.Boots.Repair(hp);
             }
+
+            public string[] GetStatistic()
+            {
+                return new[]{
+                    "Целостность вашего комплекта брони:",
+                    String.Format("Шлем: {0}%", this.Head.GetStatistic() * 100),
+                    String.Format("Нагрудник: {0}%", this.Body.GetStatistic() * 100),
+                    String.Format("Наручи: {0}%", this.Arms.GetStatistic() * 100),
+                    String.Format("Поножи: {0}%", this.Leggs.GetStatistic() * 100),
+                    String.Format("Ботинки: {0}%", this.Boots.GetStatistic() * 100)
+                };
+            }
         }
 
         /// <summary>
@@ -136,13 +148,21 @@ namespace TheGame
             public int Mana;
             //Описание брони
             public string Description;
-            
+
             //Возвращает реальную стоимость брони с учетом повреждения
             public int GetCost() =>
                 this.Cost * this.Health / (this.MaxHealth != 0 ? this.MaxHealth : 1);
 
             //Возвращает количество HP, доступных для восстановления
             public int GetHealthToAdd() => this.MaxHealth - this.Health;
+
+            //Анализ изношенности брони
+            public float GetStatistic()
+            {
+                if (this.MaxHealth != 0)
+                    return (float)this.Health / this.MaxHealth;
+                else return 0;
+            }
 
             /// <summary>
             /// Чинит элемент брони

@@ -8,7 +8,6 @@ namespace TheGame
 {
     class Battle
     {
-
         public static int[] GetEnemyIndexs()
         {
             Console.WriteLine("Введите индексы противников через пробел");
@@ -26,6 +25,7 @@ namespace TheGame
             {
                 Window.PrintEnemy(enemy);
                 Window.PrintBattleCharacteristic(player, enemy);
+                player.AddMana(player.Level);
                 var numberOnEnemyAtsck = PlayerAttack(player, enemy.Count);
 
                 for (int i = 0; i < enemy.Count; i++)
@@ -43,7 +43,6 @@ namespace TheGame
 
             if (player.IsLive)
                 GetRewardForPlayer(player, reward.Item1, reward.Item2);
-            
         }
 
         public static void GetRewardForPlayer(Player player, int money, int skill)
