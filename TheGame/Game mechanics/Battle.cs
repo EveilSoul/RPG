@@ -39,18 +39,11 @@ namespace TheGame
                     player.ApplyDamage(enemy[i].EnemyAttack());
             }
 
-            SomeMetod();
+            Window.ClearMap(Window.BattleMap, Window.EnemySymble);
 
             if (player.IsLive)
                 GetRewardForPlayer(player, reward.Item1, reward.Item2);
             
-        }
-
-        public static void SomeMetod()
-        {
-            Window.ClearMap(Window.BattleMap, Window.EnemySymble);
-            Enemy.EnemyExist = false;
-            Treasure.TreasureExist = false; 
         }
 
         public static void GetRewardForPlayer(Player player, int money, int skill)

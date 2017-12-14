@@ -4,7 +4,7 @@ namespace TheGame
     /// <summary>
     /// Класс Рэйнджера, доступен для выбора игроком
     /// </summary>
-    public class Ranger : Player
+    class Ranger : Player
     {
         public Ranger(string name, ObjectStructures.Position position) : base(name, position)
         {

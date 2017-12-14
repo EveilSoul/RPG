@@ -2,7 +2,7 @@
 
 namespace TheGame
 {
-    public class Warrior : Player
+    class Warrior : Player
     {
         public Warrior(string name, ObjectStructures.Position position) : base(name, position)
         {

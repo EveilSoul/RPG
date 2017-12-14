@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace TheGame
 {
-    public class City
+    class City
     {
         public string Name;
         public ObjectStructures.Position Position;

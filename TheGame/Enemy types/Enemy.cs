@@ -8,16 +8,27 @@ namespace TheGame
 {
     class Enemy
     {
+        //Имя монстра
         public string Name;
+        //Жив ли монстр
         public bool IsLive;
+        //Сила атаки
         public int PowerAttack;
+        //Здоровье
         public int Health;
+        //Точность попадания
         public float Accuracy = 0.9f;
+        //Позиция
         public ObjectStructures.Position Position;
+        //Количество денег за убийство монстра
         public int MoneyReward = 5;
+        //Количество скила за убийство монстра
         public int SkillReward = 10;
+        //Скртный ли монстр
         public bool Mimicry;
+        //Последняя позиция генерации монстров
         public static ObjectStructures.Position TheLastEnemyPosition;
+        //Существование монстров
         public static bool EnemyExist = false;
 
 
@@ -28,7 +39,7 @@ namespace TheGame
         /// Получение награды за монстров
         /// </summary>
         /// <param name="enemy">лист монстров</param>
-        /// <returns></returns>
+        /// <returns>Кортеж из количества монет и количества скилла</returns>
         public static Tuple<int, int> GetReward(List<Enemy> enemy)
         {
             int money = 0;
@@ -109,7 +120,7 @@ namespace TheGame
         /// </summary>
         /// <param name="enemyPosition">позиция монстров</param>
         /// <param name="playerPosition">позиция игрока</param>
-        /// <returns></returns>
+        /// <returns>Находится ли игрок в зоне поражения</returns>
         public static bool IsEnemyNear(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
         {
             return Math.Abs(enemyPosition.X - playerPosition.X) <= Window.MapSizeX / 4 &&
@@ -117,7 +128,7 @@ namespace TheGame
         }
 
         /// <summary>
-        /// Создание монстров
+        /// Создание монстров в зависимости от уровня игрока
         /// </summary>
         /// <param name="PlayerLevel">Уровень игрока</param>
         /// <param name="playerPosition">Позиция игрока</param>
@@ -167,8 +178,13 @@ namespace TheGame
             {
                 Battle.GoBattle(player, enemy);
                 Window.ClearMap(Window.Map, Window.EnemySymble);
+                Enemy.EnemyExist = false;
             }
-            else if (EnemyExist && IsEnemyNear(enemyPosition, player.Position) && enemy[0].Mimicry) Battle.GoBattle(player, enemy);
+            else if (EnemyExist && IsEnemyNear(enemyPosition, player.Position) && enemy[0].Mimicry)
+            {
+                Battle.GoBattle(player, enemy);
+                Enemy.EnemyExist = false;
+            }
         }
 
         /// <summary>
@@ -176,7 +192,7 @@ namespace TheGame
         /// </summary>
         /// <param name="lastPosition">предыдущая позиция</param>
         /// <param name="newPosition">текущая позиция</param>
-        /// <returns></returns>
+        /// <returns>Можно ли генерировать</returns>
         public static bool MayNewEnemy(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
         {
             return (int)(Math.Sqrt((lastPosition.X - newPosition.X) * (lastPosition.X - newPosition.X) +

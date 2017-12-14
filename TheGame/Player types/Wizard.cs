@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 namespace TheGame
 {
-    public class Wizard : Player
+    class Wizard : Player
     {
         public Wizard(string name, ObjectStructures.Position position) : base(name, position)
         {

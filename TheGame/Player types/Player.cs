@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheGame
 {
-    public class Player
+    class Player
     {
         //Сколько очков необходимо набрать для перехода на следующий уровень
         public int NextLevelBorder;
@@ -168,38 +168,14 @@ namespace TheGame
 
             while (this.IsLive)
             {
-                Enemy.CheckPlayer(enemy.Item2, this, enemy.Item1);
-                if (Enemy.MayNewEnemy(Enemy.TheLastEnemyPosition, this.Position))
-                {
-                    enemy = Enemy.CreateEnemy(this.Level, this.Position);
-                    if (!enemy.Item2[0].Mimicry)
-                        Window.DrowEnemy(enemy.Item1, this.Position, moveX, moveY);
-
-                    Enemy.TheLastEnemyPosition = enemy.Item1;
-                }
-
+                CheckAndCreateEnemy(ref enemy, moveX, moveY);
                 City.CheckPlayer(this);
-
-                treasure.CkeckPlayer(this);
-                if (treasure.MayNewEnemy(Treasure.TheLastTreasurePosition, this.Position))
-                {
-                    treasure = new Treasure(this, enemy.Item1);
-                    Window.DrowTreasure(treasure.Position, this.Position, moveX, moveY);
-                    Treasure.TheLastTreasurePosition = treasure.Position;
-                }
+                CheckAndCreateTreasure(ref treasure, moveX, moveY, enemy.Item1);
 
                 //если произошел выход за границу карты
                 if (Math.Abs(moveX) == Window.MapSizeX / 2 || Math.Abs(moveY) == Window.MapSizeY / 2)
                 {
-                    if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry)
-                        Window.DrowEnemy(enemy.Item1, this.Position);
-
-                    if (Treasure.TreasureExist)
-                    Window.DrowTreasure(treasure.Position, this.Position);
-
-                    city = City.IsSityNear(this.Position);
-                    Window.DrowCity(city, this.Position);
-
+                    DrowCityEnemyAndTreasure(city, treasure, enemy);
                     moveX = 0;
                     moveY = 0;
                     Window.PrintMovePlayerOnMap(moveX, moveY);
@@ -211,6 +187,61 @@ namespace TheGame
             }
         }
 
+        /// <summary>
+        /// Проверка на столкновение монстров и персонажа и начало боя при их столкновении
+        /// </summary>
+        /// <param name="enemy">монстры</param>
+        /// <param name="moveX">сдвиг по оси Х относительно середины карты</param>
+        /// <param name="moveY">сдвиг по оси У относительно середины карты</param>
+        public void CheckAndCreateEnemy(ref Tuple<ObjectStructures.Position, List<Enemy>> enemy, int moveX, int moveY)
+        {
+            Enemy.CheckPlayer(enemy.Item2, this, enemy.Item1);
+            if (Enemy.MayNewEnemy(Enemy.TheLastEnemyPosition, this.Position))
+            {
+                enemy = Enemy.CreateEnemy(this.Level, this.Position);
+                if (!enemy.Item2[0].Mimicry)
+                    Window.DrowEnemy(enemy.Item1, this.Position, moveX, moveY);
+
+                Enemy.TheLastEnemyPosition = enemy.Item1;
+            }
+        }
+
+        /// <summary>
+        /// Проверка того, находится ли игрок на клетке с кладом и начало боя, если игрока заметили монстры
+        /// </summary>
+        /// <param name="treasure">клад</param>
+        /// <param name="moveX">сдвиг по оси Х относительно середины карты</param>
+        /// <param name="moveY">сдвиг по оси У относительно середины карты</param>
+        /// <param name="enemyPosition">позиция монстра (чтобы избежать столкновения монстров и кладов)</param>
+        public void CheckAndCreateTreasure(ref Treasure treasure, int moveX, int moveY, ObjectStructures.Position enemyPosition)
+        {
+            treasure.CkeckPlayer(this);
+            if (treasure.MayNewTreasure(Treasure.TheLastTreasurePosition, this.Position))
+            {
+                treasure = new Treasure(this, enemyPosition);
+                Window.DrowTreasure(treasure.Position, this.Position, moveX, moveY);
+                Treasure.TheLastTreasurePosition = treasure.Position;
+            }
+        }
+
+        /// <summary>
+        /// Отрисовка на карте городов, монстров и кладов
+        /// </summary>
+        /// <param name="city">координаты городов</param>
+        /// <param name="treasure">клад</param>
+        /// <param name="enemy">монстры</param>
+        public void DrowCityEnemyAndTreasure(List<ObjectStructures.Position> city, Treasure treasure, 
+            Tuple<ObjectStructures.Position, List<Enemy>> enemy)
+        {
+            if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry)
+                Window.DrowEnemy(enemy.Item1, this.Position);
+
+            if (Treasure.TreasureExist)
+                Window.DrowTreasure(treasure.Position, this.Position);
+
+            city = City.IsSityNear(this.Position);
+            Window.DrowCity(city, this.Position);
+        }
 
 
         /// <summary>

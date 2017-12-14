@@ -9,7 +9,7 @@ namespace TheGame
     /// <summary>
     /// Содержит в себе основные структуры, использующиеся в игре
     /// </summary>
-    public class ObjectStructures
+    class ObjectStructures
     {
         /// <summary>
         /// Позиция объекта на карте

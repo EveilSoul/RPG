@@ -8,12 +8,22 @@ namespace TheGame
 {
     class Treasure
     {
+        //Позиция клада
         public ObjectStructures.Position Position;
+        //Нападут ли на игрока монстры
         public bool IsEnemy;
+        //Последняя позиция генерации клада
         public static ObjectStructures.Position TheLastTreasurePosition;
+        //Существование клада
         public static bool TreasureExist;
+        //Лист с монстрами
         public List<Enemy> enemy;
 
+        /// <summary>
+        /// Генерация позиции клада
+        /// </summary>
+        /// <param name="playerPosition">Позиция игрока</param>
+        /// <returns>Позиция клада</returns>
         public ObjectStructures.Position TreasureGenerationPosition(ObjectStructures.Position playerPosition)
         {
             var treasurePosition = new ObjectStructures.Position
@@ -27,6 +37,11 @@ namespace TheGame
             return treasurePosition;
         }
 
+        /// <summary>
+        /// Создание клада (позиции, монстров)
+        /// </summary>
+        /// <param name="player">Игрок</param>
+        /// <param name="enemyPosition">Позиция монстро(для того, чтобы не было конфликтов с городами)</param>
         public Treasure(Player player, ObjectStructures.Position enemyPosition)
         {
             this.Position = TreasureGenerationPosition(player.Position);
@@ -60,6 +75,10 @@ namespace TheGame
 
         }
 
+        /// <summary>
+        /// Проверка столкновения игрока и клада
+        /// </summary>
+        /// <param name="player">Игрок</param>
         public void CkeckPlayer(Player player)
         {
             if (TreasureExist && player.Position.X == this.Position.X && player.Position.Y == this.Position.Y)
@@ -72,31 +91,46 @@ namespace TheGame
             }
         }
 
+        /// <summary>
+        /// Создание монстров в зависимости от уровня игрока
+        /// </summary>
+        /// <param name="PlayerLevel">Уровень игрока</param>
+        /// <returns>Лист с монстрами</returns>
         public List<Enemy> CreateEnemyForTreasure(int PlayerLevel)
         {
-
-            int rand = Program.Random.Next(1 - 2*PlayerLevel, 301 + 3*PlayerLevel);
+            int rand = Program.Random.Next(1 - 3*(PlayerLevel/2), 231 + 5*(PlayerLevel/2));
             TreasureExist = true;
-            PlayerLevel -= 3;
 
             if (rand < 1) return EnemyMix.CreateEnemyMix(PlayerLevel);
             if (rand > 0 && rand <= 50) return EnemyBear.CreateEnemyBear(PlayerLevel);
             if (rand > 50 && rand <= 100) return EnemyOrk.CreateEnemyOrk(PlayerLevel); 
-            if (rand > 100 && rand <= 150) return EnemyGriffin.CreateGriffin(PlayerLevel); 
-            if (rand > 150 && rand <= 200) return EnemyTriton.CreateEnemyTriton(PlayerLevel); 
-            if (rand > 200 && rand <= 250) return EnemyBandit.CreateEnemyBandit(PlayerLevel); 
-            if (rand > 250 && rand <= 300) return EnemyDarkKnight.CreateEnemyDarkKnight(PlayerLevel); 
+            if (rand > 100 && rand <= 130) return EnemyGriffin.CreateGriffin(PlayerLevel); 
+            if (rand > 130 && rand <= 150) return EnemyTriton.CreateEnemyTriton(PlayerLevel); 
+            if (rand > 150 && rand <= 200) return EnemyBandit.CreateEnemyBandit(PlayerLevel); 
+            if (rand > 200 && rand <= 230) return EnemyDarkKnight.CreateEnemyDarkKnight(PlayerLevel); 
             return EnemyDragon.CreateEnemyDragon(PlayerLevel);
         }
 
+        /// <summary>
+        /// Награда за клад
+        /// </summary>
+        /// <param name="playerLevel">Уровень игрока</param>
+        /// <returns>Количество монет</returns>
         public int GetReward(int playerLevel)
         {
             var reward = Program.Random.Next(80 + playerLevel * playerLevel, 150 + playerLevel * playerLevel * playerLevel);
+            Console.Clear();
             Console.WriteLine("Вы получили {0} монет.", reward);
             return reward;
         }
 
-        public bool MayNewEnemy(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
+        /// <summary>
+        /// Проверка того, можно ли создавать новых монстров
+        /// </summary>
+        /// <param name="lastPosition">Предыдущая позиция генерации клада</param>
+        /// <param name="newPosition">Текущая позиция</param>
+        /// <returns>Можно ли генерировать</returns>
+        public bool MayNewTreasure(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
         {
             return (int)(Math.Sqrt((lastPosition.X - newPosition.X) * (lastPosition.X - newPosition.X) +
                 (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 20;
