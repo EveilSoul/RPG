@@ -53,7 +53,7 @@ namespace TheGame
         //Позиция персонажа в виде (x,y)
         public ObjectStructures.Position Position;
         //Комплект брони
-        public ObjectStructures.ArmorComplect Armor;
+        public ArmorComplect Armor;
         //Все мечи
         public List<Sword> Swords;
         //Лук (при наличии)
@@ -71,7 +71,7 @@ namespace TheGame
             this.NextLevelBorder = 150;
 
             this.Swords = new List<Sword>();
-            this.Armor = new ObjectStructures.ArmorComplect();
+            this.Armor = new ArmorComplect();
             this.Spells = new List<Spell>();
 
             this.MedicineKits = new List<ObjectStructures.MedicineKit>()
@@ -466,7 +466,7 @@ namespace TheGame
         public void AddMoney(int count) => this.Money += count;
 
         //Надеваем на игрока комплект брони
-        public void AddArmor(ObjectStructures.ArmorComplect armor)
+        public void AddArmor(ArmorComplect armor)
         {
             this.MaxMana -= this.Armor.GetMana();
             this.Armor = armor;

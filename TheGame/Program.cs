@@ -12,7 +12,7 @@ namespace TheGame
         public static string Path;
         public static Random Random;
 
-        public static List<ObjectStructures.ArmorComplect> Armor;
+        public static List<ArmorComplect> ArmorComplects;
         public static List<Sword> Swords;
         public static List<Bow> Bows;
         public static List<Spell> Spells;
@@ -55,18 +55,18 @@ namespace TheGame
             return result;
         }
 
-        static List<ObjectStructures.ArmorComplect> GetArmor(string path)
+        static List<ArmorComplect> GetArmor(string path)
         {
-            var result = new List<ObjectStructures.ArmorComplect>();
+            var result = new List<ArmorComplect>();
             int countComplect = NamesArmor.GetLength(0);
             for (int i = 0; i < countComplect; i++)
             {
-                var tempComplect = new ObjectStructures.ArmorComplect();
-                tempComplect.Head = ObjectStructures.GetArmorFromFile(path + NamesArmor[i, 0]);
-                tempComplect.Body = ObjectStructures.GetArmorFromFile(path + NamesArmor[i, 1]);
-                tempComplect.Arms = ObjectStructures.GetArmorFromFile(path + NamesArmor[i, 2]);
-                tempComplect.Leggs = ObjectStructures.GetArmorFromFile(path + NamesArmor[i, 3]);
-                tempComplect.Boots = ObjectStructures.GetArmorFromFile(path + NamesArmor[i, 4]);
+                var tempComplect = new ArmorComplect();
+                tempComplect.Head = Armor.GetArmorFromFile(path + NamesArmor[i, 0]);
+                tempComplect.Body = Armor.GetArmorFromFile(path + NamesArmor[i, 1]);
+                tempComplect.Arms = Armor.GetArmorFromFile(path + NamesArmor[i, 2]);
+                tempComplect.Leggs = Armor.GetArmorFromFile(path + NamesArmor[i, 3]);
+                tempComplect.Boots = Armor.GetArmorFromFile(path + NamesArmor[i, 4]);
                 result.Add(tempComplect);
             }
             return result;
@@ -130,7 +130,7 @@ namespace TheGame
             Random = new Random();
             Path = Environment.CurrentDirectory;
 
-            Armor = GetArmor(Path + @"\TextFiles\Armor");
+            ArmorComplects = GetArmor(Path + @"\TextFiles\Armor");
             Spells = GetSpells(Path + @"\TextFiles\Weapons\Spells");
             Swords = GetSwords(Path + @"\TextFiles\Weapons\Swords");
             Bows = GetBows(Path + @"\TextFiles\Weapons\Bows");

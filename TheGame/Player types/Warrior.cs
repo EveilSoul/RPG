@@ -24,7 +24,7 @@ namespace TheGame
             this.AddSword(Program.Swords[0]);
             this.Spells.Add(Program.Spells[3]);
 
-            this.AddArmor(Program.Armor[0]);
+            this.AddArmor(Program.ArmorComplects[0]);
         }
 
         public override int[] SuperAttack(int enemyCount)

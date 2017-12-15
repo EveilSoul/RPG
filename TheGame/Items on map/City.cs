@@ -208,11 +208,11 @@ namespace TheGame
         {
             HelloPlayer(player);
             int i = 0;
-            foreach (var t in Program.Armor)
+            foreach (var t in Program.ArmorComplects)
                 Console.WriteLine("{5}: {0}, {1}, {2}, {3}, {4}", t.Head.Name, t.Body.Name, t.Arms.Name, t.Leggs.Name, t.Boots.Name, ++i);
 
             Console.WriteLine();
-            ObjectStructures.ArmorComplect armor = GetChoice();
+            ArmorComplect armor = GetChoice();
 
             if (armor.GetCost(RealCosts["armor"]) == 0) return;
 
@@ -232,7 +232,7 @@ namespace TheGame
             {
                 case ConsoleKey.Y:
                     player.AddMoney(player.Armor.GetRealCost(RealCosts["armor"]));
-                    player.AddArmor(new ObjectStructures.ArmorComplect());
+                    player.AddArmor(new ArmorComplect());
                     Console.WriteLine("Вы успешно продали свой комплект брони.\nВаш баланс: {0}", player.Money);
                     return;
                 case ConsoleKey.N:
@@ -263,10 +263,10 @@ namespace TheGame
                 Console.WriteLine(t);
         }
 
-        private ObjectStructures.ArmorComplect GetChoice()
+        private ArmorComplect GetChoice()
         {
             Console.WriteLine("Введите номер интересующего вас товара");
-            var armor = Program.Armor[Program.Parse(Console.ReadLine(), 1, Program.Armor.Count) - 1];
+            var armor = Program.ArmorComplects[Program.Parse(Console.ReadLine(), 1, Program.ArmorComplects.Count) - 1];
 
             WriteCharacteristics(armor.GetCharacteristics());
             Console.WriteLine("Итогo:{0}", armor.GetCost(RealCosts["armor"]));
@@ -277,7 +277,7 @@ namespace TheGame
                 case ConsoleKey.Y:
                     return armor;
                 case ConsoleKey.N:
-                    return new ObjectStructures.ArmorComplect();
+                    return new ArmorComplect();
             }
             return GetChoice();
         }

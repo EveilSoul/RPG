@@ -27,7 +27,7 @@ namespace TheGame
 
             this.Bow = Program.Bows[0];
 
-            this.AddArmor(Program.Armor[1]);
+            this.AddArmor(Program.ArmorComplects[1]);
         }
 
         /// <summary>

@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Armor\Armor.cs" />
+    <Compile Include="Armor\ArmorComplect.cs" />
     <Compile Include="Game mechanics\Battle.cs" />
     <Compile Include="Weapons\Bow.cs" />
     <Compile Include="Items on map\City.cs" />
@@ -73,5 +75,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
