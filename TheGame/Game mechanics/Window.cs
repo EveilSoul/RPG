@@ -47,12 +47,13 @@ namespace TheGame
         /// <summary>
         /// Задается размер и цвет консоли
         /// </summary>
-        public static void DrowWindow()
+        public static void DrowWindow(ConsoleColor back = ConsoleColor.DarkGreen, ConsoleColor front = ConsoleColor.Black)
         {
+            Console.Clear();
             Console.SetWindowSize(WindowSizeX + 1, WindowSizeY + 10);
             Console.SetBufferSize(WindowSizeX + 1, WindowSizeY + 10);
-            Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = back;
+            Console.ForegroundColor = front;
         }
 
         /// <summary>
@@ -315,6 +316,7 @@ namespace TheGame
         /// <param name="symbleDelete">символ</param>
         public static void ClearMap(char[,] map, char symbleDelete)
         {
+            if (symbleDelete == EnemySymble) Console.BackgroundColor = ConsoleColor.DarkGreen;
             for (int i = 0; i < MapSizeY; i++)
             {
                 for (int j = 0; j < MapSizeX; j++)

@@ -133,7 +133,7 @@ namespace TheGame
         public bool MayNewTreasure(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
         {
             return (int)(Math.Sqrt((lastPosition.X - newPosition.X) * (lastPosition.X - newPosition.X) +
-                (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 20;
+                (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 30;
         }
     }
 }

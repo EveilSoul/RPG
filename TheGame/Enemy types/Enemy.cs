@@ -8,29 +8,32 @@ namespace TheGame
 {
     class Enemy
     {
-        //Имя монстра
+        // Имя монстра
         public string Name;
-        //Жив ли монстр
+        // Жив ли монстр
         public bool IsLive;
-        //Сила атаки
+        // Сила атаки
         public int PowerAttack;
-        //Здоровье
+        // Здоровье
         public int Health;
-        //Точность попадания
+        // Точность попадания
         public float Accuracy = 0.9f;
-        //Позиция
+        // Позиция
         public ObjectStructures.Position Position;
-        //Количество денег за убийство монстра
+        // Количество денег за убийство монстра
         public int MoneyReward = 5;
-        //Количество скила за убийство монстра
+        // Количество скила за убийство монстра
         public int SkillReward = 10;
-        //Скртный ли монстр
+        // Скртный ли монстр
         public bool Mimicry;
-        //Последняя позиция генерации монстров
+        // Последняя позиция генерации монстров
         public static ObjectStructures.Position TheLastEnemyPosition;
-        //Существование монстров
+        // Существование монстров
         public static bool EnemyExist = false;
-
+        // Нижняя граница диапазона создания монстров
+        public static int LowerBorderEnemyGeneration = 0;
+        // Верхняя граница диапазона создания монстров
+        public static int SupremeBorderEnemyGeneration = 0;
 
         public static int GetSkill(int offset, int divider, int minValue, int level) =>
             (int)Math.Pow(30 - level, 2) / divider + minValue;
@@ -130,13 +133,11 @@ namespace TheGame
         /// <summary>
         /// Создание монстров в зависимости от уровня игрока
         /// </summary>
-        /// <param name="PlayerLevel">Уровень игрока</param>
+        /// <param name="playerLevel">Уровень игрока</param>
         /// <param name="playerPosition">Позиция игрока</param>
         /// <returns>позиция монстров и лист с ними</returns>
-        public static Tuple<ObjectStructures.Position, List<Enemy>> CreateEnemy(int PlayerLevel, ObjectStructures.Position playerPosition)
+        public static Tuple<ObjectStructures.Position, List<Enemy>> CreateEnemy(int playerLevel, ObjectStructures.Position playerPosition)
         {
-            //увеличивается вероятность выпадения дракона и смешаных монстров в зависиости от уровня
-            int rand = Program.Random.Next(1 - 2 * PlayerLevel, 301 + 3 * PlayerLevel - (PlayerLevel < 3 ? 150 : 0));
             EnemyExist = true;
             var enemyPosition = EnemyGenerationPosition(playerPosition);
             bool exictPosition = false;
@@ -154,16 +155,21 @@ namespace TheGame
                 }
             } while (exictPosition);
 
-            if (rand < 1) return Tuple.Create(enemyPosition, EnemyMix.CreateEnemyMix(PlayerLevel));
-            if (rand >= 1 && rand <= 50) return Tuple.Create(enemyPosition, EnemyWolf.CreateEnemyWolf(PlayerLevel));
-            if (rand > 50 && rand <= 100) return Tuple.Create(enemyPosition, EnemyGoblin.CreateEnemyGoblin(PlayerLevel));
-            if (rand > 100 && rand <= 150) return Tuple.Create(enemyPosition, EnemyBear.CreateEnemyBear(PlayerLevel));
-            if (rand > 150 && rand <= 200) return Tuple.Create(enemyPosition, EnemyOrk.CreateEnemyOrk(PlayerLevel)); //3 level +
-            if (rand > 200 && rand <= 220) return Tuple.Create(enemyPosition, EnemyGriffin.CreateGriffin(PlayerLevel)); //3 level +
-            if (rand > 220 && rand <= 250) return Tuple.Create(enemyPosition, EnemyTriton.CreateEnemyTriton(PlayerLevel)); //3 level +
-            if (rand > 250 && rand <= 300) return Tuple.Create(enemyPosition, EnemyBandit.CreateEnemyBandit(PlayerLevel)); //3 level +
-            if (rand > 300 && rand <= 350) return Tuple.Create(enemyPosition, EnemyDarkKnight.CreateEnemyDarkKnight(PlayerLevel)); //3 level +
-            return Tuple.Create(enemyPosition, EnemyDragon.CreateEnemyDragon(PlayerLevel));
+            //увеличивается вероятность выпадения дракона и смешаных монстров в зависиости от уровня
+            int rand = Program.Random.Next(1 + LowerBorderEnemyGeneration - 2*playerLevel, 151 + SupremeBorderEnemyGeneration + 3*playerLevel);
+            
+
+            if (rand < 1 + LowerBorderEnemyGeneration) return Tuple.Create(enemyPosition, EnemyMix.CreateEnemyMix(playerLevel));
+            if (rand > 150 + SupremeBorderEnemyGeneration) return Tuple.Create(enemyPosition, EnemyDragon.CreateEnemyDragon(playerLevel));
+            if (rand >= 1 && rand <= 50) return Tuple.Create(enemyPosition, EnemyWolf.CreateEnemyWolf(playerLevel));
+            if (rand > 50 && rand <= 100) return Tuple.Create(enemyPosition, EnemyGoblin.CreateEnemyGoblin(playerLevel));
+            if (rand > 100 && rand <= 150) return Tuple.Create(enemyPosition, EnemyBear.CreateEnemyBear(playerLevel));
+            if (rand > 150 && rand <= 200) return Tuple.Create(enemyPosition, EnemyOrk.CreateEnemyOrk(playerLevel)); 
+            if (rand > 200 && rand <= 220) return Tuple.Create(enemyPosition, EnemyGriffin.CreateGriffin(playerLevel)); 
+            if (rand > 220 && rand <= 250) return Tuple.Create(enemyPosition, EnemyTriton.CreateEnemyTriton(playerLevel));
+            if (rand > 250 && rand <= 300) return Tuple.Create(enemyPosition, EnemyBandit.CreateEnemyBandit(playerLevel));
+            if (rand > 300 && rand <= 350) return Tuple.Create(enemyPosition, EnemyDarkKnight.CreateEnemyDarkKnight(playerLevel));
+            return Tuple.Create(enemyPosition, EnemyGolem.CreateEnemyGolem(playerLevel));
         }
 
         /// <summary>
@@ -199,7 +205,11 @@ namespace TheGame
                 (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 15;
         }
 
-
+        public static void ChangeEnemyBorder(int playerLevel)
+        {
+            LowerBorderEnemyGeneration += (int)(45 / Math.Sqrt(playerLevel));
+            SupremeBorderEnemyGeneration += (int)(45 / Math.Sqrt(playerLevel));
+        }
 
     }
 }

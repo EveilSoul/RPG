@@ -525,7 +525,7 @@ namespace TheGame
         //Выбираем тип заклинания и возвращаем его
         public Weapons.WeaponsType SelectType()
         {
-            if (this.Swords.Count != 0)
+            if (this.Swords.Count != 0) 
                 Console.WriteLine("1: Меч");
             if (this.Bow != null)
                 Console.WriteLine("2: Лук");

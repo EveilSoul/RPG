@@ -33,7 +33,7 @@ namespace TheGame
                 
                 Enemy.CheckEnemyDie(enemy);
                 Window.PrintOnEnemyAtack();
-                Window.PrintEnemy(enemy);
+                Window.PrintEnemyAtack();
 
                 for (int i = 0; i < enemy.Count; i++)
                     player.ApplyDamage(enemy[i].EnemyAttack());
@@ -50,7 +50,11 @@ namespace TheGame
             player.AddMoney(money);
             player.BattleSkill += skill;
             while (player.NextLevelBorder <= player.BattleSkill)
-                player.ChangeBattleLevel(); 
+            {
+                //сдвиг границы генерации монстров
+                Enemy.ChangeEnemyBorder(player.Level);
+                player.ChangeBattleLevel();
+            }
         }
         
         public static int[] PlayerAttack(Player player, int enemyCount)
