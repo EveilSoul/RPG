@@ -60,6 +60,8 @@ namespace TheGame
         public Bow Bow;
         //Все заклинания
         public List<Spell> Spells;
+        // Задания
+        public List<Tuple<ObjectStructures.Position, Task>> Tasks;
 
         public Player(string name, ObjectStructures.Position position)
         {
@@ -73,6 +75,7 @@ namespace TheGame
             this.Swords = new List<Sword>();
             this.Armor = new ArmorComplect();
             this.Spells = new List<Spell>();
+            this.Tasks = new List<Tuple<ObjectStructures.Position, Task>>();
 
             this.MedicineKits = new List<ObjectStructures.MedicineKit>()
             {

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Armor\Armor.cs" />
     <Compile Include="Armor\ArmorComplect.cs" />
+    <Compile Include="Task.cs" />
     <Compile Include="Enemy types\EnemyGolem.cs" />
     <Compile Include="Game mechanics\Battle.cs" />
     <Compile Include="Weapons\Bow.cs" />

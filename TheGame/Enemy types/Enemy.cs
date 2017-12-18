@@ -157,7 +157,7 @@ namespace TheGame
 
             //увеличивается вероятность выпадения дракона и смешаных монстров в зависиости от уровня
             int rand = Program.Random.Next(1 + LowerBorderEnemyGeneration - 2*playerLevel, 151 + SupremeBorderEnemyGeneration + 3*playerLevel);
-            
+            rand %= 400;
 
             if (rand < 1 + LowerBorderEnemyGeneration) return Tuple.Create(enemyPosition, EnemyMix.CreateEnemyMix(playerLevel));
             if (rand > 150 + SupremeBorderEnemyGeneration) return Tuple.Create(enemyPosition, EnemyDragon.CreateEnemyDragon(playerLevel));

@@ -94,21 +94,25 @@ namespace TheGame
         /// <summary>
         /// Создание монстров в зависимости от уровня игрока
         /// </summary>
-        /// <param name="PlayerLevel">Уровень игрока</param>
+        /// <param name="playerLevel">Уровень игрока</param>
         /// <returns>Лист с монстрами</returns>
-        public List<Enemy> CreateEnemyForTreasure(int PlayerLevel)
+        public List<Enemy> CreateEnemyForTreasure(int playerLevel)
         {
-            int rand = Program.Random.Next(1 - 3*(PlayerLevel/2), 231 + 5*(PlayerLevel/2));
+            int rand = Program.Random.Next(1 + Enemy.LowerBorderEnemyGeneration - 3*(playerLevel/2), 151 + Enemy.SupremeBorderEnemyGeneration + 5*(playerLevel/2));
             TreasureExist = true;
+            rand %= 300;
+            playerLevel++;
 
-            if (rand < 1) return EnemyMix.CreateEnemyMix(PlayerLevel);
-            if (rand > 0 && rand <= 50) return EnemyBear.CreateEnemyBear(PlayerLevel);
-            if (rand > 50 && rand <= 100) return EnemyOrk.CreateEnemyOrk(PlayerLevel); 
-            if (rand > 100 && rand <= 130) return EnemyGriffin.CreateGriffin(PlayerLevel); 
-            if (rand > 130 && rand <= 150) return EnemyTriton.CreateEnemyTriton(PlayerLevel); 
-            if (rand > 150 && rand <= 200) return EnemyBandit.CreateEnemyBandit(PlayerLevel); 
-            if (rand > 200 && rand <= 230) return EnemyDarkKnight.CreateEnemyDarkKnight(PlayerLevel); 
-            return EnemyDragon.CreateEnemyDragon(PlayerLevel);
+            if (rand < 1 + Enemy.LowerBorderEnemyGeneration) return EnemyMix.CreateEnemyMix(playerLevel);
+            if (rand > 150 + Enemy.SupremeBorderEnemyGeneration) return EnemyDragon.CreateEnemyDragon(playerLevel);
+            if (rand > 0 && rand <= 50) return EnemyBear.CreateEnemyBear(playerLevel);
+            if (rand > 50 && rand <= 100) return EnemyOrk.CreateEnemyOrk(playerLevel); 
+            if (rand > 100 && rand <= 130) return EnemyGriffin.CreateGriffin(playerLevel); 
+            if (rand > 130 && rand <= 150) return EnemyTriton.CreateEnemyTriton(playerLevel); 
+            if (rand > 150 && rand <= 200) return EnemyBandit.CreateEnemyBandit(playerLevel); 
+            if (rand > 200 && rand <= 250) return EnemyDarkKnight.CreateEnemyDarkKnight(playerLevel);
+            return EnemyGolem.CreateEnemyGolem(playerLevel);
+
         }
 
         /// <summary>

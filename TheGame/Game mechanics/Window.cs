@@ -172,10 +172,25 @@ namespace TheGame
             Console.Clear();
             PrintMap(BattleMap);
             Console.WriteLine("--------------------------------");
+            PrintEnemyHealth(enemy);
+        }
+
+        public static void PrintEnemyHealth(List<Enemy> enemy)
+        {
             Console.WriteLine("Здоровье врагов:");
+            int length = 0;
             for (int i = 0; i < enemy.Count; i++)
             {
-                Console.Write("{0} ", enemy[i].Health);
+                length += enemy[i].Health.ToString().Length;
+                if (length <= 31)
+                    Console.Write("{0} ", enemy[i].Health);
+                else
+                {
+                    Console.WriteLine();
+                    Console.Write("{0} ", enemy[i].Health);
+                    length = 0;
+                }
+
             }
             Console.WriteLine();
         }

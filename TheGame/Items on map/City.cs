@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 namespace TheGame
 {
     class City
@@ -26,6 +27,8 @@ namespace TheGame
             Places.Add("Библиотека");
             Places.Add("Магазин луков");
             Places.Add("Аптека");
+            Places.Add("Взять задание");
+            Places.Add("Получить награду за задание");
         }
 
         private void SetCost()
@@ -116,6 +119,12 @@ namespace TheGame
                 case ConsoleKey.D8:
                     ByeMedicineKit(player);
                     break;
+                case ConsoleKey.D9:
+                    TakeTask(player);
+                    break;
+                case ConsoleKey.D0:
+                    ByeMedicineKit(player);
+                    break;
                 case ConsoleKey.Escape:
                     return false;
             }
@@ -148,6 +157,75 @@ namespace TheGame
                         return;
                 }
             }
+        }
+
+        private void TakeTask(Player player)
+        {
+            Console.WriteLine("Здесь вы можете взять задание \n" +
+                "на убийсво монстров. \n" +
+                "Для выбора, нажмите на соответствующую цифру");
+            var tasks = new List<Task>(5);
+            for (int i = 0; i < 5; i++)
+            {
+                tasks.Add(new Task(player.Level));
+                Console.WriteLine("{0}. {1} {2} штук, награда {3} монет", i + 1, tasks[i].EnemyName, tasks[i].EnemyCount, tasks[i].Reward);
+            }
+            int choise = -1;
+            switch (Console.ReadKey(true).Key)
+            {
+                case ConsoleKey.D1:
+                    choise = 0;
+                    break;
+                case ConsoleKey.D2:
+                    choise = 1;
+                    break;
+                case ConsoleKey.D3:
+                    choise = 2;
+                    break;
+                case ConsoleKey.D4:
+                    choise = 3;
+                    break;
+                case ConsoleKey.D5:
+                    choise = 4;
+                    break;
+            }
+            if (choise > -1 && choise < tasks.Count)
+            {
+                if (player.Tasks.Count == 5)
+                    Console.WriteLine("Сначала выполните задания, за которые взялись, /n" +
+                        "и только потом приступайте к новым");
+                else
+                {
+                    player.Tasks.Add(Tuple.Create(this.Position, tasks[choise]));
+                    tasks.RemoveAt(choise);
+                    Console.WriteLine("Ваше задание добавленно.");
+                }
+            }
+
+        }
+
+        public void GetRewardForTask(Player player)
+        {
+            bool isDoneTask = false;
+            int reward = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                var task = player.Tasks[i].Item2;
+                if (task?.EnemyCountDied == task?.EnemyCount)
+                {
+                    isDoneTask = true;
+                    reward += task.Reward;
+                    player.Tasks[i] = null;
+                }
+            }
+
+            if (isDoneTask)
+            {
+                player.AddMoney(reward);
+                Console.WriteLine("Вы получили {0} монет", reward);
+            }
+            else Console.WriteLine("Вы еще не выполнили ни одного задания \n" +
+                "Возвращайтесь, когда хоть одно задание будет выполненою");
         }
 
         private void Libriary(Player player)
