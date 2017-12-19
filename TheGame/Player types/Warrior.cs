@@ -25,6 +25,7 @@ namespace TheGame
             this.Spells.Add(Program.Spells[3]);
 
             this.AddArmor(Program.ArmorComplects[0]);
+            this.TryOnProtection(Program.ProtectionThings[0]);
         }
 
         public override int[] SuperAttack(int enemyCount)

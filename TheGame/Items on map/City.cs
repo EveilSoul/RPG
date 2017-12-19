@@ -191,7 +191,6 @@ namespace TheGame
                     Console.WriteLine("Ваше задание добавленно.");
                 }
             }
-
         }
 
         public void GetRewardForTask(Player player)

@@ -48,6 +48,7 @@
     <Compile Include="Game mechanics\Task.cs" />
     <Compile Include="Enemy types\EnemyGolem.cs" />
     <Compile Include="Game mechanics\Battle.cs" />
+    <Compile Include="Protection.cs" />
     <Compile Include="Weapons\Bow.cs" />
     <Compile Include="Items on map\City.cs" />
     <Compile Include="Enemy types\Enemy.cs" />

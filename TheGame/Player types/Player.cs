@@ -48,18 +48,20 @@ namespace TheGame
             Wizard
         };
 
-        //Аптечки хранятся здесь
+        // Аптечки хранятся здесь
         public List<ObjectStructures.MedicineKit> MedicineKits;
-        //Позиция персонажа в виде (x,y)
+        // Позиция персонажа в виде (x,y)
         public ObjectStructures.Position Position;
-        //Комплект брони
+        // Комплект брони
         public ArmorComplect Armor;
-        //Все мечи
+        // Все мечи
         public List<Sword> Swords;
-        //Лук (при наличии)
+        // Лук (при наличии)
         public Bow Bow;
-        //Все заклинания
+        // Все заклинания
         public List<Spell> Spells;
+        // Защитный предмет
+        public Protection Protection;
         // Задания
         public List<Tuple<ObjectStructures.Position, Task>> Tasks;
 
@@ -233,7 +235,7 @@ namespace TheGame
         /// <param name="city">координаты городов</param>
         /// <param name="treasure">клад</param>
         /// <param name="enemy">монстры</param>
-        public void DrowCityEnemyAndTreasure(List<ObjectStructures.Position> city, Treasure treasure, 
+        public void DrowCityEnemyAndTreasure(List<ObjectStructures.Position> city, Treasure treasure,
             Tuple<ObjectStructures.Position, List<Enemy>> enemy)
         {
             if (Enemy.EnemyExist && !enemy.Item2[0].Mimicry)
@@ -299,9 +301,13 @@ namespace TheGame
                     Window.PrintArray(this.Armor.GetStatistic());
                     Console.ReadKey();
                     break;
-                case ConsoleKey.T:
                 case ConsoleKey.F3:
-                    foreach(var t in Tasks)
+                    Window.PrintArray(this.Protection?.GetCharacteristics());
+                    Console.ReadKey();
+                    break;
+                case ConsoleKey.T:
+                case ConsoleKey.F4:
+                    foreach (var t in Tasks)
                         Console.WriteLine(t.Item2.GetStatistic());
                     Console.ReadKey();
                     break;
@@ -355,7 +361,7 @@ namespace TheGame
         /// <param name="sword">меч, при наличии</param>
         /// <param name="nums">индексы противников, которых надо атаковать</param>
         /// <returns>Массив с уроном для противников</returns>
-        public int[] Attack(int countEnemy, Weapons.WeaponsType weapons, 
+        public int[] Attack(int countEnemy, Weapons.WeaponsType weapons,
             Bow bow = null, Spell spell = null, Sword sword = null, params int[] nums)
         {
             switch (weapons)
@@ -428,7 +434,7 @@ namespace TheGame
             }
             return result;
         }
-        
+
         /// <summary>
         /// Простая атака луком
         /// </summary>
@@ -531,10 +537,10 @@ namespace TheGame
             return null;
         }
 
-        //Выбираем тип заклинания и возвращаем его
+        // Выбираем тип заклинания и возвращаем его
         public Weapons.WeaponsType SelectType()
         {
-            if (this.Swords.Count != 0) 
+            if (this.Swords.Count != 0)
                 Console.WriteLine("1: Меч");
             if (this.Bow != null)
                 Console.WriteLine("2: Лук");
@@ -544,7 +550,17 @@ namespace TheGame
             return (Weapons.WeaponsType)(Program.Parse(t != String.Empty ? t : "1") - 1);
         }
 
-        //Возвращаем меч по индексу
+        public int SelectAtionInBattle()
+        {
+            if (this.Protection == null) return 1;
+            Console.WriteLine("Вы можете: ");
+            Console.WriteLine("1. Атаковать");
+            Console.WriteLine("2. Использовать защиту");
+            Console.WriteLine("3. Одновременно атаковать и защищаться\n(удар и защита будут хуже)");
+            return Program.Parse(Console.ReadLine(), 1, 3);
+        }
+
+        // Возвращаем меч по индексу
         public Sword GetSword(int index)
         {
             if (index >= 0 && index < this.Swords.Count)
@@ -590,6 +606,50 @@ namespace TheGame
                 this.MedicineKits[index].JoinKit(this);
                 this.MedicineKits.RemoveAt(index);
             }
+        }
+
+        public void UseProtection(int damage, bool attack = false)
+        {
+            if (this.Protection == null)
+            {
+                Console.WriteLine("У вас нет ни одного средства защиты");
+                Console.ReadKey();
+                return;
+            }
+            if (this.HaveMana(this.Protection.ApplicationCost))
+            {
+                // Определяем процент защиты при атаке
+                float combine = (float)Math.Abs(Math.Sin(this.Level*Math.Log10(this.Level))) / 1.65f + 0.2f;
+                damage = this.Protection.ApplyProtection(damage, attack ? combine : 1);
+                this.ApplyDamage(damage);
+            }
+        }
+
+        public void CheckWeapons()
+        {
+            for (int i = 0; i < this.Swords.Count; i++)
+            {
+                if (this.Swords[i].Health <= 0)
+                {
+                    Console.WriteLine("Сломалось оружие {0}", this.Swords[i].Name);
+                    this.Swords.RemoveAt(i--);
+                    Console.ReadKey();
+                }
+            }
+            if (this.Protection?.CurrentHealth <= 0)
+            {
+                Console.WriteLine("Сломалось: {0}", this.Protection.Name);
+                this.Protection = null;
+                Console.ReadKey();
+            }
+            if (this.Bow?.Health <= 0)
+                this.Bow = null;
+        }
+
+        public void TryOnProtection(Protection protection)
+        {
+            this.MaxHealth += protection.ManaToAdd;
+            this.Protection = protection;
         }
     }
 }

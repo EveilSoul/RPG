@@ -27,23 +27,45 @@ namespace TheGame
                 Window.PrintEnemy(enemy);
                 Window.PrintBattleCharacteristic(player, enemy);
                 player.AddMana(player.Level);
-                var numberOnEnemyAtsck = PlayerAttack(player, enemy.Count);
+                var enemyDamage = SelectPlayerAction(player, enemy.Count);
+
+                Window.PrintEnemyAtack();
+                for (int i = 0; i < enemy.Count; i++)
+                {
+                    if (enemyDamage.Length == 0)
+                    {
+                        player.UseProtection(enemy[i].EnemyAttack());
+                    }
+                    else if (enemyDamage[0] == -1)
+                    {
+                        player.UseProtection(enemy[i].EnemyAttack(), true);
+                    }
+                    else player.ApplyDamage(enemy[i].EnemyAttack());
+                }
+
+                if (enemyDamage.Length == 0) continue;
+
+                if (enemyDamage[0] == -1)
+                {
+                    enemyDamage = PlayerWeaponsAttack(player, enemy.Count);
+                    for (int i = 0; i < enemyDamage.Length; i++)
+                        enemyDamage[i] = (int)(enemyDamage[i] * Program.Random.NextDouble() / 2 + 0.5);
+                }
 
                 for (int i = 0; i < enemy.Count; i++)
-                    enemy[i].OnEnemyAtack(enemy[i], numberOnEnemyAtsck[i]);
+                    enemy[i].OnEnemyAtack(enemy[i], enemyDamage[i]);
 
                 Enemy.CheckEnemyDie(enemy);
                 Window.PrintOnEnemyAtack();
-                Window.PrintEnemyAtack();
-
-                for (int i = 0; i < enemy.Count; i++)
-                    player.ApplyDamage(enemy[i].EnemyAttack());
             }
 
             Window.ClearMap(Window.BattleMap, Window.EnemySymble);
 
             if (player.IsLive)
+            {
                 GetRewardForPlayer(player, reward.Item1, reward.Item2);
+                player.CheckWeapons();
+            }
         }
 
         public static void CheckTasks(List<Enemy> enemy, Player player)
@@ -70,7 +92,7 @@ namespace TheGame
             Task.CheckTask(player);
         }
 
-        public static int[] PlayerAttack(Player player, int enemyCount)
+        public static int[] PlayerWeaponsAttack(Player player, int enemyCount)
         {
             var type = player.SelectType();
             Window.PrintArray(player.GetCharacteristicsOfWeapons(type));
@@ -82,6 +104,21 @@ namespace TheGame
             var spell = player.GetSpell(index < player.Spells.Count ? index : 0);
             var enInd = type == Weapons.WeaponsType.Sword ? GetEnemyIndexs() : new[] { 0 };
             return player.Attack(enemyCount, type, bow, spell, sword, enInd);
+        }
+
+        public static int[] SelectPlayerAction(Player player, int enemyCount)
+        {
+            int choise = player.SelectAtionInBattle();
+            switch (choise)
+            {
+                case 1:
+                    return PlayerWeaponsAttack(player, enemyCount);
+                case 2:
+                    return new int[0];
+                case 3:
+                    return new int[] { -1 };
+            }
+            return null;
         }
     }
 }
