@@ -182,10 +182,10 @@ namespace TheGame
             if (rand >= 1 && rand <= 50) return Tuple.Create(enemyPosition, EnemyWolf.CreateEnemyWolf(playerLevel));
             if (rand > 50 && rand <= 100) return Tuple.Create(enemyPosition, EnemyGoblin.CreateEnemyGoblin(playerLevel));
             if (rand > 100 && rand <= 150) return Tuple.Create(enemyPosition, EnemyBear.CreateEnemyBear(playerLevel));
-            if (rand > 150 && rand <= 200) return Tuple.Create(enemyPosition, EnemyOrk.CreateEnemyOrk(playerLevel)); 
-            if (rand > 200 && rand <= 220) return Tuple.Create(enemyPosition, EnemyGriffin.CreateGriffin(playerLevel)); 
-            if (rand > 220 && rand <= 250) return Tuple.Create(enemyPosition, EnemyTriton.CreateEnemyTriton(playerLevel));
-            if (rand > 250 && rand <= 300) return Tuple.Create(enemyPosition, EnemyBandit.CreateEnemyBandit(playerLevel));
+            if (rand > 150 && rand <= 200) return Tuple.Create(enemyPosition, EnemyOrk.CreateEnemyOrk(playerLevel));
+            if (rand > 200 && rand <= 220) return Tuple.Create(enemyPosition, EnemyTriton.CreateEnemyTriton(playerLevel)); 
+            if (rand > 220 && rand <= 250) return Tuple.Create(enemyPosition, EnemyBandit.CreateEnemyBandit(playerLevel));
+            if (rand > 250 && rand <= 300) return Tuple.Create(enemyPosition, EnemyGriffin.CreateGriffin(playerLevel));
             if (rand > 300 && rand <= 350) return Tuple.Create(enemyPosition, EnemyDarkKnight.CreateEnemyDarkKnight(playerLevel));
             return Tuple.Create(enemyPosition, EnemyGolem.CreateEnemyGolem(playerLevel));
         }
@@ -207,6 +207,7 @@ namespace TheGame
             else if (EnemyExist && IsEnemyNear(enemyPosition, player.Position) && enemy[0].Mimicry)
             {
                 Battle.GoBattle(player, enemy);
+                Window.ClearMap(Window.Map, Window.EnemySymble);
                 Enemy.EnemyExist = false;
             }
         }

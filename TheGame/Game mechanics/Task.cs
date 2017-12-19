@@ -120,17 +120,6 @@ namespace TheGame
             else return String.Format("Задание даст {0} опыта за победу {1} противников {2}", this.SkillReward, this.EnemyCount, this.EnemyType);
         }
 
-        public static Task Copy(Player player, Task task)
-        {
-            return new Task(player.Level)
-            {
-                EnemyType = task.EnemyType,
-                EnemyCount = task.EnemyCount,
-                EnemyCountDied=0,
-                MoneyReward=task.MoneyReward
-            };
-        }
-
         public string GetStatistic() =>
             this.ToString() + String.Format("\nОсталось победить {0} противников", this.EnemyCount - this.EnemyCountDied);
     }

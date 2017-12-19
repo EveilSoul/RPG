@@ -181,7 +181,7 @@ namespace TheGame
             int length = 0;
             for (int i = 0; i < enemy.Count; i++)
             {
-                length += enemy[i].Health.ToString().Length;
+                length += enemy[i].Health.ToString().Length + 1;
                 if (length <= 31)
                     Console.Write("{0} ", enemy[i].Health);
                 else

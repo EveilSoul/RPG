@@ -299,6 +299,7 @@ namespace TheGame
                     Window.PrintArray(this.Armor.GetStatistic());
                     Console.ReadKey();
                     break;
+                case ConsoleKey.T:
                 case ConsoleKey.F3:
                     foreach(var t in Tasks)
                         Console.WriteLine(t.Item2.GetStatistic());
