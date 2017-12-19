@@ -15,6 +15,7 @@ namespace TheGame
             this.MoneyReward = 35 + 2 * level;
             this.SkillReward = GetSkill(30, 80, 35, level);
             this.Mimicry = false;
+            this.Type = EnemyType.DarkKnight;
         }
 
         public static List<Enemy> CreateEnemyDarkKnight(int playerLevel)

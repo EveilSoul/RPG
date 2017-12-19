@@ -15,6 +15,7 @@ namespace TheGame
             this.MoneyReward = 15 + 2 * level;
             this.SkillReward = GetSkill(30, 80, 15, level);
             this.Mimicry = true;
+            this.Type = EnemyType.Triton;
         }
 
         public static List<Enemy> CreateEnemyTriton(int playerLevel)

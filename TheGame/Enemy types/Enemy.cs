@@ -26,6 +26,8 @@ namespace TheGame
         public int SkillReward = 10;
         // Скртный ли монстр
         public bool Mimicry;
+        // Тип монстра
+        public EnemyType Type;
         // Последняя позиция генерации монстров
         public static ObjectStructures.Position TheLastEnemyPosition;
         // Существование монстров
@@ -34,6 +36,22 @@ namespace TheGame
         public static int LowerBorderEnemyGeneration = 0;
         // Верхняя граница диапазона создания монстров
         public static int SupremeBorderEnemyGeneration = 0;
+
+
+        public enum EnemyType
+        {
+            Bandit,
+            Bear,
+            DarkKnight,
+            Dragon,
+            Goblin,
+            Golem,
+            Griffin,
+            Mix,
+            Ork,
+            Triton,
+            Wolf
+        }
 
         public static int GetSkill(int offset, int divider, int minValue, int level) =>
             (int)Math.Pow(30 - level, 2) / divider + minValue;

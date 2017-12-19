@@ -19,6 +19,7 @@ namespace TheGame
             this.MoneyReward = 5 + 2 * level;
             this.SkillReward = GetSkill(30, 80, 5, level);
             this.Mimicry = false;
+            this.Type = EnemyType.Wolf;
         }
 
         public static List<Enemy> CreateEnemyWolf(int playerLevel = 1)

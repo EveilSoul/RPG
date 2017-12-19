@@ -29,7 +29,9 @@ namespace TheGame
         public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt", @"\basePointAttack.txt", @"\middleThunderAttack.txt",
         @"\baseWarriorMultiplyAttack.txt", @"\dragonsFlame.txt", @"\LightStars.txt"};
         public static string[] CitiesNames = { "Неаполь", "Лордерон", "Царьград", "Омск", "Тартарос", "Лондон",
-            "Штормград", "Мордор", "Эребор", "Минас Тирит", "Солнечный колодец", "Троя"};
+            "Штормград", "Мордор", "Эребор", "Минас Тирит", "Солнечный колодец", "Троя", "Тортуга", "Кингстон",
+            "Барбадос", "Сицилия", "Монако", "Осло", "Стокгольм", "Брандтео", "Элеонор", "Венеция", "Флоренция",
+            "Валинор", "Ильмарин", "Чертог Мандоса", "Антананариву", "Рейкьявик"};
 
         static List<Sword> GetSwords(string path)
         {

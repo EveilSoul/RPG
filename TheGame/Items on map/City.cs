@@ -9,6 +9,7 @@ namespace TheGame
         public ObjectStructures.Position Position;
         private int OneCoinCountHP;
         public Dictionary<string, float> RealCosts;
+        private List<Task> Tasks;
 
         List<string> Places = new List<string>();
 
@@ -19,6 +20,7 @@ namespace TheGame
             OneCoinCountHP = 2;
             this.Name = name;
             this.Position = position;
+            Places.Add("Получить награду за задание");
             Places.Add("Магазин для покупки брони");
             Places.Add("Магазин для продажи брони");
             Places.Add("Ремонт брони");
@@ -28,7 +30,7 @@ namespace TheGame
             Places.Add("Магазин луков");
             Places.Add("Аптека");
             Places.Add("Взять задание");
-            Places.Add("Получить награду за задание");
+            Tasks = new List<Task>();
         }
 
         private void SetCost()
@@ -79,15 +81,23 @@ namespace TheGame
 
         public void Welcome(Player player)
         {
+            if (this.Tasks.Count < 3)
+                SetTasks(player);
             if (!player.IsLive) return;
             Console.Clear();
             Console.WriteLine("Добро пожаловать в {0}", this.Name);
             Console.WriteLine("Ваш баланс: {0}", player.Money);
             int i = 0;
             foreach (var place in Places)
-                Console.WriteLine("{0}: {1}", ++i, place);
+                Console.WriteLine("{0}: {1}", i++, place);
             if (Select(player))
                 Welcome(player);
+        }
+
+        private void SetTasks(Player player)
+        {
+            while (Tasks.Count != 5)
+                Tasks.Add(new Task(player.Level));
         }
 
         private bool Select(Player player)
@@ -123,7 +133,7 @@ namespace TheGame
                     TakeTask(player);
                     break;
                 case ConsoleKey.D0:
-                    ByeMedicineKit(player);
+                    GetRewardForTask(player);
                     break;
                 case ConsoleKey.Escape:
                     return false;
@@ -163,41 +173,21 @@ namespace TheGame
         {
             Console.WriteLine("Здесь вы можете взять задание \n" +
                 "на убийсво монстров. \n" +
-                "Для выбора, нажмите на соответствующую цифру");
-            var tasks = new List<Task>(5);
-            for (int i = 0; i < 5; i++)
-            {
-                tasks.Add(new Task(player.Level));
-                Console.WriteLine("{0}. {1} {2} штук, награда {3} монет", i + 1, tasks[i].EnemyName, tasks[i].EnemyCount, tasks[i].Reward);
-            }
+                "Для выбора, нажмите на соответствующую цифру\n" +
+                "0 для выхода");
+            for (int i = 0; i < Tasks.Count; i++)
+                Console.WriteLine("{0}. {1}", i + 1, Tasks[i].ToString());
             int choise = -1;
-            switch (Console.ReadKey(true).Key)
-            {
-                case ConsoleKey.D1:
-                    choise = 0;
-                    break;
-                case ConsoleKey.D2:
-                    choise = 1;
-                    break;
-                case ConsoleKey.D3:
-                    choise = 2;
-                    break;
-                case ConsoleKey.D4:
-                    choise = 3;
-                    break;
-                case ConsoleKey.D5:
-                    choise = 4;
-                    break;
-            }
-            if (choise > -1 && choise < tasks.Count)
+            choise = Program.Parse(Console.ReadLine(), 0, 5) - 1;
+            if (choise != -1)
             {
                 if (player.Tasks.Count == 5)
                     Console.WriteLine("Сначала выполните задания, за которые взялись, /n" +
                         "и только потом приступайте к новым");
                 else
                 {
-                    player.Tasks.Add(Tuple.Create(this.Position, tasks[choise]));
-                    tasks.RemoveAt(choise);
+                    player.Tasks.Add(Tuple.Create(this.Position, Tasks[choise]));
+                    Tasks.RemoveAt(choise);
                     Console.WriteLine("Ваше задание добавленно.");
                 }
             }
@@ -207,25 +197,31 @@ namespace TheGame
         public void GetRewardForTask(Player player)
         {
             bool isDoneTask = false;
-            int reward = 0;
-            for (int i = 0; i < 5; i++)
+            int moneyReward = 0;
+            int skillReward = 0;
+            for (int i = 0; i < player.Tasks.Count; i++)
             {
-                var task = player.Tasks[i].Item2;
-                if (task?.EnemyCountDied == task?.EnemyCount)
+                var task = player.Tasks[i]?.Item2;
+                if (task?.EnemyCountDied >= task?.EnemyCount)
                 {
                     isDoneTask = true;
-                    reward += task.Reward;
-                    player.Tasks[i] = null;
+                    moneyReward += task.MoneyReward;
+                    skillReward += task.SkillReward;
+                    player.Tasks.RemoveAt(i);
                 }
             }
 
             if (isDoneTask)
             {
-                player.AddMoney(reward);
-                Console.WriteLine("Вы получили {0} монет", reward);
+                player.AddMoney(moneyReward);
+                player.BattleSkill += skillReward;
+                Console.WriteLine("Вы получили {0} монет и {1} опыта", moneyReward, skillReward);
+                while (player.BattleSkill >= player.NextLevelBorder)
+                    player.ChangeBattleLevel();
             }
             else Console.WriteLine("Вы еще не выполнили ни одного задания \n" +
                 "Возвращайтесь, когда хоть одно задание будет выполненою");
+            Console.ReadKey();
         }
 
         private void Libriary(Player player)

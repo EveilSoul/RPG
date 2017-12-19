@@ -15,6 +15,7 @@ namespace TheGame
             this.MoneyReward = 12 + 2 * level;
             this.SkillReward = GetSkill(30, 80, 10, level);
             this.Mimicry = false;
+            this.Type = EnemyType.Bandit;
         }
 
         public static List<Enemy> CreateEnemyBandit(int playerLevel)

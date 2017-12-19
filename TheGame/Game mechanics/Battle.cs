@@ -21,6 +21,7 @@ namespace TheGame
         public static void GoBattle(Player player, List<Enemy> enemy)
         {
             var reward = Enemy.GetReward(enemy);
+            CheckTasks(enemy, player);
             while (Enemy.IsEnemyLive(enemy) && player.IsLive)
             {
                 Window.PrintEnemy(enemy);
@@ -30,7 +31,7 @@ namespace TheGame
 
                 for (int i = 0; i < enemy.Count; i++)
                     enemy[i].OnEnemyAtack(enemy[i], numberOnEnemyAtsck[i]);
-                
+
                 Enemy.CheckEnemyDie(enemy);
                 Window.PrintOnEnemyAtack();
                 Window.PrintEnemyAtack();
@@ -45,18 +46,30 @@ namespace TheGame
                 GetRewardForPlayer(player, reward.Item1, reward.Item2);
         }
 
+        public static void CheckTasks(List<Enemy> enemy, Player player)
+        {
+            foreach (var e in enemy)
+            {
+                foreach (var task in player.Tasks)
+                {
+                    if (e.Type == task.Item2.EnemyType)
+                        task.Item2.EnemyCountDied++;
+                }
+            }
+        }
+
         public static void GetRewardForPlayer(Player player, int money, int skill)
         {
             player.AddMoney(money);
             player.BattleSkill += skill;
             while (player.NextLevelBorder <= player.BattleSkill)
             {
-                //сдвиг границы генерации монстров
                 Enemy.ChangeEnemyBorder(player.Level);
                 player.ChangeBattleLevel();
             }
+            Task.CheckTask(player);
         }
-        
+
         public static int[] PlayerAttack(Player player, int enemyCount)
         {
             var type = player.SelectType();

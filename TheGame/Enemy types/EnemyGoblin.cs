@@ -18,6 +18,7 @@ namespace TheGame
             this.MoneyReward = 9 + 2 * level;
             this.SkillReward = GetSkill(30, 80, 7, level);
             this.Mimicry = false;
+            this.Type = EnemyType.Goblin;
         }
 
         public static List<Enemy> CreateEnemyGoblin(int playerLevel)

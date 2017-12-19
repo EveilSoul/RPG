@@ -15,6 +15,7 @@ namespace TheGame
             this.MoneyReward = 25 + 2 * level;
             this.SkillReward = GetSkill(30, 80, 25, level);
             this.Mimicry = false;
+            this.Type = EnemyType.Ork;
         }
 
         public static List<Enemy> CreateEnemyOrk(int playerLevel)
