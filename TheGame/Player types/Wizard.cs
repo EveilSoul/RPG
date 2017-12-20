@@ -35,7 +35,7 @@ namespace TheGame
             int index2 = Program.Parse(System.Console.ReadLine(), 0, Swords.Count - 1);
             if (this.CurrentMana >= 0)
             {
-                result = this.Spells[index1].JoinSpell(1,0);
+                result = this.Spells[index1].JoinSpell(enemyCount,0);
                 for (int i = 0; i < enemyCount; i++)
                 {
                     result[i] += SimpleSwordAttack(enemyCount, Swords[index2], 0, 0, 0, 0, 0, 0, 0)[0];

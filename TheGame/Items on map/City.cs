@@ -20,7 +20,6 @@ namespace TheGame
             OneCoinCountHP = 2;
             this.Name = name;
             this.Position = position;
-            Places.Add("Получить награду за задание");
             Places.Add("Магазин для покупки брони");
             Places.Add("Магазин для продажи брони");
             Places.Add("Ремонт брони");
@@ -30,6 +29,8 @@ namespace TheGame
             Places.Add("Магазин луков");
             Places.Add("Аптека");
             Places.Add("Взять задание");
+            Places.Add("Получить награду за задание");
+            Places.Add("Оборонное снаряжение");
             Tasks = new List<Task>();
         }
 
@@ -89,7 +90,12 @@ namespace TheGame
             Console.WriteLine("Ваш баланс: {0}", player.Money);
             int i = 0;
             foreach (var place in Places)
-                Console.WriteLine("{0}: {1}", i++, place);
+            {
+                if (i == 9) i++;
+                if (i > 9)
+                    Console.WriteLine("F{0}: {1}", ++i % 10, place);
+                else Console.WriteLine("{0}: {1}", ++i, place);
+            }
             if (Select(player))
                 Welcome(player);
         }
@@ -132,8 +138,11 @@ namespace TheGame
                 case ConsoleKey.D9:
                     TakeTask(player);
                     break;
-                case ConsoleKey.D0:
+                case ConsoleKey.F1:
                     GetRewardForTask(player);
+                    break;
+                case ConsoleKey.F2:
+                    ProtectionStore(player);
                     break;
                 case ConsoleKey.Escape:
                     return false;
@@ -141,16 +150,45 @@ namespace TheGame
             return true;
         }
 
-        private void SwordStore(Player player)
+        private void ProtectionStore(Player player)
         {
+            Console.Clear();
             HelloPlayer(player);
+            PrintForShops();
+            foreach (var protection in Program.ProtectionThings)
+            {
+                WriteCharacteristics(protection.GetCharacteristics());
+                switch (Console.ReadKey(true).Key)
+                {
+                    case ConsoleKey.Y:
+                        if (player.GiveMoney((int)((protection.Cost * RealCosts["armor"]))))
+                        {
+                            Console.WriteLine("Вы приобрели {0}", protection.Name);
+                            player.TryOnProtection(protection);
+                            return;
+                        }
+                        break;
+                    case ConsoleKey.Escape:
+                        return;
+                }
+                Console.Clear();
+            }
+        }
+
+        private void PrintForShops()
+        {
             Console.WriteLine("Мы представим вам весь наш ассортимент.\n" +
                 "Нажмите Y для покупки\n" +
                 "N, чтобы перейти к следующему\n" +
                 "Esc для выхода");
+        }
+
+        private void SwordStore(Player player)
+        {
+            HelloPlayer(player);
+            PrintForShops();
             for (int i = 0; i < Program.Swords.Count; i++)
             {
-                Console.Clear();
                 WriteCharacteristics(Program.Swords[i].GetCharacteristics(true, RealCosts["sword"]));
                 switch (Console.ReadKey(true).Key)
                 {
@@ -166,6 +204,7 @@ namespace TheGame
                     case ConsoleKey.Escape:
                         return;
                 }
+                Console.Clear();
             }
         }
 
@@ -226,13 +265,9 @@ namespace TheGame
         private void Libriary(Player player)
         {
             HelloPlayer(player);
-            Console.WriteLine("Мы представим вам все заклинания.\n" +
-            "Нажмите Y для покупки\n" +
-            "N, чтобы перейти к следующему\n" +
-            "Esc для выхода");
+            PrintForShops();
             for (int i = 0; i < Program.Spells.Count; i++)
             {
-                Console.Clear();
                 WriteCharacteristics(Program.Spells[i].GetCharacteristics(true, RealCosts["spell"]));
                 switch (Console.ReadKey(true).Key)
                 {
@@ -243,6 +278,7 @@ namespace TheGame
                     case ConsoleKey.Escape:
                         return;
                 }
+                Console.Clear();
             }
         }
 

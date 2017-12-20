@@ -39,9 +39,10 @@ namespace TheGame
 
         public static void PrintArray(string[] array)
         {
-            foreach (var t in array)
-                if (t != null)
-                    Console.WriteLine(t);
+            if (array != null)
+                foreach (var t in array)
+                    if (t != null)
+                        Console.WriteLine(t);
         }
 
         /// <summary>
