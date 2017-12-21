@@ -18,6 +18,11 @@ namespace TheGame
             this.Type = EnemyType.Ork;
         }
 
+        /// <summary>
+        /// Создание монстров Орк
+        /// </summary>
+        /// <param name="playerLevel">Уровень игрока</param>
+        /// <returns>Лист Орков</returns>
         public static List<Enemy> CreateEnemyOrk(int playerLevel)
         {
             int count = Program.Random.Next(2, 5);

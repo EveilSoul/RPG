@@ -173,8 +173,12 @@ namespace TheGame
                 }
             } while (exictPosition);
 
-            //увеличивается вероятность выпадения дракона и смешаных монстров в зависиости от уровня
-            int rand = Program.Random.Next(1 + LowerBorderEnemyGeneration - 2*playerLevel, 151 + SupremeBorderEnemyGeneration + 3*playerLevel);
+            
+            /* То, какие виды монстров и с какой вероятностью будут попадаться, завит от уровня персонажа. Чем выше уровень, тем сильнее монстры. 
+             * На разных уровнях могут быть разные виды монстров. Также, чем больше уровень, тем выше вероятность выпадения дракона и смешанных монстров.
+             */
+            int rand = Program.Random.Next(1 + LowerBorderEnemyGeneration - (2*playerLevel<50? 2 * playerLevel:50), 
+                151 + SupremeBorderEnemyGeneration + (3 * playerLevel < 50 ? 3 * playerLevel : 50));
             rand %= 400;
 
             if (rand < 1 + LowerBorderEnemyGeneration) return Tuple.Create(enemyPosition, EnemyMix.CreateEnemyMix(playerLevel));
@@ -224,6 +228,10 @@ namespace TheGame
                 (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 15;
         }
 
+        /// <summary>
+        /// Изменение границы создания монстров
+        /// </summary>
+        /// <param name="playerLevel">Уровень игрока</param>
         public static void ChangeEnemyBorder(int playerLevel)
         {
             LowerBorderEnemyGeneration += (int)(45 / Math.Sqrt(playerLevel));

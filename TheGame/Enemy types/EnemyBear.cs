@@ -22,6 +22,11 @@ namespace TheGame
             this.Type = EnemyType.Bear;
         }
 
+        /// <summary>
+        /// Создание монстров Медведь
+        /// </summary>
+        /// <param name="playerLevel">Уровень игрока</param>
+        /// <returns>Лист Медведей</returns>
         public static List<Enemy> CreateEnemyBear(int playerLevel)
         {
             int level = Program.Random.Next(1, 101);

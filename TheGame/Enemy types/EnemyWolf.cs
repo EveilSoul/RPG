@@ -22,6 +22,11 @@ namespace TheGame
             this.Type = EnemyType.Wolf;
         }
 
+        /// <summary>
+        /// Создание монстров Волк
+        /// </summary>
+        /// <param name="playerLevel">Уровень игрока</param>
+        /// <returns>Лист Волков</returns>
         public static List<Enemy> CreateEnemyWolf(int playerLevel = 1)
         {
             int count = Program.Random.Next(3, 8);

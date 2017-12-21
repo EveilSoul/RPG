@@ -18,6 +18,11 @@ namespace TheGame
             this.Type = EnemyType.Golem;
         }
 
+        /// <summary>
+        /// Создание монстров Голем
+        /// </summary>
+        /// <param name="playerLevel">Уровень игрока</param>
+        /// <returns>Лист Големов</returns>
         public static List<Enemy> CreateEnemyGolem(int playerLevel)
         {
             int level = Program.Random.Next(1, 101);
@@ -30,6 +35,11 @@ namespace TheGame
             return new List<Enemy> { new EnemyDarkKnight(playerLevel + 3) };
         }
 
+        /// <summary>
+        /// Переопределение метода, для добавление способности монстра к защите
+        /// </summary>
+        /// <param name="enemy">Лист монстров</param>
+        /// <param name="damageAtackEnemy">Сила атаки</param>
         public override void OnEnemyAtack(Enemy enemy, int damageAtackEnemy)
         {
             var rand = Program.Random.Next(0, 10);

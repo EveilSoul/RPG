@@ -21,6 +21,11 @@ namespace TheGame
             this.Type = EnemyType.Dragon;
         }
 
+        /// <summary>
+        /// Создание монстров Дракон
+        /// </summary>
+        /// <param name="playerLevel">Уровень игрока</param>
+        /// <returns>Лист Драконов</returns>
         public static List<Enemy> CreateEnemyDragon(int playerLevel)
         {
             int level = Program.Random.Next(1, 101);

@@ -18,6 +18,11 @@ namespace TheGame
             this.Type = EnemyType.Griffin;
         }
 
+        /// <summary>
+        /// Создание монстров Грифон
+        /// </summary>
+        /// <param name="playerLevel">Уровень игрока</param>
+        /// <returns>Лист Грифонов</returns>
         public static List<Enemy> CreateGriffin(int playerLevel)
         {
             int level = Program.Random.Next(1, 101);

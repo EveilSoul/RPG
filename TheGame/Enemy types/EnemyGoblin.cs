@@ -21,6 +21,11 @@ namespace TheGame
             this.Type = EnemyType.Goblin;
         }
 
+        /// <summary>
+        /// Создание монстров Гобли
+        /// </summary>
+        /// <param name="playerLevel">Уровень игрока</param>
+        /// <returns>Лист Гоблинов</returns>
         public static List<Enemy> CreateEnemyGoblin(int playerLevel)
         {
             int count = Program.Random.Next(2, 4);

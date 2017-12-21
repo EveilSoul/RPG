@@ -4,6 +4,11 @@ namespace TheGame
 {
     class EnemyMix : Enemy
     {
+        /// <summary>
+        /// Создание смешанных монстров. В них может быть любой вид монстров.
+        /// </summary>
+        /// <param name="PlayerLevel">Уровень игрока</param>
+        /// <returns>Лист монстров</returns>
         public static List<Enemy> CreateEnemyMix(int PlayerLevel)
         {
             var enemy = new List<Enemy>();

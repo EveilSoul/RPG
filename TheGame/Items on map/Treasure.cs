@@ -8,15 +8,15 @@ namespace TheGame
 {
     class Treasure
     {
-        //Позиция клада
+        // Позиция клада
         public ObjectStructures.Position Position;
-        //Нападут ли на игрока монстры
+        // Нападут ли на игрока монстры
         public bool IsEnemy;
-        //Последняя позиция генерации клада
+        // Последняя позиция генерации клада
         public static ObjectStructures.Position TheLastTreasurePosition;
-        //Существование клада
+        // Существование клада
         public static bool TreasureExist;
-        //Лист с монстрами
+        // Лист с монстрами
         public List<Enemy> enemy;
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace TheGame
                 }
             } while (exictPosition);
 
-            var rand = Program.Random.Next(0, 100 - player.Level*(int)Math.Sqrt(player.Level));
+            var rand = Program.Random.Next(0, 101 - (player.Level * (int)Math.Sqrt(player.Level) <= 100 ? player.Level * (int)Math.Sqrt(player.Level) : 1));
             if (rand < 80) this.IsEnemy = true;
             else this.IsEnemy = false;
 

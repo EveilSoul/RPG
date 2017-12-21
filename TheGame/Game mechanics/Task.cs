@@ -8,15 +8,30 @@ namespace TheGame
 {
     class Task
     {
+        // Тип монстра
         public Enemy.EnemyType EnemyType;
+        // Количество монстров, которых нужно убить
         public int EnemyCount;
+        // Количество убитых монстров
         public int EnemyCountDied;
+        // Награда в монетах
         public int MoneyReward;
+        // Награда в опыте
         public int SkillReward;
 
+        /// <summary>
+        /// Получение награды за выполнение задания
+        /// </summary>
+        /// <param name="min">Минимум</param>
+        /// <param name="max">Максимум</param>
+        /// <returns>Награда</returns>
         private int GetReward(int min, int max) => 
             Program.Random.Next(min * this.EnemyCount, max * this.EnemyCount);
 
+        /// <summary>
+        /// Создание задания
+        /// </summary>
+        /// <param name="playerLevel">Количество монстров зависит от уровня персонажа</param>
         public Task(int playerLevel)
         {
             int rand = Program.Random.Next(1, 10);
@@ -98,6 +113,10 @@ namespace TheGame
             }
         }
 
+        /// <summary>
+        /// Проверка на то, выполнено ли задание
+        /// </summary>
+        /// <param name="player">Игрок</param>
         public static void CheckTask(Player player)
         {
             foreach (var task in player.Tasks)
@@ -113,6 +132,7 @@ namespace TheGame
             }
             Window.PrintMap(Window.Map);
         }
+
         public override string ToString()
         {
             if (this.SkillReward == 0)

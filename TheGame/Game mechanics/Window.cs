@@ -9,29 +9,29 @@ namespace TheGame
 {
     class Window
     {
-        //ширина карты
+        // ширина карты
         public static int MapSizeX = 31;
-        //высота карты
+        // высота карты
         public static int MapSizeY = 15;
-        //ширина окна
+        // ширина окна
         public static int WindowSizeX = 61;
-        //высота окна
+        // высота окна
         public static int WindowSizeY = 18;
-        //мирная карта
+        // мирная карта
         public static char[,] Map = new char[MapSizeY, MapSizeX];
-        //карта во время боя
+        // карта во время боя
         public static char[,] BattleMap = new char[MapSizeY, MapSizeX];
-        //символ игрока
+        // символ игрока
         public static char PlayerSymble = '@';
-        //символ монстра
+        // символ монстра
         public static char EnemySymble = '*';
-        //символ города
+        // символ города
         public static char CitySymble = '#';
-        //символ клада
+        // символ клада
         public static char TreasureSymble = '$';
-        //координата Х для генерации монстров на боевой карте
+        // координата Х для генерации монстров на боевой карте
         public static int EnemyGeneration = 4;
-        //количество монстров
+        // количество монстров
         public static int EnemyCount;
 
 

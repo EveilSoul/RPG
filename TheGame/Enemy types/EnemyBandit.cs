@@ -18,6 +18,11 @@ namespace TheGame
             this.Type = EnemyType.Bandit;
         }
 
+        /// <summary>
+        /// Создание монстров Бандитов
+        /// </summary>
+        /// <param name="playerLevel">Уровень игрока</param>
+        /// <returns>Лист Бандитов</returns>
         public static List<Enemy> CreateEnemyBandit(int playerLevel)
         {
             int count = Program.Random.Next(2, 5);

@@ -18,6 +18,11 @@ namespace TheGame
             this.Type = EnemyType.Triton;
         }
 
+        /// <summary>
+        /// Создание монстров Тритон
+        /// </summary>
+        /// <param name="playerLevel">Уровень игрока</param>
+        /// <returns>Лист Тритонов</returns>
         public static List<Enemy> CreateEnemyTriton(int playerLevel)
         {
             int level = Program.Random.Next(1, 101);
