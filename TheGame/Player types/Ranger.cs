@@ -6,7 +6,8 @@ namespace TheGame
     /// </summary>
     class Ranger : Player
     {
-        public Ranger(string name, ObjectStructures.Position position) : base(name, position)
+        // данный тип усреднен
+        public Ranger(string name, MainGameStructures.Position position) : base(name, position)
         {
             this.BattleSkill = 0;
 

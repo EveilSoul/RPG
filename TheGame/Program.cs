@@ -29,7 +29,7 @@ namespace TheGame
 
         // Файлы со всеми мечами
         public static string[] NamesSwords = { @"\baseWarriorSword.txt", @"\baseWizardKnife.txt", @"\baseStilet.txt",
-        @"\basePoleaxe.txt", @"\middleElderSword.txt", @"\DarkPoleaxe.txt", @"\dragonSlayerSword.txt", @"\FireGodSword.txt"};
+        @"\basePoleaxe.txt", @"\middleElderSword.txt", @"\oneHitSword.txt", @"\DarkPoleaxe.txt", @"\dragonSlayerSword.txt", @"\FireGodSword.txt"};
         // Файлы со всеми луками
         public static string[] NamesBows = { @"\baseRangerBow.txt", @"\middleRangerBow.txt", @"\hunterBow.txt", @"\legendaryBow.txt" };
         // Файлы со всей броней
@@ -138,7 +138,7 @@ namespace TheGame
         }
 
         // Находим расстояние между двумя позициями
-        public static double GetDistance(ObjectStructures.Position first, ObjectStructures.Position second) =>
+        public static double GetDistance(MainGameStructures.Position first, MainGameStructures.Position second) =>
             Math.Sqrt(Math.Pow(first.X - second.X, 2) + Math.Pow(first.Y - second.Y, 2));
 
         /// <summary>
@@ -166,8 +166,8 @@ namespace TheGame
         }
 
         // Возвращает рандомно сгенерированную позицию в заданном диапазоне
-        public static ObjectStructures.Position GetRandomPosition(int min = -10, int max = 11)=>
-            new ObjectStructures.Position { X = Random.Next(min, max), Y = Random.Next(min, max) };
+        public static MainGameStructures.Position GetRandomPosition(int min = -10, int max = 11)=>
+            new MainGameStructures.Position { X = Random.Next(min, max), Y = Random.Next(min, max) };
 
         static void Main()
         {

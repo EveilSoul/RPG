@@ -3,21 +3,34 @@ using System.IO;
 
 namespace TheGame
 {
+    /// <summary>
+    /// Защитные предметы -щиты, магические барьеры
+    /// </summary>
     class Protection
     {
+        // Максимальное здоровье
         public int MaxHealth;
+        // Текущее здоровье
         public int CurrentHealth;
 
+        // Название
         public string Name;
+        // Мана, которую добавляет предмет
         public int ManaToAdd;
 
+        // Стоимость применения
         public int ApplicationCost;
+        // Цена при покупке
         public int Cost;
 
+        // Насколько хорошо предмет защищает
         public float ProtectionScale;
+        // Насколько велика вероятность защиты
         public float ProtectionLuck;
+        // Насколько прочен предмет
         public float Strenght;
 
+        // Чтение предмета из файла
         public Protection(string path)
         {
             var tempArray = File.ReadAllLines(Program.Path + @"\TextFiles\Protection" + path);
@@ -32,6 +45,12 @@ namespace TheGame
             this.CurrentHealth = this.MaxHealth;
         }
 
+        /// <summary>
+        /// Применение защиты
+        /// </summary>
+        /// <param name="damage"> Наносимы урон </param>
+        /// <param name="combine"> Комбинируется ли защита с атакой</param>
+        /// <returns> Не поглощенный предметом урон </returns>
         public int ApplyProtection(int damage, float combine = 1)
         {
             if (this.CurrentHealth > 0 && Program.Random.NextDouble() <= this.ProtectionLuck)
@@ -42,6 +61,7 @@ namespace TheGame
             return damage;
         }
 
+        // Получение характеристик оружия
         public string[] GetCharacteristics()
         {
             return new[]

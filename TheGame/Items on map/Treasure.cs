@@ -9,11 +9,11 @@ namespace TheGame
     class Treasure
     {
         // Позиция клада
-        public ObjectStructures.Position Position;
+        public MainGameStructures.Position Position;
         // Нападут ли на игрока монстры
         public bool IsEnemy;
         // Последняя позиция генерации клада
-        public static ObjectStructures.Position TheLastTreasurePosition;
+        public static MainGameStructures.Position TheLastTreasurePosition;
         // Существование клада
         public static bool TreasureExist;
         // Лист с монстрами
@@ -24,9 +24,9 @@ namespace TheGame
         /// </summary>
         /// <param name="playerPosition">Позиция игрока</param>
         /// <returns>Позиция клада</returns>
-        public ObjectStructures.Position TreasureGenerationPosition(ObjectStructures.Position playerPosition)
+        public MainGameStructures.Position TreasureGenerationPosition(MainGameStructures.Position playerPosition)
         {
-            var treasurePosition = new ObjectStructures.Position
+            var treasurePosition = new MainGameStructures.Position
             {
                 X = Program.Random.Next(playerPosition.X - Window.MapSizeX / 3,
                 playerPosition.X + Window.MapSizeX / 3),
@@ -42,7 +42,7 @@ namespace TheGame
         /// </summary>
         /// <param name="player">Игрок</param>
         /// <param name="enemyPosition">Позиция монстро(для того, чтобы не было конфликтов с городами)</param>
-        public Treasure(Player player, ObjectStructures.Position enemyPosition)
+        public Treasure(Player player, MainGameStructures.Position enemyPosition)
         {
             this.Position = TreasureGenerationPosition(player.Position);
             TreasureExist = true;
@@ -134,7 +134,7 @@ namespace TheGame
         /// <param name="lastPosition">Предыдущая позиция генерации клада</param>
         /// <param name="newPosition">Текущая позиция</param>
         /// <returns>Можно ли генерировать</returns>
-        public bool MayNewTreasure(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
+        public bool MayNewTreasure(MainGameStructures.Position lastPosition, MainGameStructures.Position newPosition)
         {
             return (int)(Math.Sqrt((lastPosition.X - newPosition.X) * (lastPosition.X - newPosition.X) +
                 (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 30;

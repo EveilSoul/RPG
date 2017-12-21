@@ -2,9 +2,13 @@
 
 namespace TheGame
 {
+    /// <summary>
+    /// Класс воина
+    /// </summary>
     class Warrior : Player
     {
-        public Warrior(string name, ObjectStructures.Position position) : base(name, position)
+        // У воина изначально более крепкое здоровье и сильная атака, но низкая мана
+        public Warrior(string name, MainGameStructures.Position position) : base(name, position)
         {
             this.BattleSkill = 10;
 
@@ -28,6 +32,11 @@ namespace TheGame
             this.TryOnProtection(Program.ProtectionThings[0]);
         }
 
+        /// <summary>
+        /// Супер-атака для воина, две атаки мечом каждого противника
+        /// </summary>
+        /// <param name="enemyCount"> Количество врагов </param>
+        /// <returns> Массив с нанесенным уроном </returns>
         public override int[] SuperAttack(int enemyCount)
         {
             int[] result = new int[enemyCount];

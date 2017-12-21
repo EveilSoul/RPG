@@ -19,7 +19,7 @@ namespace TheGame
         // Точность попадания
         public float Accuracy = 0.9f;
         // Позиция
-        public ObjectStructures.Position Position;
+        public MainGameStructures.Position Position;
         // Количество денег за убийство монстра
         public int MoneyReward = 5;
         // Количество скила за убийство монстра
@@ -29,7 +29,7 @@ namespace TheGame
         // Тип монстра
         public EnemyType Type;
         // Последняя позиция генерации монстров
-        public static ObjectStructures.Position TheLastEnemyPosition;
+        public static MainGameStructures.Position TheLastEnemyPosition;
         // Существование монстров
         public static bool EnemyExist = false;
         // Нижняя граница диапазона создания монстров
@@ -124,9 +124,9 @@ namespace TheGame
         /// </summary>
         /// <param name="playerPosition">позиция игрока</param>
         /// <returns>позиция монстра</returns>
-        public static ObjectStructures.Position EnemyGenerationPosition(ObjectStructures.Position playerPosition)
+        public static MainGameStructures.Position EnemyGenerationPosition(MainGameStructures.Position playerPosition)
         {
-            var enemyPosition = new ObjectStructures.Position
+            var enemyPosition = new MainGameStructures.Position
             {
                 X = Program.Random.Next(playerPosition.X - Window.MapSizeX / 2,
                 playerPosition.X + Window.MapSizeX / 2),
@@ -142,7 +142,7 @@ namespace TheGame
         /// <param name="enemyPosition">позиция монстров</param>
         /// <param name="playerPosition">позиция игрока</param>
         /// <returns>Находится ли игрок в зоне поражения</returns>
-        public static bool IsEnemyNear(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition)
+        public static bool IsEnemyNear(MainGameStructures.Position enemyPosition, MainGameStructures.Position playerPosition)
         {
             return Math.Abs(enemyPosition.X - playerPosition.X) <= Window.MapSizeX / 4 &&
                 Math.Abs(enemyPosition.Y - playerPosition.Y) <= Window.MapSizeY / 4;
@@ -154,7 +154,7 @@ namespace TheGame
         /// <param name="playerLevel">Уровень игрока</param>
         /// <param name="playerPosition">Позиция игрока</param>
         /// <returns>позиция монстров и лист с ними</returns>
-        public static Tuple<ObjectStructures.Position, List<Enemy>> CreateEnemy(int playerLevel, ObjectStructures.Position playerPosition)
+        public static Tuple<MainGameStructures.Position, List<Enemy>> CreateEnemy(int playerLevel, MainGameStructures.Position playerPosition)
         {
             EnemyExist = true;
             var enemyPosition = EnemyGenerationPosition(playerPosition);
@@ -200,7 +200,7 @@ namespace TheGame
         /// <param name="enemy">монстры</param>
         /// <param name="player">игрок</param>
         /// <param name="enemyPosition">позиция монстров</param>
-        public static void CheckPlayer(List<Enemy> enemy, Player player, ObjectStructures.Position enemyPosition)
+        public static void CheckPlayer(List<Enemy> enemy, Player player, MainGameStructures.Position enemyPosition)
         {
             if (EnemyExist && enemyPosition.X == player.Position.X && enemyPosition.Y == player.Position.Y && !enemy[0].Mimicry)
             {
@@ -222,7 +222,7 @@ namespace TheGame
         /// <param name="lastPosition">предыдущая позиция</param>
         /// <param name="newPosition">текущая позиция</param>
         /// <returns>Можно ли генерировать</returns>
-        public static bool MayNewEnemy(ObjectStructures.Position lastPosition, ObjectStructures.Position newPosition)
+        public static bool MayNewEnemy(MainGameStructures.Position lastPosition, MainGameStructures.Position newPosition)
         {
             return (int)(Math.Sqrt((lastPosition.X - newPosition.X) * (lastPosition.X - newPosition.X) +
                 (newPosition.Y - lastPosition.Y) * (newPosition.Y - lastPosition.Y))) > 15;

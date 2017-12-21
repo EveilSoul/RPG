@@ -1,11 +1,17 @@
 ﻿using System;
 namespace TheGame
 {
+    /// <summary>
+    /// Заклинание, оружие
+    /// </summary>
     public class Spell : Weapons
     {
+        // Наносимый урон
         public int Damage;
+        // Точность заклинания
         public float Accuracy;
 
+        // Создание объекта из определенного файла
         public Spell(string path)
         {
             this.TypeOfWeapons = WeaponsType.Spell;
@@ -21,6 +27,7 @@ namespace TheGame
                 this.Description += lines[i] + "\n";
         }
 
+        // Возвращает массив с характеристиками заклинания
         public override string[] GetCharacteristics(bool store = false, float cost = 1)
         {
             return new[]
@@ -34,6 +41,7 @@ namespace TheGame
             };
         }
 
+        // Применение заклинания
         public int[] JoinSpell(int countEnemy, params int[] nums)
         {
             int[] result = new int[countEnemy];
@@ -51,6 +59,7 @@ namespace TheGame
             return result;
         }
 
+        // Высчитываем урон, который нанесет заклинание
         private int GetDamage() =>
             (int)((Program.Random.Next((int)(this.Accuracy * 100), 100) / 100d) * this.Damage) + 1;
     }

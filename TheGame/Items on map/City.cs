@@ -5,15 +5,20 @@ namespace TheGame
 {
     class City
     {
+        // Название города
         public string Name;
-        public ObjectStructures.Position Position;
+        // Геопозиция города
+        public MainGameStructures.Position Position;
+        // Столько монет стоит восстановление одного HP
         private int OneCoinCountHP;
+        // Словарь, где в соответствии типа товара поставлен коэффицент его стоимости в этом городе
         public Dictionary<string, float> RealCosts;
+        // Задания для игрока
         private List<Task> Tasks;
+        // Все, куда можно пойти в этом городе
+        private List<string> Places = new List<string>();
 
-        List<string> Places = new List<string>();
-
-        public City(string name, ObjectStructures.Position position)
+        public City(string name, MainGameStructures.Position position)
         {
             RealCosts = new Dictionary<string, float>();
             SetCost();
@@ -33,7 +38,8 @@ namespace TheGame
             Places.Add("Оборонное снаряжение");
             Tasks = new List<Task>();
         }
-
+        
+        // Генерируем коэффиценты для цен
         private void SetCost()
         {
             RealCosts.Add("sword", Program.Random.Next(50, 150) / 100f);
@@ -43,15 +49,21 @@ namespace TheGame
             RealCosts.Add("health", Program.Random.Next(50, 400) / 100f);
         }
 
+        //Проверяем, есть ли рядом с игроком города
         public static void CheckPlayer(Player player)
         {
             foreach (var t in Program.Cities)
                 t.CityNear(player);
         }
 
-        public static List<ObjectStructures.Position> IsSityNear(ObjectStructures.Position playerPosition)
+        /// <summary>
+        /// Города, которые находятся в зоне видимости
+        /// </summary>
+        /// <param name="playerPosition"> Позиция игрока </param>
+        /// <returns> Лист с городами, которые нужно отобразить на карте </returns>
+        public static List<MainGameStructures.Position> IsSityNear(MainGameStructures.Position playerPosition)
         {
-            var cities = new List<ObjectStructures.Position>();
+            var cities = new List<MainGameStructures.Position>();
 
             foreach (var t in Program.Cities)
                 if (Math.Abs(playerPosition.X - t.Position.X) <= Window.MapSizeX / 2 &&
@@ -60,14 +72,14 @@ namespace TheGame
             return cities;
         }
 
+        // Проверяем, не попал ли игрок в город
         public void CityNear(Player player)
         {
             if (Program.GetDistance(this.Position, player.Position) < 1)
-            {
                 Welcome(player);
-            }
         }
 
+        // Личебница, игрок может здесь восстановить здоровье
         public void Hospital(Player player)
         {
             Console.WriteLine("Ваш баланс: {0}", player.Money);
@@ -75,11 +87,15 @@ namespace TheGame
             Console.WriteLine("Цена: 1 монета за {0} единиц здоровья", this.OneCoinCountHP * RealCosts["health"]);
             Console.WriteLine("Сколько вы хотите восстановить?");
             int hp = Program.Parse(Console.ReadLine());
-            if (player.GiveMoney(hp / (int)(this.OneCoinCountHP * RealCosts["health"])))
+            if (player.HaveMoney(hp / (int)(this.OneCoinCountHP * RealCosts["health"])))
                 player.AddHP(hp);
             Console.WriteLine("Ваше здоровье теперь составляет {0}", player.CurrentHealth);
         }
 
+        /// <summary>
+        /// Меню города
+        /// </summary>
+        /// <param name="player"></param>
         public void Welcome(Player player)
         {
             if (this.Tasks.Count < 3)
@@ -88,24 +104,32 @@ namespace TheGame
             Console.Clear();
             Console.WriteLine("Добро пожаловать в {0}", this.Name);
             Console.WriteLine("Ваш баланс: {0}", player.Money);
+            Console.WriteLine("Для выхода - Esc");
             int i = 0;
+            // выводим все, что есть в городе
             foreach (var place in Places)
             {
                 if (i == 9) i++;
                 if (i > 9)
-                    Console.WriteLine("F{0}: {1}", ++i % 10, place);
-                else Console.WriteLine("{0}: {1}", ++i, place);
+                    Console.Write("F");
+                Console.WriteLine("{0}: {1}", ++i % 10, place);
             }
             if (Select(player))
                 Welcome(player);
         }
 
+        // Обновляем / устанавливаем лист с заданиями для игрока
         private void SetTasks(Player player)
         {
             while (Tasks.Count != 5)
                 Tasks.Add(new Task(player.Level));
         }
 
+        /// <summary>
+        /// Обрабатываем желание игрока пойти куда-нибудь
+        /// </summary>
+        /// <param name="player"> Игрок </param>
+        /// <returns> Желает ли игрок остаться в городе </returns>
         private bool Select(Player player)
         {
             Console.WriteLine("Куда бы вы хотели отправиться?");
@@ -150,6 +174,7 @@ namespace TheGame
             return true;
         }
 
+        // Здесь можно купить защитные предметы
         private void ProtectionStore(Player player)
         {
             Console.Clear();
@@ -161,7 +186,7 @@ namespace TheGame
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.Y:
-                        if (player.GiveMoney((int)((protection.Cost * RealCosts["armor"]))))
+                        if (player.HaveMoney((int)((protection.Cost * RealCosts["armor"]))))
                         {
                             Console.WriteLine("Вы приобрели {0}", protection.Name);
                             player.TryOnProtection(protection);
@@ -175,6 +200,7 @@ namespace TheGame
             }
         }
 
+        // Вспомогательный метод перед выводом ассортимента
         private void PrintForShops()
         {
             Console.WriteLine("Мы представим вам весь наш ассортимент.\n" +
@@ -183,6 +209,7 @@ namespace TheGame
                 "Esc для выхода");
         }
 
+        // Магазин, где игрок может купить один из мечей
         private void SwordStore(Player player)
         {
             HelloPlayer(player);
@@ -194,7 +221,7 @@ namespace TheGame
                 {
                     case ConsoleKey.Y:
                         if (player.Level >= Program.Swords[i].MinLevelToUse &&
-                            player.GiveMoney((int)((Program.Swords[i].Cost * RealCosts["sword"]))))
+                            player.HaveMoney((int)((Program.Swords[i].Cost * RealCosts["sword"]))))
                         {
                             Console.WriteLine("Вы приобрели {0}", Program.Swords[i].Name);
                             player.AddSword(Program.Swords[i]);
@@ -208,6 +235,7 @@ namespace TheGame
             }
         }
 
+        // Здесь игрок может взять одно из заданий
         private void TakeTask(Player player)
         {
             Console.WriteLine("Здесь вы можете взять задание \n" +
@@ -232,6 +260,7 @@ namespace TheGame
             }
         }
 
+        // Здесь игрок получает задание, если выполнил одно из заданий
         public void GetRewardForTask(Player player)
         {
             bool isDoneTask = false;
@@ -262,6 +291,7 @@ namespace TheGame
             Console.ReadKey();
         }
 
+        // Здесь можно изучить одно из заклинаний
         private void Libriary(Player player)
         {
             HelloPlayer(player);
@@ -282,13 +312,11 @@ namespace TheGame
             }
         }
 
+        // Здесь можно купить лук
         private void BowStore(Player player)
         {
             HelloPlayer(player);
-            Console.WriteLine("Мы представим вам ассортимент луков.\n" +
-            "Нажмите Y для покупки\n" +
-            "N, чтобы перейти к следующему\n" +
-            "Esc для выхода");
+            PrintForShops();
             for (int i = 0; i < Program.Bows.Count; i++)
             {
                 Console.Clear();
@@ -297,7 +325,7 @@ namespace TheGame
                 {
                     case ConsoleKey.Y:
                         if (player.Level >= Program.Bows[i].MinLevelToUse &&
-                            player.GiveMoney((int)(Program.Bows[i].Cost * RealCosts["bow"])))
+                            player.HaveMoney((int)(Program.Bows[i].Cost * RealCosts["bow"])))
                         {
                             Console.WriteLine("Вы приобрели {0}", Program.Bows[i].Name);
                             player.Bow = Program.Bows[i];
@@ -310,9 +338,14 @@ namespace TheGame
             }
         }
 
-        private void HelloPlayer(Player player) =>
+        // Вспомогательный метод для приветствия игрока
+        private void HelloPlayer(Player player)
+        {
+            Console.Clear();
             Console.WriteLine("Здравствуйте, {0}. \nУ вас имеется: {1} монет", player.Name, player.Money);
+        }
 
+        // Магазин,где игрок может приобрести комплект брони
         public void ArmorShopPay(Player player)
         {
             HelloPlayer(player);
@@ -325,7 +358,7 @@ namespace TheGame
 
             if (armor.GetCost(RealCosts["armor"]) == 0) return;
 
-            if (player.GiveMoney(armor.GetCost(RealCosts["armor"])))
+            if (player.HaveMoney(armor.GetCost(RealCosts["armor"])))
             {
                 player.AddArmor(armor);
                 Console.WriteLine("вы купили комплект брони");
@@ -333,6 +366,7 @@ namespace TheGame
             else Console.WriteLine("у вас недостаточно средств для покупки");
         }
 
+        // Лавка, где игрок может продать свою броню
         public void ArmorShopSell(Player player)
         {
             HelloPlayer(player);
@@ -350,6 +384,7 @@ namespace TheGame
             ArmorShopSell(player);
         }
 
+        // Кузница, здесь игрок может починить свою броню
         public void ForgeArmor(Player player)
         {
             HelloPlayer(player);
@@ -357,7 +392,7 @@ namespace TheGame
                 player.Armor.GetHealthToAdd(), player.Armor.GetOnHPCost() * RealCosts["armor"]);
             Console.WriteLine("Введите число единиц, которое вы хотите восстановить.");
             int additionCount = Program.Parse(Console.ReadLine(), 0, 1e18);
-            if (player.GiveMoney((int)(additionCount / (player.Armor.GetOnHPCost() * RealCosts["armor"]))))
+            if (player.HaveMoney((int)(additionCount / (player.Armor.GetOnHPCost() * RealCosts["armor"]))))
             {
                 player.Armor.Repair(additionCount);
                 Console.WriteLine("Вы восстановили {0} единиц", additionCount);
@@ -366,12 +401,17 @@ namespace TheGame
             else Console.WriteLine("У вас недостаточно средств");
         }
 
+        // Выводит содержимое массива на экран
         public void WriteCharacteristics(string[] original)
         {
             foreach (var t in original)
                 Console.WriteLine(t);
         }
 
+        /// <summary>
+        /// Выбор комплекта брони
+        /// </summary>
+        /// <returns> выбранный товар </returns>
         private ArmorComplect GetChoice()
         {
             Console.WriteLine("Введите номер интересующего вас товара");
@@ -391,6 +431,7 @@ namespace TheGame
             return GetChoice();
         }
 
+        // Покупка аптечек
         private void ByeMedicineKit(Player player)
         {
             HelloPlayer(player);
@@ -401,15 +442,15 @@ namespace TheGame
             switch (Console.ReadKey(true).Key)
             {
                 case ConsoleKey.S:
-                    ObjectStructures.MedicineKit medicineKit = new ObjectStructures.MedicineKit { HpToAdd = 50 };
-                    if (player.GiveMoney(30))
+                    MainGameStructures.MedicineKit medicineKit = new MainGameStructures.MedicineKit { HpToAdd = 50 };
+                    if (player.HaveMoney(30))
                         player.MedicineKits.Add(medicineKit);
                     break;
                 case ConsoleKey.N:
                     Console.WriteLine("Введите нужную емкость");
                     int t = Program.Parse(Console.ReadLine());
-                    if (player.GiveMoney((int)(t / 1.6)))
-                        player.MedicineKits.Add(new ObjectStructures.MedicineKit { HpToAdd = t });
+                    if (player.HaveMoney((int)(t / 1.6)))
+                        player.MedicineKits.Add(new MainGameStructures.MedicineKit { HpToAdd = t });
                     break;
                 case ConsoleKey.Escape:
                     return;

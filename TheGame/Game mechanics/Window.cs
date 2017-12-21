@@ -261,7 +261,7 @@ namespace TheGame
         /// </summary>
         /// <param name="cityPosition">позиции городов</param>
         /// <param name="playerPosition">позиция игрока</param>
-        public static void DrowCity(List<ObjectStructures.Position> cityPosition, ObjectStructures.Position playerPosition)
+        public static void DrowCity(List<MainGameStructures.Position> cityPosition, MainGameStructures.Position playerPosition)
         {
             ClearMap(Map, CitySymble);
             for (int i = 0; i < cityPosition.Count; i++)
@@ -275,7 +275,7 @@ namespace TheGame
         /// <param name="playerPosition">позиция игрока</param>
         /// <param name="moveX">сдвиг по оси Х относительно середины карты</param>
         /// <param name="moveY">сдвиг по оси У относительно середины карты</param>
-        public static void DrowEnemy(ObjectStructures.Position enemyPosition, ObjectStructures.Position playerPosition,
+        public static void DrowEnemy(MainGameStructures.Position enemyPosition, MainGameStructures.Position playerPosition,
             int moveX = 0, int moveY = 0)
         {
             ClearMap(Map, EnemySymble);
@@ -294,7 +294,7 @@ namespace TheGame
         /// <param name="playerPosition">позиция игрока</param>
         /// <param name="moveX">сдвиг по оси Х относительно середины карты</param>
         /// <param name="moveY">сдвиг по оси У относительно середины карты</param>
-        public static void DrowTreasure(ObjectStructures.Position treasurePosition, ObjectStructures.Position playerPosition,
+        public static void DrowTreasure(MainGameStructures.Position treasurePosition, MainGameStructures.Position playerPosition,
             int moveX = 0, int moveY = 0)
         {
             ClearMap(Map, TreasureSymble);
@@ -319,7 +319,7 @@ namespace TheGame
             {
                 BattleMap[EnemyGeneration, MapSizeX / 2 + i] = EnemySymble;
 
-                enemy[count].Position = new ObjectStructures.Position { X = EnemyGeneration, Y = MapSizeX / 2 + i };
+                enemy[count].Position = new MainGameStructures.Position { X = EnemyGeneration, Y = MapSizeX / 2 + i };
                 count++;
             }
             BattleMap[MapSizeY / 2, MapSizeX / 2] = PlayerSymble;
