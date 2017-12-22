@@ -260,9 +260,17 @@ namespace TheGame
             }
         }
 
-        // Здесь игрок получает задание, если выполнил одно из заданий
+        // Здесь игрок получает награду, если выполнил одно из заданий
         public void GetRewardForTask(Player player)
         {
+            Console.Clear();
+            if (!CheckTasks(player))
+            {
+                Console.WriteLine("У вас нет заданий в этом городе");
+                Console.ReadKey();
+                return;
+            }
+
             bool isDoneTask = false;
             int moneyReward = 0;
             int skillReward = 0;
@@ -289,6 +297,16 @@ namespace TheGame
             else Console.WriteLine("Вы еще не выполнили ни одного задания \n" +
                 "Возвращайтесь, когда хоть одно задание будет выполненою");
             Console.ReadKey();
+        }
+
+        private bool CheckTasks(Player player)
+        {
+            foreach(var task in player.Tasks)
+            {
+                if (this.Position.Compare(task.Item1))
+                    return true;
+            }
+            return false;
         }
 
         // Здесь можно изучить одно из заклинаний

@@ -39,13 +39,13 @@ namespace TheGame
             { @"\middleIronHeadArmor.txt", @"\middleIronBodyArmor.txt", @"\middleIronArmsArmor.txt", @"\middleIronLeggsArmor.txt", @"\middleIronBootsArmor.txt" }
         };
         // Файлы со всеми заклинаниями
-        public static string[] NamesSpells = { @"\baseWizardAtackingSpell.txt", @"\basePointAttack.txt", @"\middleThunderAttack.txt",
-        @"\baseWarriorMultiplyAttack.txt", @"\dragonsFlame.txt", @"\LightStars.txt"};
+        public static string[] NamesSpells = {@"\baseWarriorMultiplyAttack.txt", @"\baseWizardAtackingSpell.txt", @"\basePointAttack.txt", @"\middleThunderAttack.txt",
+        @"\hardThunderAttack.txt", @"\dragonsFlame.txt", @"\LightStars.txt"};
         // Названия всех существующих в игре городов
         public static string[] CitiesNames = { "Неаполь", "Лордерон", "Царьград", "Омск", "Тартарос", "Лондон",
             "Штормград", "Мордор", "Эребор", "Минас Тирит", "Солнечный колодец", "Троя", "Тортуга", "Кингстон",
             "Барбадос", "Сицилия", "Монако", "Осло", "Стокгольм", "Брандтео", "Элеонор", "Венеция", "Флоренция",
-            "Валинор", "Ильмарин", "Чертог Мандоса", "Антананариву", "Рейкьявик"};
+            "Валинор", "Ильмарин", "Чертог Мандоса", "Антананарива", "Рейкьявик"};
         // Файлы со всеми защитными средствами
         public static string[] ProtectionNames = { "/baseProtection.txt", "/magicProtection.txt", "/middleProtection.txt" };
 

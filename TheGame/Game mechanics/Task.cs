@@ -124,8 +124,8 @@ namespace TheGame
                 if (task.Item2.EnemyCountDied >= task.Item2.EnemyCount)
                 {
                     Console.Clear();
-                    Console.WriteLine("Вы выполнили задание на убийство {0} {1}. \n" +
-                    "Возвращайтесь в город с позицией ({2};{3}) чтобы забрать награду", 
+                    Console.WriteLine("Вы выполнили задание на убийство {0} {1}\n" +
+                    "Возвращайтесь в город с позицией ({2};{3}),\n чтобы забрать награду", 
                     task.Item2.EnemyCount, task.Item2.EnemyType, task.Item1.X, task.Item1.Y);
                     Console.ReadKey();
                 }

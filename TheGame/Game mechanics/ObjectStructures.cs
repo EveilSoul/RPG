@@ -16,6 +16,9 @@ namespace TheGame
         {
             public int X;
             public int Y;
+
+            public bool Compare(Position position) =>
+                this.X == position.X && this.Y == position.Y;
         }
 
         /// <summary>
