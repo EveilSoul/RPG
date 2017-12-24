@@ -109,5 +109,4 @@ namespace TheGame
             return armor;
         }
     }
-
 }
