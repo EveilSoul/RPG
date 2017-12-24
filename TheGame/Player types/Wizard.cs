@@ -26,7 +26,7 @@ namespace TheGame
 
             this.AddSword(Program.Swords[1]);
             this.TryOnProtection(Program.ProtectionThings[1]);
-            this.Spells = new List<Spell> { Program.Spells[0] };
+            this.Spells = new List<Spell> { Program.Spells[1] };
         }
 
         /// <summary>
